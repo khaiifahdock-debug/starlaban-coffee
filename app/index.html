@@ -58,13 +58,24 @@
   @keyframes s{to{transform:rotate(360deg)}}
   .bean3d{width:100%;height:100%;display:grid;place-items:center}
   .bean3d img{width:60%;border-radius:50%}
-  #beanHome{height:190px;margin:-6px 0 -2px}
+  #beanHome{height:230px;margin:-10px 0 -6px}
   #splashStage #beanHome{height:100%;margin:0}
   #splash{position:absolute;inset:0;z-index:9;background:radial-gradient(circle at 50% 40%,#4a2c1c 0,#2b1810 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:opacity .5s}
   #splash.off{opacity:0;pointer-events:none}
-  #splash .stage{width:min(300px,80%);height:300px}
+  #splash .stage{width:min(320px,90%);height:360px}
   #splash h1{font-size:24px;letter-spacing:3px;margin-top:6px}
   #splash p{color:var(--muted);font-size:13px;margin-top:6px}
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes popin{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+  @keyframes starpop{0%{transform:scale(.2) rotate(-40deg);opacity:0}70%{transform:scale(1.35) rotate(8deg)}100%{transform:none;opacity:1}}
+  .anim>*{animation:rise .42s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*45ms)}
+  .row:active{transform:scale(.985)}
+  .add{transition:transform .15s}.add:active{transform:scale(.8)}
+  .stars span.f{animation:starpop .5s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*70ms+300ms)}
+  .bar i{transition:width .8s cubic-bezier(.2,.8,.2,1) .3s}
+  .tick{animation:popin .55s cubic-bezier(.2,.8,.2,1) both}
+  .fly{position:absolute;z-index:8;font-size:26px;pointer-events:none}
+  @media(prefers-reduced-motion:reduce){.anim>*,.stars span.f,.tick{animation:none}.bar i{transition:none}}
   .tick{font-size:60px;color:var(--ok)}
   .hist{font-size:13px;display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(196,149,90,.15)}
 </style>
@@ -84,7 +95,7 @@
 </div>
 
 <script src="../assets/vendor/three.min.js"></script>
-<script src="../assets/bean3d.js"></script>
+<script src="../assets/cup3d.js"></script>
 <script>
 const T={
  en:{menu:"Menu",cart:"Cart",wallet:"Credit",rewards:"Stars",all:"All",coffee:"Coffee",donuts:"Donuts",combo:"Combos",
@@ -112,7 +123,7 @@ const ITEMS=[
  {id:8,c:"donuts",em:"🍓",n:"Strawberry Donut",p:1.75},{id:9,c:"donuts",em:"🥐",n:"Filled Donut",p:2},
  {id:10,c:"combo",em:"☕🍩",n:"Morning Combo",p:3.5},{id:11,c:"combo",em:"🍩🍩",n:"Donut Box (6)",p:8}
 ];
-const S={burst:false,lang:"en",tab:"menu",cat:"all",cart:{},credit:10,stars:3,history:[],pickup:0,pay:"credit",topAmt:10,topMethod:"EVC Plus",orderNo:100};
+const S={anim:true,burst:false,lang:"en",tab:"menu",cat:"all",cart:{},credit:10,stars:3,history:[],pickup:0,pay:"credit",topAmt:10,topMethod:"EVC Plus",orderNo:100};
 const $=id=>document.getElementById(id);
 const t=k=>T[S.lang][k];
 const money=n=>"$"+n.toFixed(2);
@@ -128,25 +139,38 @@ function renderNav(){
     const b=el("button",S.tab===k?"on":"");
     b.append(el("span","i",ic),document.createTextNode(t(k)));
     if(k==="cart"&&cartCount()) b.append(el("span","badge",String(cartCount())));
-    b.onclick=()=>{S.tab=k;render()};n.appendChild(b);
+    b.onclick=()=>{S.tab=k;S.anim=true;render()};n.appendChild(b);
   });
 }
 function render(){
   if(beanHome.parentNode&&S.tab!=="rewards"&&splashDone)beanHome.remove(); // one WebGL canvas, moved between screens
   renderNav();const v=$("view");v.innerHTML="";({menu:vMenu,cart:vCart,wallet:vWallet,rewards:vRewards})[S.tab](v);v.scrollTop=0;
+  [...v.children].forEach((c,i)=>c.style.setProperty("--i",i));
+  v.classList.toggle("anim",!!S.anim);S.anim=false;
+  [...v.querySelectorAll(".stars span.f")].forEach((s,i)=>s.style.setProperty("--i",i));
   if(S.tab==="rewards"&&S.burst){S.burst=false;setTimeout(()=>bean&&bean.burst(),250)}
 }
 
 function vMenu(v){
   const chips=el("div","chips");
-  ["all","coffee","donuts","combo"].forEach(c=>chips.appendChild(btn(t(c),"chip"+(S.cat===c?" on":""),()=>{S.cat=c;render()})));
+  ["all","coffee","donuts","combo"].forEach(c=>chips.appendChild(btn(t(c),"chip"+(S.cat===c?" on":""),()=>{S.cat=c;S.anim=true;render()})));
   v.append(el("h2","",t("menu")),chips);
   ITEMS.filter(i=>S.cat==="all"||i.c===S.cat).forEach(i=>{
     const r=el("div","row"),tt=el("div","t");
     tt.append(el("b","",i.n),el("span","price",money(i.p)));
-    r.append(el("div","em",i.em),tt,btn("+","add",()=>{S.cart[i.id]=(S.cart[i.id]||0)+1;renderNav();toast()}));
+    r.append(el("div","em",i.em),tt,btn("+","add",(ev)=>{S.cart[i.id]=(S.cart[i.id]||0)+1;renderNav();toast();fly(ev.currentTarget,i.em)}));
     v.appendChild(r);
   });
+}
+function fly(from,emoji){
+  const target=document.querySelector("nav button:nth-child(2) .i");
+  if(!target||matchMedia("(prefers-reduced-motion: reduce)").matches||!from.animate)return;
+  const app=$("app").getBoundingClientRect(),a=from.getBoundingClientRect(),b=target.getBoundingClientRect();
+  const f=el("div","fly",emoji);
+  f.style.left=(a.left-app.left)+"px";f.style.top=(a.top-app.top)+"px";
+  $("app").appendChild(f);
+  const dx=b.left-a.left,dy=b.top-a.top;
+  f.animate([{transform:"translate(0,0) scale(1)",opacity:1},{transform:`translate(${dx*.5}px,${dy-60}px) scale(1.25)`,opacity:1,offset:.45},{transform:`translate(${dx}px,${dy}px) scale(.3)`,opacity:.3}],{duration:650,easing:"cubic-bezier(.4,0,.6,1)"}).onfinish=()=>f.remove();
 }
 function toast(){const b=document.querySelector("nav .badge");if(b){b.style.transform="scale(1.4)";setTimeout(()=>b.style.transform="",180)}}
 
@@ -229,7 +253,7 @@ function vRewards(v){
   const st=el("div","stars");
   for(let i=0;i<10;i++)st.appendChild(el("span",i<filled||(sets&&!filled&&false)?"f":(S.stars>=10&&i<10&&filled===0?"f":""),"★"));
   c.appendChild(st);
-  const bar=el("div","bar"),fill=el("i");fill.style.width=Math.min(100,(S.stars>=10&&filled===0?10:filled)*10)+"%";bar.appendChild(fill);
+  const bar=el("div","bar"),fill=el("i");const pct=Math.min(100,(S.stars>=10&&filled===0?10:filled)*10);fill.style.width="0%";requestAnimationFrame(()=>requestAnimationFrame(()=>{fill.style.width=pct+"%"}));bar.appendChild(fill);
   c.append(bar,el("p","muted",t("nextReward")));
   v.append(el("h2","",t("rewards")),c);
   const r=btn(t("redeem"),"btn",()=>{if(S.stars<10)return;S.stars-=10;S.credit+=3;S.burst=true;S.history.unshift([t("redeemLine"),"+$3.00"]);render()});
@@ -239,7 +263,7 @@ function vRewards(v){
 let splashDone=false;
 const beanHome=el("div","bean3d");beanHome.id="beanHome";
 $("splashStage").appendChild(beanHome);
-const bean=StarlabanBean.mount(beanHome,{fallbackSrc:"../assets/logo.png"});
+const bean=StarlabanCup.mount(beanHome,{logoSrc:"../assets/logo.png",fallbackSrc:"../assets/logo.png"});
 function endSplash(){
   if(splashDone)return;splashDone=true;
   $("splash").classList.add("off");
