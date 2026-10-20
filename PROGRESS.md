@@ -3,7 +3,7 @@
 Read this first if you are a new Claude session (or a developer) picking the project up.
 
 ## Purpose
-A sample website and sample mobile-app prototype for **Starlaban Coffee** (Mogadishu, Somalia), built to match the Starlaban Taban Development Agreement (US$2,000 scope): coffee and donuts menu, ordering for pickup, store credit with top-ups (EVC Plus / Zaad / eDahab), loyalty stars, gift credit, English + Somali. Brand: dark brown `#2b1810`, gold `#c4955a`, cream `#f7e0c8`; logo is a coffee bean with a star.
+A sample website and sample mobile-app prototype for **Starlaban Coffee** (Mogadishu, Somalia), built to match the Starlaban Taban Development Agreement (US$2,000 scope): coffee and donuts menu, ordering for pickup, store credit with top-ups (EVC Plus / Zaad / eDahab), loyalty stars, gift credit, English + Somali. Brand: dark brown `#2b1810`, gold `#c4955a`, cream `#f7e0c8`; logo is a coffee bean with a star inside a round badge.
 
 ## Rules
 1. Payments in this repo are **simulated**. Never put payment keys, secrets or balances in front-end code. Real money logic lives on a server (credit ledger, gateway webhook confirmation) and is not built yet.
@@ -28,10 +28,10 @@ Done:
 - [x] App prototype (menu, cart, pickup time, pay with credit or mobile money, top-up, stars + redeem, EN/SO)
 - [x] 3D takeaway cup with the logo on its sleeve: drop-in + bounce + lid landing + steam on load, idle sway, drag to spin (website hero, app splash, app Stars tab; spins when stars are earned/redeemed)
 - [x] Menu animations: website cards reveal with a stagger on scroll and on tab change, hover lift; app rows slide in on tab/category change, fly-to-cart emoji, star pop, progress bar fill
+- [x] GitHub Pages is on (branch `main`, root): https://khaiifahdock-debug.github.io/starlaban-coffee/
 - [x] Tested in headless Chromium (desktop + iPhone size): no console errors, drag works, reduced-motion and no-WebGL fallbacks work
 
 Not done / next:
-- [ ] Enable GitHub Pages: Settings > Pages > Branch `main`, folder `/ (root)`
 - [ ] Replace placeholders: real menu, prices, hours, WhatsApp number, social links
 - [ ] Native-speaker review of Somali text
 - [ ] Gift credit screen (button is a stub)
