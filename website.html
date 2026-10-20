@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Starlaban Coffee</title>
+<meta name="description" content="Starlaban Coffee: coffee and donuts in Mogadishu. Order ahead with our app.">
+<style>
+  :root{
+    --brown:#2b1810; --brown2:#3a2418; --gold:#c4955a; --cream:#f7e0c8; --text:#fbf1e6; --muted:#d9c2a8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Georgia,'Times New Roman',serif;background:var(--brown);color:var(--text);line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  /* header */
+  header{position:sticky;top:0;z-index:10;background:rgba(43,24,16,.95);backdrop-filter:blur(6px);border-bottom:1px solid rgba(196,149,90,.3)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:bold;letter-spacing:.5px}
+  .logo{width:36px;height:36px;border-radius:50%;background:var(--cream);border:3px solid var(--gold);display:grid;place-items:center;color:var(--brown);font-size:16px}
+  nav a{margin-left:20px;font-size:15px;color:var(--muted)}
+  nav a:hover{color:var(--gold)}
+  .lang{margin-left:20px;background:none;border:1px solid var(--gold);color:var(--gold);padding:4px 10px;border-radius:20px;cursor:pointer;font-family:inherit}
+  @media(max-width:640px){nav a{display:none}}
+  /* hero */
+  .hero{padding:90px 0 80px;text-align:center;background:radial-gradient(circle at 50% 30%,#4a2c1c 0,var(--brown) 65%)}
+  .eyebrow{letter-spacing:6px;font-size:12px;color:var(--gold);text-transform:uppercase}
+  h1{font-size:clamp(36px,7vw,64px);line-height:1.1;margin:16px 0}
+  .hero p{max-width:560px;margin:0 auto 28px;color:var(--muted);font-size:18px}
+  .btn{display:inline-block;padding:13px 26px;border-radius:30px;background:var(--gold);color:var(--brown);font-weight:bold;border:0;cursor:pointer;font-family:inherit;font-size:16px}
+  .btn.ghost{background:none;border:1px solid var(--gold);color:var(--gold);margin-left:10px}
+  .cup{font-size:90px;margin-bottom:6px;animation:float 4s ease-in-out infinite}
+  @keyframes float{50%{transform:translateY(-10px)}}
+  @media(prefers-reduced-motion:reduce){.cup{animation:none}}
+  /* sections */
+  section{padding:70px 0}
+  h2{font-size:34px;text-align:center;margin-bottom:8px}
+  .sub{text-align:center;color:var(--muted);margin-bottom:36px}
+  .tabs{display:flex;gap:10px;justify-content:center;margin-bottom:28px;flex-wrap:wrap}
+  .tab{background:none;border:1px solid rgba(196,149,90,.5);color:var(--muted);padding:8px 18px;border-radius:20px;cursor:pointer;font-family:inherit;font-size:15px}
+  .tab.on{background:var(--gold);color:var(--brown);border-color:var(--gold)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+  .card{background:var(--brown2);border:1px solid rgba(196,149,90,.25);border-radius:16px;padding:22px;transition:transform .2s}
+  .card:hover{transform:translateY(-4px)}
+  .card .em{font-size:44px}
+  .card h3{margin:10px 0 4px;font-size:19px}
+  .card p{color:var(--muted);font-size:14px;min-height:42px}
+  .price{color:var(--gold);font-weight:bold;margin-top:10px;font-size:18px}
+  .alt{background:#241410}
+  .feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+  .feat div{padding:22px;border-left:3px solid var(--gold);background:var(--brown2);border-radius:0 12px 12px 0}
+  .feat h3{margin-bottom:6px}
+  .feat p{color:var(--muted);font-size:14px}
+  .stores{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+  .store{border:1px solid var(--gold);border-radius:12px;padding:10px 22px;min-width:180px;text-align:center}
+  .store small{display:block;color:var(--muted);font-size:11px}
+  .contact{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .contact a{border:1px solid var(--gold);padding:12px 22px;border-radius:30px;color:var(--gold)}
+  .contact a:hover{background:var(--gold);color:var(--brown)}
+  .info{text-align:center;color:var(--muted);margin-top:26px}
+  footer{padding:28px 0;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid rgba(196,149,90,.25)}
+  .note{background:#5a3b12;color:#ffe9b8;text-align:center;font-size:13px;padding:6px}
+</style>
+</head>
+<body>
+<div class="note">SAMPLE WEBSITE: prices, text and links are placeholders</div>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><span class="logo"><svg viewBox="0 0 32 32" width="60%" height="60%" aria-hidden="true"><ellipse cx="16" cy="16" rx="10" ry="13" fill="#2b1810"/><path d="M16 8.5l2.2 5.6 5.8.3-4.5 3.7 1.6 5.7-5.1-3.4-5.1 3.4 1.6-5.7-4.5-3.7 5.8-.3z" fill="#f7e0c8"/></svg></span><span>STARLABAN COFFEE</span></a>
+    <div style="display:flex;align-items:center">
+      <nav>
+        <a href="#menu" data-i18n="nav_menu">Menu</a>
+        <a href="#app" data-i18n="nav_app">App</a>
+        <a href="#contact" data-i18n="nav_contact">Contact</a>
+      </nav>
+      <button class="lang" id="langBtn" aria-label="Change language">SO</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div class="cup" aria-hidden="true">☕</div>
+      <div class="eyebrow" data-i18n="eyebrow">Coffee · Donuts · Mogadishu</div>
+      <h1 data-i18n="h1">Fresh coffee.<br>Warm donuts.</h1>
+      <p data-i18n="hero_p">Order ahead with the Starlaban app, skip the line, and collect your order hot.</p>
+      <a class="btn" href="#app" data-i18n="btn_app">Get the app</a>
+      <a class="btn ghost" href="#menu" data-i18n="btn_menu">See the menu</a>
+    </div>
+  </div>
+
+  <section id="menu">
+    <div class="wrap">
+      <h2 data-i18n="menu_title">Our Menu</h2>
+      <p class="sub" data-i18n="menu_sub">Sample items and prices (US$)</p>
+      <div class="tabs" id="tabs"></div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section id="app" class="alt">
+    <div class="wrap">
+      <h2 data-i18n="app_title">The Starlaban App</h2>
+      <p class="sub" data-i18n="app_sub">Everything you need, on your phone</p>
+      <div class="feat">
+        <div><h3 data-i18n="f1h">Order ahead</h3><p data-i18n="f1p">Pick your drinks and donuts, choose a pickup time, and walk in to a ready order.</p></div>
+        <div><h3 data-i18n="f2h">Starlaban credit</h3><p data-i18n="f2p">Top up with EVC Plus, Zaad or eDahab and pay in one tap.</p></div>
+        <div><h3 data-i18n="f3h">Loyalty stars</h3><p data-i18n="f3p">Earn stars with every order and turn them into free rewards.</p></div>
+        <div><h3 data-i18n="f4h">Gift credit</h3><p data-i18n="f4p">Send credit to a friend or family member.</p></div>
+      </div>
+      <div class="stores">
+        <div class="store"><small data-i18n="soon">Coming soon on</small><b>Google Play</b></div>
+        <div class="store"><small data-i18n="soon2">Coming soon on</small><b>App Store</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <h2 data-i18n="contact_title">Visit &amp; Contact</h2>
+      <p class="sub" data-i18n="contact_sub">We would love to hear from you</p>
+      <div class="contact">
+        <a href="https://wa.me/252000000000" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a>
+      </div>
+      <p class="info" data-i18n="hours">Mogadishu, Somalia · Open daily · Hours: 7:00 AM – 10:00 PM (sample)</p>
+    </div>
+  </section>
+</main>
+
+<footer>© <span id="yr"></span> Starlaban Coffee · Mogadishu, Somalia</footer>
+
+<script>
+const TXT = {
+  en:{nav_menu:"Menu",nav_app:"App",nav_contact:"Contact",eyebrow:"Coffee · Donuts · Mogadishu",
+    h1:"Fresh coffee.<br>Warm donuts.",hero_p:"Order ahead with the Starlaban app, skip the line, and collect your order hot.",
+    btn_app:"Get the app",btn_menu:"See the menu",menu_title:"Our Menu",menu_sub:"Sample items and prices (US$)",
+    app_title:"The Starlaban App",app_sub:"Everything you need, on your phone",
+    f1h:"Order ahead",f1p:"Pick your drinks and donuts, choose a pickup time, and walk in to a ready order.",
+    f2h:"Starlaban credit",f2p:"Top up with EVC Plus, Zaad or eDahab and pay in one tap.",
+    f3h:"Loyalty stars",f3p:"Earn stars with every order and turn them into free rewards.",
+    f4h:"Gift credit",f4p:"Send credit to a friend or family member.",soon:"Coming soon on",soon2:"Coming soon on",
+    contact_title:"Visit & Contact",contact_sub:"We would love to hear from you",
+    hours:"Mogadishu, Somalia · Open daily · Hours: 7:00 AM – 10:00 PM (sample)"},
+  so:{nav_menu:"Liiska",nav_app:"Appka",nav_contact:"Nala soo xiriir",eyebrow:"Qahwo · Doonyo · Muqdisho",
+    h1:"Qahwo cusub.<br>Doonyo kulul.",hero_p:"Ku dalbo appka Starlaban, iska ilaali safka, oo qaado dalabkaaga isagoo kulul.",
+    btn_app:"Hel appka",btn_menu:"Eeg liiska",menu_title:"Liiskeena",menu_sub:"Alaabo iyo qiimayaal tusaale ah (US$)",
+    app_title:"Appka Starlaban",app_sub:"Wax walba oo aad u baahan tahay, taleefankaaga",
+    f1h:"Hore u dalbo",f1p:"Dooro cabbitaannada iyo doonyada, dooro waqtiga aad qaadanayso, oo soo qaado dalabkaaga diyaarka ah.",
+    f2h:"Creditka Starlaban",f2p:"Ku shubo EVC Plus, Zaad ama eDahab, oo ku bixi hal taabasho.",
+    f3h:"Xidigaha daacadnimada",f3p:"Hel xidigo dalab kasta, oo u beddel abaalmarino bilaash ah.",
+    f4h:"Credit hadiyad ah",f4p:"U dir credit saaxiib ama qof qoyskaaga ka mid ah.",soon:"Dhawaan ayaa laga heli doonaa",soon2:"Dhawaan ayaa laga heli doonaa",
+    contact_title:"Nagu soo booqo & Nala soo xiriir",contact_sub:"Waan jeclaan lahayn inaan ka maqalno",
+    hours:"Muqdisho, Soomaaliya · Maalin walba furan · Saacadaha: 7:00 subaxnimo – 10:00 habeenimo (tusaale)"}
+};
+const MENU = {
+  coffee:{en:"Coffee",so:"Qahwo",items:[
+    ["☕","Espresso","Rich, bold single shot",1.5],["🥛","Cappuccino","Espresso with steamed milk foam",2.5],
+    ["☕","Latte","Smooth and creamy",2.75],["🧊","Iced Coffee","Cold brew over ice",3],["🍵","Spiced Tea (Shaah)","Traditional Somali spiced tea",1.25]]},
+  donuts:{en:"Donuts",so:"Doonyo",items:[
+    ["🍩","Glazed Donut","Classic sugar glaze",1.5],["🍫","Chocolate Donut","Chocolate icing, sprinkles",1.75],
+    ["🍓","Strawberry Donut","Pink icing, sweet and light",1.75],["🥐","Filled Donut","Cream or jam filling",2]]},
+  combo:{en:"Combos",so:"Isku-darka",items:[
+    ["☕🍩","Morning Combo","Any coffee + a glazed donut",3.5],["🍩🍩","Donut Box (6)","Mixed donuts to share",8]]}
+};
+let lang="en", cat="coffee";
+function setLang(l){
+  lang=l; document.documentElement.lang=l;
+  document.querySelectorAll("[data-i18n]").forEach(e=>{e.innerHTML=TXT[l][e.dataset.i18n]});
+  document.getElementById("langBtn").textContent = l==="en"?"SO":"EN";
+  renderMenu();
+}
+function renderMenu(){
+  const tabs=document.getElementById("tabs"); tabs.innerHTML="";
+  Object.keys(MENU).forEach(k=>{
+    const b=document.createElement("button"); b.className="tab"+(k===cat?" on":""); b.textContent=MENU[k][lang];
+    b.onclick=()=>{cat=k;renderMenu()}; tabs.appendChild(b);
+  });
+  const grid=document.getElementById("grid"); grid.innerHTML="";
+  MENU[cat].items.forEach(([em,name,desc,price])=>{
+    const c=document.createElement("div"); c.className="card";
+    const e=document.createElement("div"); e.className="em"; e.textContent=em;
+    const h=document.createElement("h3"); h.textContent=name;
+    const p=document.createElement("p"); p.textContent=desc;
+    const pr=document.createElement("div"); pr.className="price"; pr.textContent="$"+price.toFixed(2);
+    c.append(e,h,p,pr); grid.appendChild(c);
+  });
+}
+document.getElementById("langBtn").onclick=()=>setLang(lang==="en"?"so":"en");
+document.getElementById("yr").textContent=new Date().getFullYear();
+setLang("en");
+</script>
+</body>
+</html>
