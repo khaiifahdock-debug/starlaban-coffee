@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Starlaban Sample App</title>
+<meta name="theme-color" content="#2b1810">
+<link rel="icon" href="../assets/favicon.png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<style>
+  :root{--brown:#2b1810;--brown2:#3a2418;--gold:#c4955a;--cream:#f7e0c8;--text:#fbf1e6;--muted:#d9c2a8;--ok:#7bc47f}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{font-family:Georgia,'Times New Roman',serif;background:#120a06;color:var(--text);display:flex;justify-content:center}
+  #app{width:100%;max-width:420px;height:100%;background:var(--brown);display:flex;flex-direction:column;position:relative;overflow:hidden}
+  @media(min-width:500px){#app{margin:16px 0;height:min(860px,calc(100vh - 32px));border-radius:32px;border:6px solid #000;box-shadow:0 20px 60px rgba(0,0,0,.6)}}
+  .banner{background:#5a3b12;color:#ffe9b8;text-align:center;font-size:11px;padding:4px}
+  header{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(196,149,90,.25)}
+  .brand{display:flex;align-items:center;gap:8px;font-weight:bold;font-size:15px;letter-spacing:.5px}
+  .logo{width:30px;height:30px;border-radius:50%}
+  .lang{background:none;border:1px solid var(--gold);color:var(--gold);border-radius:16px;padding:3px 10px;font-family:inherit;cursor:pointer}
+  main{flex:1;overflow-y:auto;padding:16px 18px 24px}
+  h2{font-size:22px;margin-bottom:12px}
+  .muted{color:var(--muted);font-size:13px}
+  nav{display:flex;border-top:1px solid rgba(196,149,90,.25);background:#241410}
+  nav button{flex:1;background:none;border:0;color:var(--muted);padding:10px 0 12px;font-family:inherit;font-size:11px;cursor:pointer;position:relative}
+  nav button .i{font-size:20px;display:block}
+  nav button.on{color:var(--gold)}
+  .badge{position:absolute;top:4px;left:calc(50% + 6px);background:var(--gold);color:var(--brown);border-radius:10px;font-size:10px;padding:0 6px;font-weight:bold}
+  .chips{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px}
+  .chip{flex:none;background:none;border:1px solid rgba(196,149,90,.5);color:var(--muted);padding:6px 14px;border-radius:18px;font-family:inherit;cursor:pointer}
+  .chip.on{background:var(--gold);color:var(--brown);border-color:var(--gold)}
+  .row{display:flex;align-items:center;gap:12px;background:var(--brown2);border:1px solid rgba(196,149,90,.2);border-radius:14px;padding:12px;margin-bottom:10px}
+  .row .em{font-size:30px;width:44px;text-align:center}
+  .row .t{flex:1}
+  .row .t b{display:block;font-size:15px}
+  .price{color:var(--gold);font-weight:bold}
+  .add{background:var(--gold);color:var(--brown);border:0;border-radius:50%;width:34px;height:34px;font-size:20px;font-weight:bold;cursor:pointer}
+  .qty{display:flex;align-items:center;gap:8px}
+  .qty button{background:none;border:1px solid var(--gold);color:var(--gold);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px}
+  .btn{display:block;width:100%;background:var(--gold);color:var(--brown);border:0;border-radius:26px;padding:14px;font-family:inherit;font-size:16px;font-weight:bold;cursor:pointer;margin-top:12px}
+  .btn:disabled{opacity:.5}
+  .btn.ghost{background:none;border:1px solid var(--gold);color:var(--gold)}
+  .card{background:linear-gradient(135deg,#4a2c1c,#2f1a10);border:1px solid var(--gold);border-radius:18px;padding:20px;margin-bottom:14px}
+  .big{font-size:38px;font-weight:bold;color:var(--cream)}
+  .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+  .opt{background:var(--brown2);border:1px solid rgba(196,149,90,.4);color:var(--text);border-radius:12px;padding:12px 4px;font-family:inherit;cursor:pointer;text-align:center;font-size:14px}
+  .opt.on{border-color:var(--gold);background:#4a2c1c;color:var(--gold)}
+  .total{display:flex;justify-content:space-between;font-size:18px;margin:14px 0 4px}
+  .stars{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+  .stars span{font-size:22px;opacity:.25}
+  .stars span.f{opacity:1;color:var(--gold)}
+  .bar{height:8px;background:#241410;border-radius:6px;overflow:hidden;margin-top:6px}
+  .bar i{display:block;height:100%;background:var(--gold)}
+  .empty{text-align:center;color:var(--muted);margin-top:50px}
+  .overlay{position:absolute;inset:0;background:rgba(18,10,6,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;z-index:5}
+  .spin{width:44px;height:44px;border:4px solid rgba(196,149,90,.3);border-top-color:var(--gold);border-radius:50%;animation:s 1s linear infinite;margin-bottom:16px}
+  @keyframes s{to{transform:rotate(360deg)}}
+  .bean3d{width:100%;height:100%;display:grid;place-items:center}
+  .bean3d img{width:60%;border-radius:50%}
+  #beanHome{height:190px;margin:-6px 0 -2px}
+  #splashStage #beanHome{height:100%;margin:0}
+  #splash{position:absolute;inset:0;z-index:9;background:radial-gradient(circle at 50% 40%,#4a2c1c 0,#2b1810 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:opacity .5s}
+  #splash.off{opacity:0;pointer-events:none}
+  #splash .stage{width:min(300px,80%);height:300px}
+  #splash h1{font-size:24px;letter-spacing:3px;margin-top:6px}
+  #splash p{color:var(--muted);font-size:13px;margin-top:6px}
+  .tick{font-size:60px;color:var(--ok)}
+  .hist{font-size:13px;display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(196,149,90,.15)}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="banner">SAMPLE APP: no real payments. Everything here is simulated.</div>
+  <header>
+    <div class="brand"><img class="logo" src="../assets/logo.png" alt="" width="30" height="30"><span>STARLABAN</span></div>
+    <button class="lang" id="langBtn">SO</button>
+  </header>
+  <main id="view"></main>
+  <noscript><p style="padding:24px;text-align:center">This sample app needs JavaScript. Open it in Safari or Chrome instead of a file preview.</p></noscript>
+  <nav id="nav"></nav>
+  <div id="overlay" class="overlay" style="display:none"></div>
+  <div id="splash"><div class="stage" id="splashStage"></div><h1>STARLABAN COFFEE</h1><p>Tap to start</p></div>
+</div>
+
+<script src="../assets/vendor/three.min.js"></script>
+<script src="../assets/bean3d.js"></script>
+<script>
+const T={
+ en:{menu:"Menu",cart:"Cart",wallet:"Credit",rewards:"Stars",all:"All",coffee:"Coffee",donuts:"Donuts",combo:"Combos",
+  yourCart:"Your Cart",emptyCart:"Your cart is empty. Add something tasty!",total:"Total",pickup:"Pickup time",asap:"ASAP (10 min)",
+  in30:"In 30 min",in60:"In 1 hour",payWith:"Pay with",credit:"Starlaban credit",placeOrder:"Place order",
+  balance:"Credit balance",topup:"Top up",chooseAmt:"Choose amount",chooseMethod:"Payment method",topupBtn:"Top up now",
+  waiting:"Waiting for payment confirmation…",confirmed:"Payment confirmed",history:"Recent activity",none:"No activity yet",
+  starsTitle:"Loyalty Stars",starsHave:"stars",nextReward:"Reach 10 stars to get $3 credit",redeem:"Redeem 10 stars → $3 credit",
+  orderPlaced:"Order placed!",pickupAt:"Pickup",orderNo:"Order",done:"Done",notEnough:"Not enough credit. Top up first or pick another method.",
+  earned:"You earned",gift:"Send gift credit (coming soon)",orderLine:"Order",topLine:"Top-up",redeemLine:"Reward"},
+ so:{menu:"Liiska",cart:"Dambiil",wallet:"Credit",rewards:"Xidigo",all:"Dhammaan",coffee:"Qahwo",donuts:"Doonyo",combo:"Isku-darka",
+  yourCart:"Dambiishaada",emptyCart:"Dambiishu waa madhan. Ku dar wax macaan!",total:"Wadarta",pickup:"Waqtiga qaadashada",asap:"Hadda (10 daqiiqo)",
+  in30:"30 daqiiqo kadib",in60:"1 saac kadib",payWith:"Ku bixi",credit:"Creditka Starlaban",placeOrder:"Dalbo",
+  balance:"Haraaga credit-ka",topup:"Ku shubo",chooseAmt:"Dooro cadadka",chooseMethod:"Habka lacag bixinta",topupBtn:"Hadda ku shubo",
+  waiting:"Waxaa la sugayaa xaqiijinta lacagta…",confirmed:"Lacagta waa la xaqiijiyay",history:"Dhaqdhaqaaqii u dambeeyay",none:"Wali wax ma jiraan",
+  starsTitle:"Xidigaha Daacadnimada",starsHave:"xidigo",nextReward:"Gaar 10 xidigood si aad u hesho $3 credit",redeem:"Beddel 10 xidigood → $3 credit",
+  orderPlaced:"Dalabka waa la sameeyay!",pickupAt:"Qaadasho",orderNo:"Dalab",done:"Waa wada",notEnough:"Credit kuma filna. Marka hore ku shubo ama dooro habka kale.",
+  earned:"Waxaad heshay",gift:"U dir credit hadiyad (dhawaan)",orderLine:"Dalab",topLine:"Shubid",redeemLine:"Abaalmarin"}
+};
+const ITEMS=[
+ {id:1,c:"coffee",em:"☕",n:"Espresso",p:1.5},{id:2,c:"coffee",em:"🥛",n:"Cappuccino",p:2.5},
+ {id:3,c:"coffee",em:"☕",n:"Latte",p:2.75},{id:4,c:"coffee",em:"🧊",n:"Iced Coffee",p:3},
+ {id:5,c:"coffee",em:"🍵",n:"Spiced Tea (Shaah)",p:1.25},
+ {id:6,c:"donuts",em:"🍩",n:"Glazed Donut",p:1.5},{id:7,c:"donuts",em:"🍫",n:"Chocolate Donut",p:1.75},
+ {id:8,c:"donuts",em:"🍓",n:"Strawberry Donut",p:1.75},{id:9,c:"donuts",em:"🥐",n:"Filled Donut",p:2},
+ {id:10,c:"combo",em:"☕🍩",n:"Morning Combo",p:3.5},{id:11,c:"combo",em:"🍩🍩",n:"Donut Box (6)",p:8}
+];
+const S={burst:false,lang:"en",tab:"menu",cat:"all",cart:{},credit:10,stars:3,history:[],pickup:0,pay:"credit",topAmt:10,topMethod:"EVC Plus",orderNo:100};
+const $=id=>document.getElementById(id);
+const t=k=>T[S.lang][k];
+const money=n=>"$"+n.toFixed(2);
+const cartCount=()=>Object.values(S.cart).reduce((a,b)=>a+b,0);
+const cartTotal=()=>ITEMS.reduce((a,i)=>a+(S.cart[i.id]||0)*i.p,0);
+
+function el(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e}
+function btn(txt,cls,fn){const b=el("button",cls,txt);b.onclick=fn;return b}
+
+function renderNav(){
+  const n=$("nav");n.innerHTML="";
+  [["menu","☕"],["cart","🛒"],["wallet","💳"],["rewards","⭐"]].forEach(([k,ic])=>{
+    const b=el("button",S.tab===k?"on":"");
+    b.append(el("span","i",ic),document.createTextNode(t(k)));
+    if(k==="cart"&&cartCount()) b.append(el("span","badge",String(cartCount())));
+    b.onclick=()=>{S.tab=k;render()};n.appendChild(b);
+  });
+}
+function render(){
+  if(beanHome.parentNode&&S.tab!=="rewards"&&splashDone)beanHome.remove(); // one WebGL canvas, moved between screens
+  renderNav();const v=$("view");v.innerHTML="";({menu:vMenu,cart:vCart,wallet:vWallet,rewards:vRewards})[S.tab](v);v.scrollTop=0;
+  if(S.tab==="rewards"&&S.burst){S.burst=false;setTimeout(()=>bean&&bean.burst(),250)}
+}
+
+function vMenu(v){
+  const chips=el("div","chips");
+  ["all","coffee","donuts","combo"].forEach(c=>chips.appendChild(btn(t(c),"chip"+(S.cat===c?" on":""),()=>{S.cat=c;render()})));
+  v.append(el("h2","",t("menu")),chips);
+  ITEMS.filter(i=>S.cat==="all"||i.c===S.cat).forEach(i=>{
+    const r=el("div","row"),tt=el("div","t");
+    tt.append(el("b","",i.n),el("span","price",money(i.p)));
+    r.append(el("div","em",i.em),tt,btn("+","add",()=>{S.cart[i.id]=(S.cart[i.id]||0)+1;renderNav();toast()}));
+    v.appendChild(r);
+  });
+}
+function toast(){const b=document.querySelector("nav .badge");if(b){b.style.transform="scale(1.4)";setTimeout(()=>b.style.transform="",180)}}
+
+function vCart(v){
+  v.appendChild(el("h2","",t("yourCart")));
+  if(!cartCount()){v.appendChild(el("p","empty",t("emptyCart")));return}
+  ITEMS.filter(i=>S.cart[i.id]).forEach(i=>{
+    const r=el("div","row"),tt=el("div","t"),q=el("div","qty");
+    tt.append(el("b","",i.n),el("span","price",money(i.p*S.cart[i.id])));
+    q.append(btn("−","",()=>{S.cart[i.id]--;if(!S.cart[i.id])delete S.cart[i.id];render()}),el("span","",String(S.cart[i.id])),btn("+","",()=>{S.cart[i.id]++;render()}));
+    r.append(el("div","em",i.em),tt,q);v.appendChild(r);
+  });
+  v.appendChild(el("p","muted",t("pickup")));
+  const po=el("div","opts");
+  [t("asap"),t("in30"),t("in60")].forEach((x,idx)=>po.appendChild(btn(x,"opt"+(S.pickup===idx?" on":""),()=>{S.pickup=idx;render()})));
+  v.appendChild(po);
+  v.appendChild(el("p","muted",t("payWith")));
+  const pm=el("div","opts");
+  [["credit",t("credit")],["EVC Plus","EVC Plus"],["Zaad","Zaad"],["eDahab","eDahab"]].forEach(([k,l])=>pm.appendChild(btn(l,"opt"+(S.pay===k?" on":""),()=>{S.pay=k;render()})));
+  v.appendChild(pm);
+  const tot=el("div","total");tot.append(el("span","",t("total")),el("b","price",money(cartTotal())));
+  v.appendChild(tot);
+  v.appendChild(btn(t("placeOrder"),"btn",placeOrder));
+}
+function placeOrder(){
+  const total=cartTotal();
+  if(S.pay==="credit"){
+    if(S.credit<total){overlay(`<div class="tick" style="color:var(--gold)">!</div><p>${t("notEnough")}</p>`,"close");return}
+    S.credit-=total;finishOrder(total);
+  }else{
+    overlay(`<div class="spin"></div><h2>${S.pay}</h2><p class="muted">${t("waiting")}</p>`);
+    setTimeout(()=>finishOrder(total),1400);
+  }
+}
+function finishOrder(total){
+  const stars=Math.floor(total);S.stars+=stars;S.orderNo++;
+  const pk=[10,30,60][S.pickup];
+  S.history.unshift([t("orderLine")+" #"+S.orderNo,"-"+money(total)]);
+  S.cart={};
+  overlay(`<div class="tick">✓</div><h2>${t("orderPlaced")}</h2>
+    <p class="muted">${t("orderNo")} #${S.orderNo}</p>
+    <p>${t("pickupAt")}: ~${pk} min</p>
+    <p class="muted" style="margin-top:8px">${t("earned")} ${stars} ⭐</p>`,true);
+}
+function overlay(html,withDone){
+  const o=$("overlay");o.style.display="flex";o.innerHTML=html;
+  if(withDone)o.appendChild(btn(t("done"),"btn",()=>{o.style.display="none";if(withDone!=="close"){S.tab="rewards";S.burst=true}render()}));
+}
+
+function vWallet(v){
+  const c=el("div","card");
+  c.append(el("div","muted",t("balance")),el("div","big",money(S.credit)));
+  v.append(el("h2","",t("wallet")),c,el("p","muted",t("chooseAmt")));
+  const a=el("div","opts");
+  [5,10,20].forEach(x=>a.appendChild(btn("$"+x,"opt"+(S.topAmt===x?" on":""),()=>{S.topAmt=x;render()})));
+  v.appendChild(a);v.appendChild(el("p","muted",t("chooseMethod")));
+  const m=el("div","opts");
+  ["EVC Plus","Zaad","eDahab"].forEach(x=>m.appendChild(btn(x,"opt"+(S.topMethod===x?" on":""),()=>{S.topMethod=x;render()})));
+  v.appendChild(m);
+  v.appendChild(btn(t("topupBtn"),"btn",()=>{
+    overlay(`<div class="spin"></div><h2>${S.topMethod}</h2><p class="muted">${t("waiting")}</p>`);
+    setTimeout(()=>{ // In the real app this is the gateway webhook confirming the payment on the server
+      S.credit+=S.topAmt;S.history.unshift([t("topLine")+" ("+S.topMethod+")","+"+money(S.topAmt)]);
+      overlay(`<div class="tick">✓</div><h2>${t("confirmed")}</h2><p class="muted">+${money(S.topAmt)}</p>`,false);
+      setTimeout(()=>{$("overlay").style.display="none";render()},1300);
+    },1600);
+  }));
+  v.appendChild(btn(t("gift"),"btn ghost",()=>{}));
+  v.appendChild(el("p","muted",t("history")));
+  if(!S.history.length)v.appendChild(el("p","muted",t("none")));
+  S.history.slice(0,8).forEach(([a,b])=>{const h=el("div","hist");h.append(el("span","",a),el("b","",b));v.appendChild(h)});
+}
+
+function vRewards(v){
+  const c=el("div","card");
+  const filled=S.stars%10,sets=Math.floor(S.stars/10);
+  c.append(el("div","muted",t("starsTitle")));
+  beanHome.style.display="block";c.appendChild(beanHome);
+  c.append(el("div","big",S.stars+" ⭐"));
+  const st=el("div","stars");
+  for(let i=0;i<10;i++)st.appendChild(el("span",i<filled||(sets&&!filled&&false)?"f":(S.stars>=10&&i<10&&filled===0?"f":""),"★"));
+  c.appendChild(st);
+  const bar=el("div","bar"),fill=el("i");fill.style.width=Math.min(100,(S.stars>=10&&filled===0?10:filled)*10)+"%";bar.appendChild(fill);
+  c.append(bar,el("p","muted",t("nextReward")));
+  v.append(el("h2","",t("rewards")),c);
+  const r=btn(t("redeem"),"btn",()=>{if(S.stars<10)return;S.stars-=10;S.credit+=3;S.burst=true;S.history.unshift([t("redeemLine"),"+$3.00"]);render()});
+  r.disabled=S.stars<10;v.appendChild(r);
+}
+
+let splashDone=false;
+const beanHome=el("div","bean3d");beanHome.id="beanHome";
+$("splashStage").appendChild(beanHome);
+const bean=StarlabanBean.mount(beanHome,{fallbackSrc:"../assets/logo.png"});
+function endSplash(){
+  if(splashDone)return;splashDone=true;
+  $("splash").classList.add("off");
+  beanHome.remove();beanHome.style.display="none";
+  setTimeout(()=>{$("splash").style.display="none"},550);
+  render();
+}
+$("splash").onclick=endSplash;
+setTimeout(endSplash,2600);
+$("langBtn").onclick=()=>{S.lang=S.lang==="en"?"so":"en";$("langBtn").textContent=S.lang==="en"?"SO":"EN";render()};
+render();
+</script>
+</body>
+</html>
