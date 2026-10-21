@@ -267,6 +267,11 @@ nav{background:#fffdf8;border-top:1px solid #ded4c7}nav button{min-height:56px;c
 :focus-visible{outline:3px solid #e2b574;outline-offset:3px}
 @media(max-width:360px){#app{max-width:100%}main{padding-left:12px;padding-right:12px}.grid2{gap:8px}.gbody{padding:9px}.gtitle{font-size:14px}.gfoot{gap:3px}.szs button{min-width:40px;min-height:40px}}
 @media(prefers-reduced-motion:reduce){.track,.pick .pe,.anim .list .gcard,.swap,.bean3d *{animation:none!important;transition:none!important;scroll-behavior:auto}}
+/* Coffee-bean illustration: one quiet, brand-relevant motif instead of emoji art */
+.em,.gem{font-size:0!important;filter:none!important;color:#8c5b2e!important;position:relative;display:block;width:54px;height:54px}
+.em::before,.gem::before{content:"";position:absolute;inset:6px 13px;border-radius:48% 52% 46% 54%;background:#8c5b2e;transform:rotate(38deg)}
+.em::after,.gem::after{content:"";position:absolute;top:6px;bottom:6px;left:26px;width:2px;border-radius:50%;background:#e2b574;transform:rotate(38deg)}
+.art.has .em,.gart.has .gem{display:none!important}
 </style>
 </head>
 <body>
@@ -456,7 +461,7 @@ function vMenu(v){
 function gcard(i){
   const [c1,c2]=colOf(i),sz=S.sizes[i[0]]||0;
   const c=el("article","gcard");c.dataset.id=i[0];c.style.setProperty("--c",c1);c.style.setProperty("--c2",c2);
-  const art=el("div","gart");if(PH[i[0]]){art.classList.add("has");art.appendChild(photo(i))}art.appendChild(el("span","gem",i[2]));
+  const art=el("div","gart");if(PH[i[0]]){art.classList.add("has");art.appendChild(photo(i))}const gem=el("span","gem");gem.setAttribute("aria-hidden","true");art.appendChild(gem);
   if(i[7])art.appendChild(el("span","gtag ui",TAGS[i[7]][S.lang]));
   const h=btn("♥","heart",e=>{e.stopPropagation();toggleFav(i[0]);h.setAttribute("aria-pressed",S.favs.has(i[0]));if(S.cat==="fav")renderList()});
   h.setAttribute("aria-pressed",S.favs.has(i[0]));h.setAttribute("aria-label","Favourite "+i[3]);
