@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Starlaban Sample App</title>
-<meta name="theme-color" content="#2b1810">
+<meta name="theme-color" content="#f8f4ed">
 <link rel="icon" href="../assets/favicon.png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <style>
@@ -238,6 +238,69 @@
   :focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
   .anim .list .gcard{animation:rise .42s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*40ms)}
   @media(prefers-reduced-motion:reduce){.skip-link{transition:none}.pick .pe,.sart .se,.wcard::before,.anim .list .gcard{animation:none!important}.anim>*,.anim .list .row,.stars span.f,.tick,.swap,.row.spot,.heart{animation:none!important}.bar i{transition:none}}
+
+/* Starlaban light café app redesign */
+:root{--brown:#f6f0e7;--brown2:#fffaf3;--brown3:#ede1d2;--gold:#a66c35;--cream:#f4dfc4;--text:#2b1810;--muted:#756354;--ok:#54734d;--ink:#2b1810;--pink:#c5a280;--yellow:#d3ad76;--teal:#9b7958;--green:#a48b68}
+body{background:#eee5d9;color:#2b1810}
+#app{background:#f8f4ed;color:#2b1810}
+@media(min-width:500px){#app{border:1px solid #e2d6c8;box-shadow:0 24px 70px rgba(55,36,19,.18)}}
+.banner{background:#eee3d4;color:#72563a;font-size:10px;letter-spacing:.15px;padding:5px}
+header{background:#fbf8f2;border-bottom:1px solid #e7ddcf}
+.brand{color:#2b1810}
+.seg{background:#efe4d6;border:1px solid #ddcbb4}
+.seg button{color:#725f4d}
+.seg button.on{background:#2b1810;color:#fff7ec}
+main{background:#f8f4ed}
+h2{color:#2b1810;letter-spacing:-.45px}
+.muted{color:#766452}
+nav{background:#fbf8f2;border-top:1px solid #e5dbce}
+nav button{color:#897864}
+nav button.on{color:#2b1810}
+nav button.on::before{background:#a66c35}
+.badge{background:#a66c35;color:white}
+.search{background:#fffaf3;border:1px solid #ded2c2}
+.search input{color:#2b1810}
+.dice{background:#eee0cc;color:#533a23}
+.chip{background:#fffaf3;border:1px solid #e4d8c9;color:#705c49}
+.chip.on{background:#2b1810;border-color:#2b1810;color:#fff8ef}
+.pick{background:linear-gradient(135deg,#ead9c2,#d1b28c);color:#2b1810;box-shadow:0 12px 25px -15px rgba(66,39,18,.35)}
+.pick .go{background:#2b1810;color:#fff8ef}
+.grid2{gap:12px}
+.gcard{background:#fffaf3;border:1px solid #e7ddcf;box-shadow:0 5px 16px rgba(61,39,22,.05)}
+.gart{background:linear-gradient(135deg,#eee2d2,#f8f2e9)}
+.gart::before,.gart::after{opacity:.18}
+.gtag{background:#2b1810;color:#f3dfc5}
+.gcard .heart{background:rgba(255,250,243,.9);color:#634d37;border:1px solid #eadfD1}
+.gcard .heart[aria-pressed="true"]{background:#2b1810;color:#fff8ef}
+.gadd{background:#2b1810;color:#fff8ef;border-color:#fffaf3;box-shadow:0 5px 12px rgba(43,24,16,.2)}
+.gbody{color:#2b1810}
+.gtitle::after{color:#a66c35}
+.row{background:#fffaf3;border:1px solid #e7ddcf;border-left:4px solid #b68a59;box-shadow:0 3px 12px rgba(61,39,22,.035)}
+.bub{background:linear-gradient(135deg,#eee1cf,#e0c9aa);box-shadow:none}
+.t small{color:#766452}
+.price{color:#8b5c30}
+.tag{background:#eee0cb;color:#604528}
+.szs{background:#eee4d8}
+.szs button{color:#756354}
+.szs button.on{background:#2b1810;color:#fff8ef}
+.heart{color:#8a7764}
+.heart[aria-pressed="true"]{color:#9d4a3e}
+.add{background:#2b1810;color:#fff8ef}
+.cartbar{background:#2b1810;color:#fff8ef}
+.sheet .panel{background:#fbf7f0;color:#2b1810;border:1px solid #e6d9c8}
+.sheet .scrim{background:rgba(32,20,12,.48)}
+.sheet input,.sheet select{background:#fffaf3;color:#2b1810;border-color:#d9c9b6}
+.btn{background:#2b1810;color:#fff8ef}
+.btn.ghost{background:transparent;border:1px solid #a66c35;color:#704b29}
+.opt,.pill{background:#eee2d2;color:#503a25;border:1px solid #dfcfba}
+.opt.on{background:#2b1810;color:#fff8ef}
+.wcard{background:#2b1810;color:#fff5e8;border-radius:22px}
+.wcard .muted{color:#e3cdb2}
+.wcard .brand2{color:#d6b687}
+.login .lpanel{background:#fbf7f0;color:#2b1810}
+:focus-visible{outline:3px solid #a66c35;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){#app *{scroll-behavior:auto}.anim .list .gcard,.swap,.pick .pe{animation:none!important;transition:none!important}}
+
 </style>
 </head>
 <body>
