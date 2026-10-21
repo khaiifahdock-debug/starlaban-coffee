@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Starlaban Coffee</title>
+<meta name="description" content="Starlaban Coffee: coffee, matcha and donuts in Mogadishu. Order ahead with our app.">
+<meta name="theme-color" content="#f8f4ed">
+<link rel="icon" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<style>
+  :root{
+    --brown:#2b1810; --brown2:#3a2418; --brown3:#1f110b; --gold:#c4955a; --cream:#f7e0c8; --text:#fbf1e6; --muted:#d9c2a8;
+    --amber:#ffb24d; --amber2:#ffd98a; --teal:#3fc1c9; --teal2:#9aeaf0; --green:#6fd08c; --green2:#c8ee86;
+    --pink:#ff8fb1; --pink2:#ffc9da; --purple:#a98be8; --purple2:#d9c9ff; --yellow:#ffd23f; --yellow2:#fff0a0;
+    --ink:#2b1810;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Georgia,'Times New Roman',serif;background:var(--brown);color:var(--text);line-height:1.6;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  button,input{font-family:inherit}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+  .skip-link{position:fixed;left:12px;top:12px;z-index:1000;transform:translateY(-160%);background:var(--cream);color:var(--ink);border:2px solid var(--gold);border-radius:12px;padding:10px 14px;font:600 14px/1.2 system-ui,sans-serif;transition:transform .18s}
+  .skip-link:focus{transform:translateY(0)}
+  .ui{font-family:'Trebuchet MS','Avenir Next','Segoe UI',system-ui,sans-serif}
+  .note{background:#5a3b12;color:#ffe9b8;text-align:center;font-size:13px;padding:6px}
+
+  /* header + language switch */
+  header{position:sticky;top:0;z-index:20;background:rgba(43,24,16,.94);backdrop-filter:blur(6px);border-bottom:1px solid rgba(196,149,90,.3)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:66px;gap:10px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:bold;letter-spacing:.5px;min-width:0}
+  .brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .logo{width:38px;height:38px;border-radius:50%;flex:none}
+  .right{display:flex;align-items:center;gap:16px}
+  nav a{font-size:15px;color:var(--muted);margin-left:6px}
+  nav a:hover{color:var(--gold)}
+  .langbox{display:flex;align-items:center;gap:8px}
+  .globe{font-size:20px}
+  .seg{display:flex;background:var(--brown3);border:2px solid var(--gold);border-radius:999px;padding:3px;gap:2px}
+  .seg button{border:0;background:none;color:var(--muted);padding:7px 14px;min-height:44px;border-radius:999px;font-size:14px;font-weight:bold;cursor:pointer;transition:background .25s,color .25s,transform .15s}
+  .seg button.on{background:var(--gold);color:var(--ink);box-shadow:0 0 0 3px rgba(196,149,90,.25)}
+  .seg button:not(.on):hover{color:var(--gold)}
+  .seg button:active{transform:scale(.94)}
+  .seg .short{display:none}
+  @media(max-width:700px){nav{display:none}}
+  @media(max-width:420px){.seg .long{display:none}.seg .short{display:inline}.globe{display:none}.brand span{font-size:14px}}
+
+  /* hero */
+  .hero{position:relative;padding:56px 0 64px;text-align:center;overflow:hidden;background:radial-gradient(circle at 50% 28%,#4f2f1e 0,var(--brown) 68%)}
+  .blob{position:absolute;border-radius:50%;filter:blur(46px);opacity:.38;pointer-events:none}
+  .b1{width:260px;height:260px;background:var(--pink);left:-60px;top:40px}
+  .b2{width:300px;height:300px;background:var(--teal);right:-90px;top:120px}
+  .b3{width:200px;height:200px;background:var(--yellow);left:30%;bottom:-90px;opacity:.28}
+  .spr{position:absolute;width:10px;height:22px;border-radius:6px;opacity:.85;pointer-events:none;animation:drift 7s ease-in-out infinite}
+  @keyframes drift{50%{transform:translateY(-14px) rotate(25deg)}}
+  .hero .wrap{position:relative}
+  .eyebrow{letter-spacing:6px;font-size:12px;color:var(--gold);text-transform:uppercase}
+  h1{font-size:clamp(38px,7vw,68px);line-height:1.08;margin:14px 0}
+  h1 em{font-style:normal;background:linear-gradient(90deg,var(--pink),var(--yellow),var(--green),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{max-width:560px;margin:0 auto 26px;color:var(--muted);font-size:18px}
+  .bean3d{width:min(340px,80vw);height:min(380px,88vw);margin:0 auto;display:grid;place-items:center}
+  .bean3d img{width:min(210px,52vw);height:auto;border-radius:50%}
+  .btn{display:inline-block;padding:13px 26px;border-radius:30px;background:var(--gold);color:var(--ink);font-weight:bold;border:0;cursor:pointer;font-size:16px;transition:transform .15s,box-shadow .2s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(196,149,90,.35)}
+  .btn.ghost{background:none;border:2px solid var(--gold);color:var(--gold);margin-left:10px}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .btns .btn.ghost{margin-left:0}
+  .heroLang{margin-top:18px;background:linear-gradient(90deg,var(--teal),var(--green));color:var(--ink);border:0;border-radius:999px;padding:9px 20px;font-weight:bold;font-size:15px;cursor:pointer;transition:transform .15s}
+  .heroLang:hover{transform:scale(1.05)}
+
+  /* ribbon */
+  .ribbon-wrap{overflow:hidden;padding:12px 0 6px;margin-top:-12px}
+  .ribbon{overflow:hidden;background:var(--gold);color:var(--ink);transform:rotate(-1.2deg);margin:0 -10px;position:relative;z-index:2;border-block:2px solid var(--ink)}
+  .track{display:flex;width:max-content;animation:run 32s linear infinite;padding:9px 0;font-weight:bold;letter-spacing:1px;font-size:15px}
+  .track span{padding:0 18px;white-space:nowrap}
+  .track i{font-style:normal;padding:0 4px}
+  @keyframes run{to{transform:translateX(-50%)}}
+
+  /* menu */
+  section{padding:70px 0}
+  #menu{position:relative;overflow:hidden}
+  #menu .glow{position:absolute;border-radius:50%;filter:blur(70px);opacity:.16;pointer-events:none}
+  h2{font-size:clamp(28px,5vw,38px);text-align:center;margin-bottom:8px}
+  .sub{text-align:center;color:var(--muted);margin:0 auto 28px;max-width:640px}
+  .controls{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;margin-bottom:12px}
+  .search{display:flex;align-items:center;gap:8px;background:var(--brown3);border:2px solid rgba(196,149,90,.45);border-radius:999px;padding:0 16px;min-width:min(260px,100%);min-height:44px;transition:border-color .2s,box-shadow .2s}
+  .search-icon{width:18px;height:18px;flex:none;stroke:var(--muted);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;fill:none}
+  .search:focus-within{border-color:var(--gold);box-shadow:0 0 0 4px rgba(196,149,90,.2)}
+  .search input{background:none;border:0;color:var(--text);padding:11px 0;font-size:16px;outline:none;width:100%;min-width:0}
+  .search input::placeholder{color:#a88e76}
+  .surprise{background:linear-gradient(90deg,var(--pink),var(--yellow));color:var(--ink);border:0;border-radius:999px;padding:11px 20px;min-height:44px;font-weight:bold;font-size:15px;cursor:pointer;transition:transform .15s}
+  .surprise:hover{transform:rotate(-2deg) scale(1.06)}
+  .surprise:active{transform:scale(.95)}
+  .tabs{display:flex;gap:10px;justify-content:center;margin:14px 0 30px;flex-wrap:wrap}
+  .tab{--c:var(--gold);display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.14);color:var(--muted);padding:9px 16px;min-height:44px;border-radius:999px;cursor:pointer;font-size:15px;transition:background .25s,color .25s,border-color .25s,transform .15s}
+  .tab::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c);transition:background .25s}
+  .tab:hover{border-color:var(--c);color:var(--text)}
+  .tab:active{transform:scale(.94)}
+  .tab.on{background:var(--c);border-color:var(--c);color:var(--ink);font-weight:bold}
+  .tab.on::before{background:var(--ink)}
+  .tab .n{font-size:12px;opacity:.75}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px;position:relative}
+  .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:30px 0}
+
+  .card{--c:var(--gold);--c2:var(--cream);background:var(--brown2);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .25s;will-change:transform}
+  .card:hover{transform:translateY(-6px);box-shadow:0 16px 30px -10px var(--c)}
+  .art{position:relative;height:120px;display:grid;place-items:center;background:linear-gradient(135deg,var(--c),var(--c2));overflow:hidden}
+  .art::before{content:"";position:absolute;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.28);right:-40px;top:-60px}
+  .art::after{content:"";position:absolute;width:70px;height:70px;border-radius:50%;border:8px solid rgba(255,255,255,.3);left:-18px;bottom:-24px}
+  .art .ph{width:106px;height:106px;border-radius:50%;object-fit:cover;border:4px solid rgba(255,255,255,.9);box-shadow:0 8px 18px rgba(0,0,0,.3);position:relative;z-index:1;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+  .card:hover .ph{transform:scale(1.08) rotate(-3deg)}
+  .art.has .em{position:absolute;right:14px;bottom:8px;font-size:30px;z-index:2}
+  .card:hover .art.has .em{transform:scale(1.2) rotate(8deg)}
+  .em{font-size:58px;line-height:1;filter:drop-shadow(0 6px 6px rgba(0,0,0,.25));position:relative;z-index:1;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+  .card:hover .em{transform:scale(1.18) rotate(-8deg)}
+  .tag{position:absolute;left:12px;top:12px;z-index:2;background:var(--ink);color:var(--c);font-size:11px;font-weight:bold;letter-spacing:.5px;padding:4px 10px;border-radius:999px;text-transform:uppercase}
+  .fav{position:absolute;right:10px;top:10px;z-index:2;width:36px;height:36px;border-radius:50%;border:0;background:rgba(43,24,16,.55);color:#fff;font-size:18px;cursor:pointer;display:grid;place-items:center;transition:transform .2s,background .2s}
+  .fav:hover{transform:scale(1.15)}
+  .fav[aria-pressed="true"]{background:#fff;color:#e8365d;animation:beat .45s ease}
+  @keyframes beat{40%{transform:scale(1.35)}}
+  .cbody{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .cbody h3{font-size:19px;line-height:1.25}
+  .cbody p{color:var(--muted);font-size:14px;flex:1;min-height:44px}
+  .foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;min-height:36px}
+  .sizes{display:flex;background:var(--brown3);border-radius:999px;padding:3px}
+  .sizes button{border:0;background:none;color:var(--muted);width:34px;height:28px;border-radius:999px;font-weight:bold;font-size:13px;cursor:pointer;transition:background .2s,color .2s}
+  .sizes button.on{background:var(--c);color:var(--ink)}
+  .price{color:var(--c);font-weight:bold;font-size:22px;font-variant-numeric:tabular-nums}
+  .price.bump{animation:bump .3s ease}
+  @keyframes bump{50%{transform:scale(1.25)}}
+  .spot{animation:spot 2s ease}
+  @keyframes spot{0%,100%{box-shadow:0 0 0 0 transparent}25%,75%{box-shadow:0 0 0 6px var(--c),0 0 40px 6px var(--c)}}
+  .pre{opacity:0}
+  .show{animation:pop .55s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--d,0ms)}
+  @keyframes pop{from{opacity:0;transform:translateY(26px) scale(.95)}to{opacity:1;transform:none}}
+
+  /* app features */
+  .alt{background:var(--brown3)}
+  .feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+  .feat>div{--c:var(--gold);padding:22px;background:var(--brown2);border-radius:18px;border-bottom:4px solid var(--c);transition:transform .25s}
+  .feat>div:hover{transform:translateY(-5px)}
+  .fi{width:50px;height:50px;border-radius:14px;background:var(--c);display:grid;place-items:center;font-size:26px;margin-bottom:12px}
+  .feat h3{margin-bottom:6px}
+  .feat p{color:var(--muted);font-size:14px}
+  .stores{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+  .store{border:2px solid var(--gold);border-radius:14px;padding:10px 24px;min-width:180px;text-align:center}
+  .store small{display:block;color:var(--muted);font-size:11px}
+
+  /* contact */
+  .contact{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .contact a{padding:12px 24px;border-radius:999px;font-weight:bold;color:var(--ink);transition:transform .15s}
+  .contact a:hover{transform:translateY(-3px) rotate(-1deg)}
+  .c1{background:var(--green)}.c2{background:linear-gradient(90deg,var(--pink),var(--yellow))}.c3{background:var(--teal)}
+  .info{text-align:center;color:var(--muted);margin-top:26px}
+  footer{padding:28px 0;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid rgba(196,149,90,.25)}
+
+  .swap{animation:swap .45s ease}
+  @keyframes swap{from{opacity:.15;transform:translateY(6px)}to{opacity:1;transform:none}}
+  :focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+  @media(max-width:520px){.art .ph{width:84px;height:84px}.grid{grid-template-columns:1fr 1fr;gap:14px}.art{height:96px}.em{font-size:46px}.cbody{padding:12px}.cbody h3{font-size:16px}.cbody p{font-size:13px}.price{font-size:19px}.foot{flex-wrap:wrap}.sizes button{width:30px}}
+  @media(max-width:360px){.grid{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){
+    .skip-link{transition:none}
+    .show,.swap,.spot,.fav[aria-pressed="true"],.price.bump,.spr{animation:none}.pre{opacity:1}
+    .track{animation:none}.card:hover,.card:hover .em{transform:none}html{scroll-behavior:auto}
+  }
+
+/* Starlaban coffee-seal system: paper, espresso, brass, and the circular star mark */
+:root{--brown:#f8f4ed;--brown2:#fffdf8;--brown3:#eee5d8;--gold:#8c5b2e;--cream:#e2b574;--text:#2b1810;--muted:#655447;--amber:#8c5b2e;--amber2:#e2b574;--teal:#8c5b2e;--teal2:#e2b574;--green:#8c5b2e;--green2:#e2b574;--pink:#8c5b2e;--pink2:#e2b574;--purple:#8c5b2e;--purple2:#e2b574;--yellow:#e2b574;--yellow2:#f1d9aa;--ink:#2b1810}
+body{font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;background:#f8f4ed;color:#2b1810}
+header{background:rgba(248,244,237,.97);border-bottom:1px solid #ded4c7}.nav{height:72px}.nav .brand img.logo{display:none}.brand{font:800 15px/1 system-ui,sans-serif;letter-spacing:.12em;color:#2b1810}
+nav a{color:#655447}nav a:hover{color:#8c5b2e}.seg{background:#fffdf8;border:1px solid #bca98f}.seg button{color:#655447}.seg button.on{background:#2b1810;color:#fff8ef;box-shadow:none}.note{background:#eee5d8;color:#2b1810;font-size:13px}
+.hero{margin:18px auto 0;width:min(1400px,calc(100% - 36px));border-radius:18px;padding:54px 0 56px;text-align:left;background:#2b1810;color:#fff8ef}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,.92fr);grid-template-areas:"eyebrow cup" "title cup" "copy cup" "actions cup" "lang cup";align-items:center;column-gap:52px;max-width:1160px}
+.hero .eyebrow,.hero h1,.hero p,.hero .btns,.heroLang{grid-column:1;justify-self:start}.hero .eyebrow{grid-area:eyebrow;color:#e2b574;letter-spacing:.16em;font-size:12px;font-weight:700}
+.hero h1{grid-area:title;font:500 clamp(52px,7vw,88px)/.99 Impact,"Arial Narrow",sans-serif;letter-spacing:-.02em;max-width:580px;margin:16px 0}.hero h1 em{color:#e2b574;background:none}
+.hero p{grid-area:copy;margin:0 0 26px;color:#f2e6d5;font-size:18px;max-width:460px}.hero .btns{grid-area:actions;justify-content:flex-start}
+.hero .btn{min-height:48px;padding:13px 24px;background:#e2b574;color:#2b1810;border-radius:8px;box-shadow:none}.hero .btn.ghost{background:transparent;color:#fff8ef;border:1px solid #d7c4a8}
+.heroLang{grid-area:lang;margin-top:12px;min-height:44px;background:none;color:#f2e6d5;border:0;border-bottom:1px solid #9b815f;border-radius:0;padding:7px 0}
+.bean3d{grid-area:cup;width:100%;height:420px;margin:0;position:relative;display:grid;place-items:center;filter:none}
+.bean3d::before{content:"";position:absolute;width:min(340px,88%);aspect-ratio:1;border-radius:50%;border:1px solid rgba(226,181,116,.66);box-shadow:0 0 0 12px rgba(226,181,116,.08),0 0 0 30px rgba(226,181,116,.04)}
+.bean3d img{position:relative;width:min(270px,66%);height:auto;border-radius:50%;box-shadow:0 16px 48px rgba(0,0,0,.22)}.blob,.spr{display:none}
+.ribbon-wrap{padding:0;margin:0;background:#f8f4ed}.ribbon{transform:none;margin:0;background:#eee5d8;color:#2b1810;border:0;border-bottom:1px solid #ded4c7}
+.track{display:flex;justify-content:center;width:auto;animation:none;padding:12px 16px;font-size:11px;letter-spacing:.17em;font-weight:800;text-transform:uppercase}.track span:not(:first-child),.track i{display:none}
+section{padding:72px 0}#menu{background:#f8f4ed}#menu .glow{display:none}
+h2{font:500 clamp(30px,5vw,40px)/1.1 Impact,"Arial Narrow",sans-serif;color:#2b1810;letter-spacing:0}.sub{color:#655447}
+.controls{gap:12px}.search{background:#fffdf8;border:1px solid #8c5b2e;border-radius:8px;min-height:48px}.search input{color:#2b1810;font:16px/1.4 system-ui,sans-serif}
+.filter button{background:#fffdf8;border:1px solid #cbbba5;color:#514333;min-height:44px;border-radius:6px}.filter button.on{background:#2b1810;border-color:#2b1810;color:#fff8ef}
+.grid{gap:18px}.card{background:#fffdf8;border:1px solid #ded4c7;border-radius:10px;box-shadow:0 2px 10px rgba(43,24,16,.045)}.card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(43,24,16,.09)}
+.art{background:#eee5d8}.art::before,.art::after{display:none}.art .ph{border-radius:6px}.cbody{color:#2b1810}.cbody h3{font:700 17px/1.25 system-ui,sans-serif;letter-spacing:-.02em}.cbody p{color:#655447;font-size:14px;line-height:1.45}.price{color:#8c5b2e}
+.sizes{background:#eee5d8}.sizes button{color:#655447;min-width:40px;min-height:40px}.sizes button.on{background:#2b1810;color:#fff8ef}
+.fav{background:#fffdf8;color:#2b1810;border:1px solid #ded4c7}.contact a{color:#fff8ef;min-height:48px}.c1,.c2,.c3{background:#2b1810}.info,footer{color:#655447}footer{border-top:1px solid #ded4c7}
+:focus-visible{outline:3px solid #e2b574;outline-offset:3px}
+@media(max-width:800px){.hero .wrap{grid-template-columns:minmax(0,1fr) minmax(240px,.82fr);column-gap:26px}.bean3d{height:340px}.hero h1{font-size:clamp(48px,7vw,68px)}}
+@media(max-width:560px){.hero{margin:10px auto 0;width:calc(100% - 20px);padding:28px 0 32px;border-radius:14px}.hero .wrap{grid-template-columns:1fr;grid-template-areas:"cup" "eyebrow" "title" "copy" "actions" "lang";text-align:center;row-gap:0}.hero .eyebrow,.hero h1,.hero p,.hero .btns,.heroLang{justify-self:center}.bean3d{height:230px;width:min(100%,340px);margin:0 auto}.bean3d::before{width:196px}.bean3d img{width:162px}.hero h1{font-size:clamp(48px,13vw,66px);margin:8px 0 12px}.hero p{font-size:16px;margin:0 auto 20px;padding:0 8px}.hero .btns{justify-content:center}.grid{gap:12px}.cbody{padding:12px}.cbody h3{font-size:15px}.cbody p{font-size:13px}}
+@media(max-width:360px){.grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.track{animation:none!important}.hero *, .card,.btn{transition:none!important;scroll-behavior:auto}}
+/* Coffee-bean illustration: one quiet, brand-relevant motif instead of emoji art */
+.em,.gem{font-size:0!important;filter:none!important;color:#8c5b2e!important;position:relative;display:block;width:54px;height:54px}
+.em::before,.gem::before{content:"";position:absolute;inset:6px 13px;border-radius:48% 52% 46% 54%;background:#8c5b2e;transform:rotate(38deg)}
+.em::after,.gem::after{content:"";position:absolute;top:6px;bottom:6px;left:26px;width:2px;border-radius:50%;background:#e2b574;transform:rotate(38deg)}
+.art.has .em,.gart.has .gem{display:none!important}
+
+/* Reliable product image underlay for environments where WebGL renders blank */
+#bean::before{z-index:1}#bean::after{content:"";position:absolute;inset:4%;z-index:2;pointer-events:none;background:url("assets/photos/hot-cup.jpg") center/contain no-repeat}
+
+/* Shared line-icon family and bean illustrations */
+.fi{color:#8c5b2e}.fi svg,.searchIcon svg,.dice svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.fi svg{width:28px;height:28px}
+
+#bean::after{border-radius:50%;background-size:cover;border:3px solid rgba(226,181,116,.8);box-shadow:0 0 0 10px rgba(226,181,116,.12)}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#top">Skip to content</a>
+<div class="note ui">SAMPLE WEBSITE: prices, text and links are placeholders</div>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><img class="logo" src="assets/logo.png" alt="" width="38" height="38"><span>STARLABAN COFFEE</span></a>
+    <div class="right ui">
+      <nav>
+        <a href="#menu" data-i18n="nav_menu">Menu</a>
+        <a href="#app" data-i18n="nav_app">App</a>
+        <a href="#contact" data-i18n="nav_contact">Contact</a>
+      </nav>
+      <div class="langbox">
+        
+        <div class="seg" role="group" aria-label="Language / Luuqad">
+          <button type="button" data-l="en" class="on" aria-pressed="true"><span class="long">English</span><span class="short">EN</span></button>
+          <button type="button" data-l="so" aria-pressed="false"><span class="long">Soomaali</span><span class="short">SO</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top" tabindex="-1">
+  <div class="hero">
+    <i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i>
+    <i class="spr" style="left:12%;top:22%;background:var(--pink)"></i>
+    <i class="spr" style="left:84%;top:18%;background:var(--yellow);animation-delay:-2s"></i>
+    <i class="spr" style="left:8%;top:62%;background:var(--teal);animation-delay:-4s"></i>
+    <i class="spr" style="left:90%;top:64%;background:var(--green);animation-delay:-1s"></i>
+    <i class="spr" style="left:70%;top:8%;background:var(--purple);animation-delay:-3s"></i>
+    <div class="wrap">
+      <div id="bean" class="bean3d" role="img" aria-label="3D Starlaban Coffee cup with the logo"><img src="assets/logo.png" alt="Starlaban Coffee logo" width="210" height="210"></div>
+      <div class="eyebrow" data-i18n="eyebrow">Coffee · Matcha · Donuts · Mogadishu</div>
+      <h1 data-i18n="h1">Fresh coffee.<br>Warm donuts.</h1>
+      <p data-i18n="hero_p">Order ahead with the Starlaban app, skip the line, and collect your order hot.</p>
+      <div class="btns ui">
+        <a class="btn" href="#app" data-i18n="btn_app">Get the app</a>
+        <a class="btn ghost" href="#menu" data-i18n="btn_menu">See the menu</a>
+      </div>
+      <button type="button" class="heroLang ui" id="heroLang">Akhri Af-Soomaali ▸</button>
+    </div>
+  </div>
+  <div class="ribbon-wrap"><div class="ribbon ui" aria-hidden="true"><div class="track" id="track"></div></div></div>
+
+  <section id="menu">
+    <i class="glow" style="width:320px;height:320px;background:var(--pink);left:-120px;top:120px"></i>
+    <i class="glow" style="width:360px;height:360px;background:var(--teal);right:-140px;top:420px"></i>
+    <i class="glow" style="width:300px;height:300px;background:var(--green);left:20%;bottom:-120px"></i>
+    <div class="wrap">
+      <h2 data-i18n="menu_title">Our Menu</h2>
+      <p class="sub" data-i18n="menu_sub">Tap a heart to save a favourite, switch sizes, or let us surprise you. Sample items and prices (US$).</p>
+      <div class="controls ui">
+        <label class="search"><svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4.5 4.5"/></svg><input id="q" type="search" autocomplete="off" data-ph="search_ph" data-aria="search_ph" placeholder="Search the menu…" aria-label="Search the menu"></label>
+        <button type="button" class="surprise" id="surprise" data-i18n="surprise">Surprise me</button>
+      </div>
+      <div class="tabs ui" id="tabs" role="group" aria-label="Menu categories"></div>
+      <div class="grid" id="grid" aria-live="polite"></div>
+      <noscript><h3 style="text-align:center;margin:22px 0 10px">Hot Drinks</h3><ul style="list-style:none;text-align:center;line-height:2"><li><b>Espresso</b> $1.50 <span style="color:#d9c2a8">Rich, bold single shot.</span></li><li><b>Cappuccino</b> $2.50 <span style="color:#d9c2a8">Espresso under silky steamed milk foam.</span></li><li><b>Latte</b> $2.75 <span style="color:#d9c2a8">Smooth, creamy and mellow.</span></li><li><b>Spiced Tea (Shaah)</b> $1.25 <span style="color:#d9c2a8">Traditional Somali tea with warm spices.</span></li><li><b>Hot Chocolate</b> $2.50 <span style="color:#d9c2a8">Thick cocoa, topped with cream.</span></li></ul><h3 style="text-align:center;margin:22px 0 10px">Iced</h3><ul style="list-style:none;text-align:center;line-height:2"><li><b>Iced Coffee</b> $3.00 <span style="color:#d9c2a8">Cold brew poured over ice.</span></li><li><b>Iced Latte</b> $3.25 <span style="color:#d9c2a8">Chilled espresso, milk and ice.</span></li><li><b>Caramel Frappe</b> $3.75 <span style="color:#d9c2a8">Blended coffee with caramel drizzle.</span></li></ul><h3 style="text-align:center;margin:22px 0 10px">Matcha</h3><ul style="list-style:none;text-align:center;line-height:2"><li><b>Classic Matcha</b> $2.50 <span style="color:#d9c2a8">Earthy green matcha, lightly sweet.</span></li><li><b>Pink Matcha</b> $2.50 <span style="color:#d9c2a8">Matcha with a rosy pink swirl.</span></li><li><b>Matcha Strawberry</b> $2.75 <span style="color:#d9c2a8">Matcha layered with fresh strawberry.</span></li><li><b>Blueberry Matcha</b> $2.75 <span style="color:#d9c2a8">Matcha meets sweet blueberry.</span></li><li><b>Ube Latte</b> $2.50 <span style="color:#d9c2a8">Creamy purple ube latte.</span></li></ul><h3 style="text-align:center;margin:22px 0 10px">Donuts</h3><ul style="list-style:none;text-align:center;line-height:2"><li><b>Classic Glazed</b> $1.50 <span style="color:#d9c2a8">Soft, warm, with a sugar glaze.</span></li><li><b>Chocolate Sprinkle</b> $1.75 <span style="color:#d9c2a8">Chocolate icing and rainbow sprinkles.</span></li><li><b>Ube Donut</b> $1.90 <span style="color:#d9c2a8">Purple ube glaze, light and sweet.</span></li><li><b>Matcha Donut</b> $1.90 <span style="color:#d9c2a8">Green matcha icing.</span></li><li><b>Strawberry Pink</b> $1.75 <span style="color:#d9c2a8">Pink strawberry icing.</span></li><li><b>Cream Filled</b> $2.00 <span style="color:#d9c2a8">Soft dough, vanilla cream inside.</span></li></ul><h3 style="text-align:center;margin:22px 0 10px">Combos</h3><ul style="list-style:none;text-align:center;line-height:2"><li><b>Morning Combo</b> $3.50 <span style="color:#d9c2a8">Any hot coffee plus a glazed donut.</span></li><li><b>Matcha + Donut</b> $4.00 <span style="color:#d9c2a8">A matcha and the donut of your day.</span></li><li><b>Donut Box (6)</b> $8.00 <span style="color:#d9c2a8">Six mixed donuts to share.</span></li></ul></noscript>
+    </div>
+  </section>
+
+  <section id="app" class="alt">
+    <div class="wrap">
+      <h2 data-i18n="app_title">The Starlaban App</h2>
+      <p class="sub" data-i18n="app_sub">Everything you need, on your phone</p>
+      <div class="feat">
+        <div style="--c:var(--teal)"><div class="fi" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg></div><h3 data-i18n="f1h">Order ahead</h3><p data-i18n="f1p">Pick your drinks and donuts, choose a pickup time, and walk in to a ready order.</p></div>
+        <div style="--c:var(--yellow)"><div class="fi" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg></div><h3 data-i18n="f2h">Starlaban credit</h3><p data-i18n="f2p">Top up with EVC Plus, Zaad or eDahab and pay in one tap.</p></div>
+        <div style="--c:var(--pink)"><div class="fi" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.8 6.4.9-4.6 4.5 1.1 6.4-5.7-3-5.7 3 1.1-6.4-4.6-4.5 6.4-.9L12 3Z"/></svg></div><h3 data-i18n="f3h">Loyalty stars</h3><p data-i18n="f3p">Earn stars with every order and turn them into free rewards.</p></div>
+        <div style="--c:var(--green)"><div class="fi" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h18v11H3zM2 6h20v4H2zM12 6v15"/><path d="M12 6C8 6 6 5 6 3.5 6 2.3 7 2 8 2c2 0 4 4 4 4Zm0 0c4 0 6-1 6-2.5C18 2.3 17 2 16 2c-2 0-4 4-4 4Z"/></svg></div><h3 data-i18n="f4h">Gift credit</h3><p data-i18n="f4p">Send credit to a friend or family member.</p></div>
+      </div>
+      <div class="stores ui">
+        <div class="store"><small data-i18n="soon">Coming soon on</small><b>Google Play</b></div>
+        <div class="store"><small data-i18n="soon2">Coming soon on</small><b>App Store</b></div>
+      </div>
+      <div class="btns ui" style="margin-top:26px"><a class="btn" href="app/" data-i18n="try_app">Try the sample app</a></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <h2 data-i18n="contact_title">Visit &amp; Contact</h2>
+      <p class="sub" data-i18n="contact_sub">We would love to hear from you</p>
+      <div class="contact ui">
+        <a class="c1" href="https://wa.me/252000000000" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="c2" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        <a class="c3" href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a>
+      </div>
+      <p class="info" data-i18n="hours">Mogadishu, Somalia · Open daily · Hours: 7:00 AM – 10:00 PM (sample)</p>
+    </div>
+  </section>
+</main>
+
+<footer>© <span id="yr"></span> Starlaban Coffee · Mogadishu, Somalia</footer>
+
+<script src="assets/vendor/three.min.js"></script>
+<script src="assets/cup3d.js"></script>
+<script>
+StarlabanCup.mount(document.getElementById("bean"),{milkSrc:"assets/logo-milk.png",fallbackSrc:"assets/logo.png"});
+
+const CATS=[["hot", "Hot Drinks", "Cabitaanno kulul", "amber"], ["iced", "Iced", "Qabow", "teal"], ["matcha", "Matcha", "Matcha", "green"], ["donuts", "Donuts", "Doonyo", "pink"], ["combo", "Combos", "Isku-darka", "yellow"]];
+const ITEMS=[[1, "hot", "☕", "Espresso", "Rich, bold single shot.", "Hal qaado oo xoog leh, dhadhan culus.", 1.5, "", true, null], [2, "hot", "🥛", "Cappuccino", "Espresso under silky steamed milk foam.", "Espresso oo ay ka sarreeyso xumbo caano jilicsan.", 2.5, "", true, null], [3, "hot", "☕", "Latte", "Smooth, creamy and mellow.", "Jilicsan, kareem leh oo dhadhan fudud leh.", 2.75, "best", true, null], [4, "hot", "🫖", "Spiced Tea (Shaah)", "Traditional Somali tea with warm spices.", "Shaah Soomaali ah oo xawaash leh.", 1.25, "", true, null], [5, "hot", "🍫", "Hot Chocolate", "Thick cocoa, topped with cream.", "Kookoo qaro weyn, kareem ka sarreeya.", 2.5, "", true, "purple"], [6, "iced", "🧊", "Iced Coffee", "Cold brew poured over ice.", "Qahwo qabow oo baraf lagu shubay.", 3.0, "cold", true, null], [7, "iced", "🥤", "Iced Latte", "Chilled espresso, milk and ice.", "Espresso qabow, caano iyo baraf.", 3.25, "cold", true, null], [8, "iced", "🍮", "Caramel Frappe", "Blended coffee with caramel drizzle.", "Qahwo la isku shiiday oo karamel leh.", 3.75, "new", true, null], [9, "matcha", "🍵", "Classic Matcha", "Earthy green matcha, lightly sweet.", "Matcha cagaaran oo dhadhan fudud leh.", 2.5, "", true, null], [10, "matcha", "🌸", "Pink Matcha", "Matcha with a rosy pink swirl.", "Matcha leh midab casaan ah oo qurux badan.", 2.5, "new", true, "pink"], [11, "matcha", "🍓", "Matcha Strawberry", "Matcha layered with fresh strawberry.", "Matcha iyo yaanyo cusub oo is dul saaran.", 2.75, "", true, "pink"], [12, "matcha", "🫐", "Blueberry Matcha", "Matcha meets sweet blueberry.", "Matcha iyo blueberry macaan.", 2.75, "", true, "purple"], [13, "matcha", "🍠", "Ube Latte", "Creamy purple ube latte.", "Latte ube ah oo kareem leh, midab guduudan.", 2.5, "fan", true, "purple"], [14, "donuts", "🍩", "Classic Glazed", "Soft, warm, with a sugar glaze.", "Jilicsan, kulul, sonkor ku dahaaran.", 1.5, "", false, "amber"], [15, "donuts", "🍫", "Chocolate Sprinkle", "Chocolate icing and rainbow sprinkles.", "Shukulaato iyo midabyo yaryar oo kala duwan.", 1.75, "best", false, "purple"], [16, "donuts", "🍠", "Ube Donut", "Purple ube glaze, light and sweet.", "Doonyo ube ah, fudud oo macaan.", 1.9, "new", false, "purple"], [17, "donuts", "🍵", "Matcha Donut", "Green matcha icing.", "Doonyo matcha ah oo cagaaran.", 1.9, "", false, "green"], [18, "donuts", "🍓", "Strawberry Pink", "Pink strawberry icing.", "Doonyo yaanyo ah oo casaan ah.", 1.75, "", false, "pink"], [19, "donuts", "🥐", "Cream Filled", "Soft dough, vanilla cream inside.", "Cajiin jilicsan oo kareem fanilla ah ku jirto.", 2.0, "", false, "yellow"], [20, "combo", "☕", "Morning Combo", "Any hot coffee plus a glazed donut.", "Qahwo kulul kasta iyo doonyo sonkor leh.", 3.5, "", false, null], [21, "combo", "🍵", "Matcha + Donut", "A matcha and the donut of your day.", "Matcha iyo doonyada maalintaada.", 4.0, "fan", false, null], [22, "combo", "🎁", "Donut Box (6)", "Six mixed donuts to share.", "Lix doonyo oo kala duwan oo la wada qaato.", 8.0, "share", false, null]];
+const PH={3:"assets/photos/hot-cup.jpg",6:"assets/photos/iced-coffee.jpg",7:"assets/photos/iced-latte.jpg"}; // real photos of our cups
+const COL={amber:["#ffb24d","#ffd98a"],teal:["#3fc1c9","#9aeaf0"],green:["#6fd08c","#c8ee86"],pink:["#ff8fb1","#ffc9da"],purple:["#a98be8","#d9c9ff"],yellow:["#ffd23f","#fff0a0"],gold:["#c4955a","#f7e0c8"]};
+const TAGS={best:{en:"Bestseller",so:"Ugu iibsiga badan"},new:{en:"New",so:"Cusub"},fan:{en:"Fan favourite",so:"Dadka ugu jecel"},cold:{en:"Cold",so:"Qabow"},share:{en:"To share",so:"Loo wada qaybsado"}};
+const TXT={
+ en:{nav_menu:"Menu",nav_app:"App",nav_contact:"Contact",eyebrow:"Coffee · Matcha · Donuts · Mogadishu",
+  h1:"Fresh coffee.<br>Warm <em>donuts.</em>",hero_p:"Order ahead with the Starlaban app, skip the line, and collect your order hot.",
+  btn_app:"Get the app",btn_menu:"See the menu",heroLang:"Akhri Af-Soomaali ▸",
+  menu_title:"Our Menu",menu_sub:"Tap a heart to save a favourite, switch sizes, or let us surprise you. Sample items and prices (US$).",
+  search_ph:"Search the menu…",surprise:"Surprise me",all:"All",fav:"♥ Favourites",
+  empty:"Nothing matches yet. Try another word.",emptyFav:"No favourites yet. Tap a heart on any item to save it.",
+  app_title:"The Starlaban App",app_sub:"Everything you need, on your phone",
+  f1h:"Order ahead",f1p:"Pick your drinks and donuts, choose a pickup time, and walk in to a ready order.",
+  f2h:"Starlaban credit",f2p:"Top up with EVC Plus, Zaad or eDahab and pay in one tap.",
+  f3h:"Loyalty stars",f3p:"Earn stars with every order and turn them into free rewards.",
+  f4h:"Gift credit",f4p:"Send credit to a friend or family member.",soon:"Coming soon on",soon2:"Coming soon on",try_app:"Try the sample app",
+  contact_title:"Visit & Contact",contact_sub:"We would love to hear from you",
+  hours:"Mogadishu, Somalia · Open daily · Hours: 7:00 AM – 10:00 PM (sample)",sizeS:"Small",sizeM:"Medium"},
+ so:{nav_menu:"Liiska",nav_app:"Appka",nav_contact:"Nala soo xiriir",eyebrow:"Qahwo · Matcha · Doonyo · Muqdisho",
+  h1:"Qahwo cusub.<br>Doonyo <em>kulul.</em>",hero_p:"Ku dalbo appka Starlaban, iska ilaali safka, oo qaado dalabkaaga isagoo kulul.",
+  btn_app:"Hel appka",btn_menu:"Eeg liiska",heroLang:"Read in English ▸",
+  menu_title:"Liiskeena",menu_sub:"Taabo wadnaha si aad u kaydiso kuwa aad jeceshahay, beddel cabbirka, ama na deji inaan ku yaabino. Alaabo iyo qiimayaal tusaale ah (US$).",
+  search_ph:"Ka raadi liiska…",surprise:"Yaab i sii",all:"Dhammaan",fav:"♥ La jecel yahay",
+  empty:"Wax ku habboon lama helin. Isku day erey kale.",emptyFav:"Wali wax kuma jiraan. Taabo wadnaha shay kasta si aad u kaydiso.",
+  app_title:"Appka Starlaban",app_sub:"Wax walba oo aad u baahan tahay, taleefankaaga",
+  f1h:"Hore u dalbo",f1p:"Dooro cabbitaannada iyo doonyada, dooro waqtiga aad qaadanayso, oo soo qaado dalabkaaga diyaarka ah.",
+  f2h:"Creditka Starlaban",f2p:"Ku shubo EVC Plus, Zaad ama eDahab, oo ku bixi hal taabasho.",
+  f3h:"Xidigaha daacadnimada",f3p:"Hel xidigo dalab kasta, oo u beddel abaalmarino bilaash ah.",
+  f4h:"Credit hadiyad ah",f4p:"U dir credit saaxiib ama qof qoyskaaga ka mid ah.",soon:"Dhawaan ayaa laga heli doonaa",soon2:"Dhawaan ayaa laga heli doonaa",try_app:"Tijaabi appka tusaalaha ah",
+  contact_title:"Nagu soo booqo & Nala soo xiriir",contact_sub:"Waan jeclaan lahayn inaan ka maqalno",
+  hours:"Muqdisho, Soomaaliya · Maalin walba furan · Saacadaha: 7:00 subaxnimo – 10:00 habeenimo (tusaale)",sizeS:"Yar",sizeM:"Dhexe"}
+};
+
+const $=id=>document.getElementById(id);
+const REDUCE=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+let lang=store("sl_lang")||((navigator.language||"").toLowerCase().startsWith("so")?"so":"en");
+let cat="all",q="",favs=new Set(JSON.parse(store("sl_favs")||"[]")),sizes={},firstMenu=true;
+const t=k=>TXT[lang][k];
+const catOf=id=>CATS.find(c=>c[0]===id);
+const colOf=i=>COL[i[9]||catOf(i[1])[3]];
+const price=i=>i[6]+((sizes[i[0]]||0)*0.5);
+const money=n=>"$"+n.toFixed(2);
+
+// A quiet, static offering strip keeps attention on the menu.
+$("track").innerHTML='<span>COFFEE · MATCHA · DONUTS · MOGADISHU</span>';
+
+// reveal with a stagger once the grid is on screen
+function reveal(nodes,now){
+  if(!nodes.length)return;
+  const go=()=>nodes.forEach((n,i)=>{n.style.setProperty("--d",Math.min(i,10)*60+"ms");n.classList.remove("pre");n.classList.add("show")});
+  if(REDUCE){nodes.forEach(n=>n.classList.remove("pre"));return}
+  if(now||!("IntersectionObserver" in window)){go();return}
+  const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();go()}},{threshold:.12});
+  io.observe(nodes[0].parentNode);
+  setTimeout(()=>{io.disconnect();go()},4000);
+}
+
+function renderTabs(){
+  const tabs=$("tabs");tabs.innerHTML="";
+  const add=(id,label,colour,n)=>{
+    const b=document.createElement("button");b.type="button";b.className="tab"+(cat===id?" on":"");b.setAttribute("aria-pressed",cat===id);
+    b.style.setProperty("--c",colour);
+    b.append(document.createTextNode(label+" "));const s=document.createElement("span");s.className="n";s.textContent=n;b.append(s);
+    b.onclick=()=>{cat=id;renderTabs();renderMenu(true)};tabs.appendChild(b);
+  };
+  add("all",t("all"),"#c4955a",ITEMS.length);
+  CATS.forEach(c=>add(c[0],lang==="so"?c[2]:c[1],COL[c[3]][0],ITEMS.filter(i=>i[1]===c[0]).length));
+  add("fav",t("fav"),"#ff6b8f",favs.size);
+}
+
+function matches(i){
+  if(cat==="fav"&&!favs.has(i[0]))return false;
+  if(cat!=="all"&&cat!=="fav"&&i[1]!==cat)return false;
+  if(!q)return true;
+  const hay=(i[3]+" "+(lang==="so"?i[5]:i[4])+" "+i[4]).toLowerCase();
+  return hay.includes(q);
+}
+
+function card(i){
+  const [c1,c2]=colOf(i);
+  const c=document.createElement("article");c.className="card pre";c.dataset.id=i[0];
+  c.style.setProperty("--c",c1);c.style.setProperty("--c2",c2);
+  const art=document.createElement("div");art.className="art";
+  const em=document.createElement("div");em.className="em";em.setAttribute("aria-hidden","true");
+  if(PH[i[0]]){const im=document.createElement("img");im.className="ph";im.src=PH[i[0]];im.width=106;im.height=106;im.loading="lazy";
+    im.alt=i[3]+" in a Starlaban cup";im.onerror=()=>{im.remove();art.classList.remove("has")};art.classList.add("has");art.appendChild(im)}
+  art.appendChild(em);
+  if(i[7]){const tg=document.createElement("span");tg.className="tag ui";tg.textContent=TAGS[i[7]][lang];art.appendChild(tg)}
+  const fv=document.createElement("button");fv.type="button";fv.className="fav";fv.textContent="♥";
+  fv.setAttribute("aria-pressed",favs.has(i[0]));fv.setAttribute("aria-label",(lang==="so"?"La jecel yahay: ":"Favourite: ")+i[3]);
+  fv.onclick=e=>{e.stopPropagation();
+    if(favs.has(i[0]))favs.delete(i[0]);else favs.add(i[0]);
+    store("sl_favs",JSON.stringify([...favs]));fv.setAttribute("aria-pressed",favs.has(i[0]));
+    const n=document.querySelector("#tabs .tab:last-child .n");if(n)n.textContent=favs.size;
+    if(cat==="fav"&&!favs.has(i[0])){renderMenu(true)}};
+  art.appendChild(fv);
+  const b=document.createElement("div");b.className="cbody";
+  const h=document.createElement("h3");h.textContent=i[3];
+  const p=document.createElement("p");p.textContent=lang==="so"?i[5]:i[4];
+  const foot=document.createElement("div");foot.className="foot";
+  const pr=document.createElement("div");pr.className="price ui";pr.textContent=money(price(i));
+  if(i[8]){
+    const sz=document.createElement("div");sz.className="sizes ui";sz.setAttribute("role","group");
+    [["S",t("sizeS")],["M",t("sizeM")]].forEach(([l,name],k)=>{
+      const sb=document.createElement("button");sb.type="button";sb.textContent=l;sb.setAttribute("aria-label",name);
+      sb.className=(sizes[i[0]]||0)===k?"on":"";
+      sb.onclick=e=>{e.stopPropagation();sizes[i[0]]=k;sz.querySelectorAll("button").forEach((x,j)=>x.classList.toggle("on",j===k));
+        pr.textContent=money(price(i));pr.classList.remove("bump");void pr.offsetWidth;pr.classList.add("bump")};
+      sz.appendChild(sb);
+    });
+    foot.appendChild(sz);
+  }else{const sp=document.createElement("span");foot.appendChild(sp)}
+  foot.appendChild(pr);
+  b.append(h,p,foot);c.append(art,b);
+  // gentle 3D tilt for mouse users
+  if(!REDUCE){
+    c.addEventListener("pointermove",e=>{if(e.pointerType!=="mouse")return;const r=c.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      c.style.transform=`perspective(800px) rotateX(${(-y*7).toFixed(1)}deg) rotateY(${(x*9).toFixed(1)}deg) translateY(-6px)`});
+    c.addEventListener("pointerleave",()=>{c.style.transform=""});
+  }
+  return c;
+}
+
+function renderMenu(now){
+  const grid=$("grid");grid.innerHTML="";
+  const list=ITEMS.filter(matches);
+  if(!list.length){const e=document.createElement("p");e.className="empty ui";e.textContent=cat==="fav"&&!q?t("emptyFav"):t("empty");grid.appendChild(e);return}
+  list.forEach(i=>grid.appendChild(card(i)));
+  reveal([...grid.children],now||!firstMenu);firstMenu=false;
+}
+
+function applyLang(animate){
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-i18n]").forEach(e=>{e.innerHTML=TXT[lang][e.dataset.i18n]});
+  document.querySelectorAll("[data-ph]").forEach(e=>{e.placeholder=TXT[lang][e.dataset.ph]});
+  document.querySelectorAll("[data-aria]").forEach(e=>e.setAttribute("aria-label",TXT[lang][e.dataset.aria]));
+  $("tabs").setAttribute("aria-label",lang==="so"?"Qaybaha menu":"Menu categories");
+  $("heroLang").textContent=t("heroLang");
+  document.querySelectorAll(".seg button").forEach(b=>{const on=b.dataset.l===lang;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)});
+  renderTabs();renderMenu(true);
+  if(animate&&!REDUCE){const m=document.querySelector("main");m.classList.remove("swap");void m.offsetWidth;m.classList.add("swap")}
+}
+function setLang(l){lang=l;store("sl_lang",l);applyLang(true)}
+document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+$("heroLang").onclick=()=>setLang(lang==="en"?"so":"en");
+$("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase();renderMenu(true)});
+
+$("surprise").onclick=()=>{
+  const pool=ITEMS;const pick=pool[Math.floor(Math.random()*pool.length)];
+  cat="all";q="";$("q").value="";renderTabs();renderMenu(true);
+  const el=document.querySelector(`.card[data-id="${pick[0]}"]`);
+  if(el){el.scrollIntoView({behavior:REDUCE?"auto":"smooth",block:"center"});
+    el.classList.remove("spot");void el.offsetWidth;el.classList.add("spot")}
+};
+
+// app feature boxes reveal on scroll
+const feats=[...document.querySelectorAll(".feat>div")];feats.forEach(f=>f.classList.add("pre"));reveal(feats,false);
+
+$("yr").textContent=new Date().getFullYear();
+applyLang(false);
+</script>
+</body>
+</html>
