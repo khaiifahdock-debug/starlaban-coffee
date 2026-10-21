@@ -47,6 +47,52 @@
   .chip.on{background:var(--c);border-color:var(--c);color:var(--ink);font-weight:bold}.chip.on::before{background:var(--ink)}
   .chip:active{transform:scale(.93)}
 
+
+  [hidden]{display:none!important}
+  .ph{border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.9);box-shadow:0 6px 14px rgba(0,0,0,.3)}
+  .gart .ph{width:74px;height:74px;position:relative;z-index:1}
+  .gart.has .gem{position:absolute;right:8px;bottom:4px;font-size:24px;z-index:2}
+  .pick .ph{position:absolute;right:12px;bottom:10px;width:92px;height:92px;animation:floaty 3.2s ease-in-out infinite}
+  .sart .ph{width:122px;height:122px;position:relative;z-index:1;border-width:4px}
+  .sart.has .se{position:absolute;right:22px;bottom:10px;font-size:40px;animation:none}
+  /* avatar */
+  .hr{display:flex;align-items:center;gap:8px;flex:none}
+  .avatar{width:36px;height:36px;border-radius:50%;border:2px solid var(--gold);background:linear-gradient(135deg,var(--pink),var(--yellow));color:var(--ink);font-weight:bold;font-size:16px;cursor:pointer;display:grid;place-items:center;transition:transform .15s}
+  .avatar:active{transform:scale(.9)}
+  /* login */
+  .login{position:absolute;inset:0;z-index:8;background:var(--brown);display:flex;flex-direction:column;overflow-y:auto}
+  .lhero{position:relative;height:250px;flex:none;overflow:hidden;background:#3a2113}
+  .lhero img.lphoto{width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block;animation:lzoom 14s ease-out both}
+  @keyframes lzoom{from{transform:scale(1.18)}to{transform:scale(1)}}
+  .lhero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(43,24,16,.35) 0,rgba(43,24,16,0) 40%,rgba(43,24,16,.95) 100%)}
+  .lseg{position:absolute;right:14px;top:14px;z-index:2}
+  .lpanel{position:relative;margin-top:-28px;background:var(--brown);border-radius:28px 28px 0 0;padding:46px 22px 26px;flex:1;z-index:1;animation:rise .55s cubic-bezier(.2,.8,.2,1) both}
+  .llogo{position:absolute;left:50%;top:-38px;transform:translateX(-50%);width:76px;height:76px;border-radius:50%;border:4px solid var(--brown);box-shadow:0 10px 24px rgba(0,0,0,.4)}
+  .lstep{animation:swap .4s ease both}
+  .lstep h1{font-size:26px;text-align:center;line-height:1.2}
+  .lstep>p.sub{color:var(--muted);text-align:center;font-size:14px;margin:6px 0 18px}
+  .lab{display:block;font-size:13px;color:var(--muted);margin:0 0 6px 4px}
+  .phonebox{display:flex;align-items:center;background:var(--brown3);border:2px solid rgba(196,149,90,.45);border-radius:16px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+  .phonebox:focus-within{border-color:var(--gold);box-shadow:0 0 0 4px rgba(196,149,90,.2)}
+  .phonebox .cc{padding:0 12px;font-weight:bold;color:var(--gold);border-right:1px solid rgba(196,149,90,.3);align-self:stretch;display:grid;place-items:center}
+  .phonebox input{flex:1;min-width:0;background:none;border:0;outline:none;color:var(--text);font-size:19px;letter-spacing:1px;padding:14px 12px}
+  .err{color:#ff9bb0;font-size:13px;margin:8px 4px 0;min-height:18px}
+  .lnk{display:block;margin:12px auto 0;background:none;border:0;color:var(--gold);font-size:14px;cursor:pointer;text-decoration:underline;padding:6px}
+  .fine{font-size:11px;color:#a88e76;text-align:center;margin-top:14px}
+  .otps{display:flex;gap:10px;justify-content:center;margin:14px 0 6px}
+  .otps input{width:54px;height:62px;text-align:center;font-size:26px;font-weight:bold;background:var(--brown3);border:2px solid rgba(196,149,90,.45);border-radius:14px;color:var(--text);outline:none;transition:border-color .2s,transform .2s}
+  .otps input:focus{border-color:var(--gold);transform:translateY(-2px)}
+  .otps.bad{animation:shake .4s}
+  @keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+  .demo{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0;font-size:13px;color:var(--muted);flex-wrap:wrap;text-align:center}
+  .demo button{border:0;border-radius:999px;background:linear-gradient(90deg,var(--teal),var(--green));color:var(--ink);font-weight:bold;padding:5px 12px;cursor:pointer;font-size:13px}
+  .sentto{text-align:center;color:var(--muted);font-size:14px;margin:4px 0}
+  .row2{display:flex;justify-content:space-between;gap:10px;margin-top:4px}
+  .row2 .lnk{margin:8px 0}
+  .login.leave{animation:leave .45s ease forwards}
+  @keyframes leave{to{opacity:0;transform:scale(1.04)}}
+  .pfp{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--yellow));color:var(--ink);font-size:38px;font-weight:bold;display:grid;place-items:center;margin-bottom:10px;animation:popin .5s both}
+
   /* greeting + quick status */
   .hello{margin:2px 0 12px}
   .hello h2{margin:0;font-size:24px}
@@ -195,9 +241,12 @@
   <div class="banner ui">SAMPLE APP: no real payments. Everything here is simulated.</div>
   <header>
     <div class="brand"><img class="logo" src="../assets/logo.png" alt="" width="32" height="32"><span>STARLABAN</span></div>
+    <div class="hr">
     <div class="seg ui" role="group" aria-label="Language / Luuqad">
       <button type="button" data-l="en" class="on" aria-pressed="true">🌐 EN</button>
       <button type="button" data-l="so" aria-pressed="false">SO</button>
+    </div>
+    <button type="button" class="avatar ui" id="avatar" aria-label="Profile" hidden></button>
     </div>
   </header>
   <main id="view"></main>
@@ -206,6 +255,44 @@
   <nav id="nav" class="ui"></nav>
   <div id="overlay" class="overlay" style="display:none"></div>
   <div id="sheet" class="sheet"><div class="scrim" id="scrim"></div><div class="panel" id="panel"></div></div>
+  <div id="login" class="login" hidden>
+    <div class="lhero">
+      <img class="lphoto" src="../assets/photos/login.jpg" alt="" width="540" height="750">
+      <div class="seg lseg ui" role="group" aria-label="Language / Luuqad">
+        <button type="button" data-l="en" class="on" aria-pressed="true">🌐 EN</button>
+        <button type="button" data-l="so" aria-pressed="false">SO</button>
+      </div>
+    </div>
+    <div class="lpanel">
+      <img class="llogo" src="../assets/logo.png" alt="Starlaban Coffee" width="76" height="76">
+      <div class="lstep" id="stPhone">
+        <h1 data-i18n="welcome">Welcome to Starlaban</h1>
+        <p class="sub ui" data-i18n="loginSub">Sign in to order ahead, earn stars and top up credit.</p>
+        <label class="lab ui" for="phone" data-i18n="phoneLab">Mobile number</label>
+        <div class="phonebox ui"><span class="cc">+252</span><input id="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="61 234 5678" maxlength="13"></div>
+        <p class="err ui" id="phoneErr" role="alert"></p>
+        <button type="button" class="btn ui" id="sendCode" data-i18n="sendCode">Send code</button>
+        <button type="button" class="lnk ui" id="guest" data-i18n="guest">Continue as guest</button>
+        <p class="fine ui" data-i18n="terms">Sample app: no real account is created.</p>
+      </div>
+      <div class="lstep" id="stCode" hidden>
+        <h1 data-i18n="codeTitle">Enter the 4-digit code</h1>
+        <p class="sentto ui" id="sentTo"></p>
+        <div class="otps" id="otps"></div>
+        <p class="err ui" id="codeErr" role="alert" style="text-align:center"></p>
+        <div class="demo ui"><span data-i18n="demoHint">Demo code: 1234. A real app sends it by SMS.</span><button type="button" id="fillDemo" data-i18n="fillIt">Fill it in</button></div>
+        <button type="button" class="btn ui" id="verify" data-i18n="verify">Verify</button>
+        <div class="row2 ui"><button type="button" class="lnk" id="resend"></button><button type="button" class="lnk" id="changeNum" data-i18n="changeNum">Change number</button></div>
+      </div>
+      <div class="lstep" id="stName" hidden>
+        <h1 data-i18n="nameTitle">What should we call you?</h1>
+        <p class="sub ui" data-i18n="nameSub">We will use it to greet you.</p>
+        <label class="lab ui" for="uname" data-i18n="nameLab">Your name</label>
+        <div class="phonebox ui"><input id="uname" type="text" autocomplete="given-name" maxlength="24" data-ph="namePh" placeholder="Your name" style="padding-left:16px"></div>
+        <button type="button" class="btn ui" id="letsGo" data-i18n="letsGo">Let's go</button>
+      </div>
+    </div>
+  </div>
   <div id="splash"><div id="splashStage"></div><h1>STARLABAN COFFEE</h1><p class="ui" id="splashTxt">Tap to start</p></div>
 </div>
 
@@ -214,6 +301,8 @@
 <script>
 const CATS=[["hot", "Hot Drinks", "Cabitaanno kulul", "amber"], ["iced", "Iced", "Qabow", "teal"], ["matcha", "Matcha", "Matcha", "green"], ["donuts", "Donuts", "Doonyo", "pink"], ["combo", "Combos", "Isku-darka", "yellow"]];
 const ITEMS=[[1, "hot", "☕", "Espresso", "Rich, bold single shot.", "Hal qaado oo xoog leh, dhadhan culus.", 1.5, "", true, null], [2, "hot", "🥛", "Cappuccino", "Espresso under silky steamed milk foam.", "Espresso oo ay ka sarreeyso xumbo caano jilicsan.", 2.5, "", true, null], [3, "hot", "☕", "Latte", "Smooth, creamy and mellow.", "Jilicsan, kareem leh oo dhadhan fudud leh.", 2.75, "best", true, null], [4, "hot", "🫖", "Spiced Tea (Shaah)", "Traditional Somali tea with warm spices.", "Shaah Soomaali ah oo xawaash leh.", 1.25, "", true, null], [5, "hot", "🍫", "Hot Chocolate", "Thick cocoa, topped with cream.", "Kookoo qaro weyn, kareem ka sarreeya.", 2.5, "", true, "purple"], [6, "iced", "🧊", "Iced Coffee", "Cold brew poured over ice.", "Qahwo qabow oo baraf lagu shubay.", 3.0, "cold", true, null], [7, "iced", "🥤", "Iced Latte", "Chilled espresso, milk and ice.", "Espresso qabow, caano iyo baraf.", 3.25, "cold", true, null], [8, "iced", "🍮", "Caramel Frappe", "Blended coffee with caramel drizzle.", "Qahwo la isku shiiday oo karamel leh.", 3.75, "new", true, null], [9, "matcha", "🍵", "Classic Matcha", "Earthy green matcha, lightly sweet.", "Matcha cagaaran oo dhadhan fudud leh.", 2.5, "", true, null], [10, "matcha", "🌸", "Pink Matcha", "Matcha with a rosy pink swirl.", "Matcha leh midab casaan ah oo qurux badan.", 2.5, "new", true, "pink"], [11, "matcha", "🍓", "Matcha Strawberry", "Matcha layered with fresh strawberry.", "Matcha iyo yaanyo cusub oo is dul saaran.", 2.75, "", true, "pink"], [12, "matcha", "🫐", "Blueberry Matcha", "Matcha meets sweet blueberry.", "Matcha iyo blueberry macaan.", 2.75, "", true, "purple"], [13, "matcha", "🍠", "Ube Latte", "Creamy purple ube latte.", "Latte ube ah oo kareem leh, midab guduudan.", 2.5, "fan", true, "purple"], [14, "donuts", "🍩", "Classic Glazed", "Soft, warm, with a sugar glaze.", "Jilicsan, kulul, sonkor ku dahaaran.", 1.5, "", false, "amber"], [15, "donuts", "🍫", "Chocolate Sprinkle", "Chocolate icing and rainbow sprinkles.", "Shukulaato iyo midabyo yaryar oo kala duwan.", 1.75, "best", false, "purple"], [16, "donuts", "🍠", "Ube Donut", "Purple ube glaze, light and sweet.", "Doonyo ube ah, fudud oo macaan.", 1.9, "new", false, "purple"], [17, "donuts", "🍵", "Matcha Donut", "Green matcha icing.", "Doonyo matcha ah oo cagaaran.", 1.9, "", false, "green"], [18, "donuts", "🍓", "Strawberry Pink", "Pink strawberry icing.", "Doonyo yaanyo ah oo casaan ah.", 1.75, "", false, "pink"], [19, "donuts", "🥐", "Cream Filled", "Soft dough, vanilla cream inside.", "Cajiin jilicsan oo kareem fanilla ah ku jirto.", 2.0, "", false, "yellow"], [20, "combo", "☕", "Morning Combo", "Any hot coffee plus a glazed donut.", "Qahwo kulul kasta iyo doonyo sonkor leh.", 3.5, "", false, null], [21, "combo", "🍵", "Matcha + Donut", "A matcha and the donut of your day.", "Matcha iyo doonyada maalintaada.", 4.0, "fan", false, null], [22, "combo", "🎁", "Donut Box (6)", "Six mixed donuts to share.", "Lix doonyo oo kala duwan oo la wada qaato.", 8.0, "share", false, null]];
+const PH={3:"../assets/photos/hot-cup.jpg",6:"../assets/photos/iced-coffee.jpg",7:"../assets/photos/iced-latte.jpg"}; // real photos of our cups
+function photo(i,cls){const im=el("img","ph "+(cls||""));im.src=PH[i[0]];im.alt=i[3]+" in a Starlaban cup";im.loading="lazy";return im}
 const COL={amber:["#ffb24d","#ffd98a"],teal:["#3fc1c9","#9aeaf0"],green:["#6fd08c","#c8ee86"],pink:["#ff8fb1","#ffc9da"],purple:["#a98be8","#d9c9ff"],yellow:["#ffd23f","#fff0a0"],gold:["#c4955a","#f7e0c8"]};
 const TAGS={best:{en:"Bestseller",so:"Ugu iibsiga badan"},new:{en:"New",so:"Cusub"},fan:{en:"Fan favourite",so:"Dadka ugu jecel"},cold:{en:"Cold",so:"Qabow"},share:{en:"To share",so:"Loo wada qaybsado"}};
 const T={
@@ -225,7 +314,7 @@ const T={
   waiting:"Waiting for payment confirmation…",confirmed:"Payment confirmed",history:"Recent activity",none:"No activity yet",
   starsTitle:"Loyalty Stars",nextReward:"Reach 10 stars to get $3 credit",redeem:"Redeem 10 stars → $3 credit",
   orderPlaced:"Order placed!",pickupAt:"Pickup",orderNo:"Order",done:"Done",notEnough:"Not enough credit. Top up first or pick another method.",
-  earned:"You earned",helloM:"Good morning",helloA:"Good afternoon",helloE:"Good evening",sub:"What are we sipping today?",picks:"Today's picks",viewCart:"View cart",items:"items",item:"item",addTo:"Add to cart",received:"Received",brewing:"Brewing",ready:"Ready!",readyMsg:"Your order is ready for pickup",gift:"Send gift credit (coming soon)",orderLine:"Order",topLine:"Top-up",redeemLine:"Reward",close:"Close",tap:"Tap to start",sm:"Small",md:"Medium"},
+  earned:"You earned",helloM:"Good morning",welcome:"Welcome to Starlaban",loginSub:"Sign in to order ahead, earn stars and top up credit.",phoneLab:"Mobile number",sendCode:"Send code",guest:"Continue as guest",terms:"Sample app: no real account is created.",codeTitle:"Enter the 4-digit code",sentTo:"Code sent to",demoHint:"Demo code: 1234. A real app sends it by SMS.",fillIt:"Fill it in",verify:"Verify",resend:"Resend code",resendIn:"Resend in {s}s",resentOk:"New code sent.",changeNum:"Change number",wrongCode:"That code is not right. Try again.",badPhone:"Enter a valid mobile number.",nameTitle:"What should we call you?",nameSub:"We will use it to greet you.",nameLab:"Your name",namePh:"Your name",letsGo:"Let's go",logout:"Log out",signedAs:"Signed in as",guestUser:"Guest",closeP:"Close",helloA:"Good afternoon",helloE:"Good evening",sub:"What are we sipping today?",picks:"Today's picks",viewCart:"View cart",items:"items",item:"item",addTo:"Add to cart",received:"Received",brewing:"Brewing",ready:"Ready!",readyMsg:"Your order is ready for pickup",gift:"Send gift credit (coming soon)",orderLine:"Order",topLine:"Top-up",redeemLine:"Reward",close:"Close",tap:"Tap to start",sm:"Small",md:"Medium"},
  so:{menu:"Liiska",cart:"Dambiil",wallet:"Credit",rewards:"Xidigo",all:"Dhammaan",fav:"♥ La kaydiyay",search:"Ka raadi liiska…",
   emptyList:"Wax ku habboon lama helin.",emptyFav:"Wali wax kuma jiraan. Taabo wadn si aad u kaydiso.",
   yourCart:"Dambiishaada",emptyCart:"Dambiishu waa madhan. Ku dar wax macaan!",total:"Wadarta",pickup:"Waqtiga qaadashada",asap:"Hadda (10 daqiiqo)",
@@ -234,7 +323,7 @@ const T={
   waiting:"Waxaa la sugayaa xaqiijinta lacagta…",confirmed:"Lacagta waa la xaqiijiyay",history:"Dhaqdhaqaaqii u dambeeyay",none:"Wali wax ma jiraan",
   starsTitle:"Xidigaha Daacadnimada",nextReward:"Gaar 10 xidigood si aad u hesho $3 credit",redeem:"Beddel 10 xidigood → $3 credit",
   orderPlaced:"Dalabka waa la sameeyay!",pickupAt:"Qaadasho",orderNo:"Dalab",done:"Waa wada",notEnough:"Credit kuma filna. Marka hore ku shubo ama dooro habka kale.",
-  earned:"Waxaad heshay",helloM:"Soo dhawoow",helloA:"Soo dhawoow",helloE:"Soo dhawoow",sub:"Maxaan cabbaynaa maanta?",picks:"Doorashooyinka maanta",viewCart:"Eeg dambiisha",items:"alaab",item:"shay",addTo:"Ku dar dambiisha",received:"La helay",brewing:"Waa la diyaarinayaa",ready:"Diyaar!",readyMsg:"Dalabkaagu waa diyaar, kaalay qaado",gift:"U dir credit hadiyad (dhawaan)",orderLine:"Dalab",topLine:"Shubid",redeemLine:"Abaalmarin",close:"Xir",tap:"Taabo si aad u bilowdo",sm:"Yar",md:"Dhexe"}
+  earned:"Waxaad heshay",helloM:"Soo dhawoow",welcome:"Ku soo dhawoow Starlaban",loginSub:"Gal si aad hore u dalbato, xidigo u hesho, oo credit ugu shubto.",phoneLab:"Lambarka taleefanka",sendCode:"Dir koodhka",guest:"Sii wad adigoo marti ah",terms:"App tusaale ah: akoon dhab ah lama sameeyo.",codeTitle:"Geli koodhka 4-lambar ah",sentTo:"Koodhka waa loo diray",demoHint:"Koodh tijaabo: 1234. App dhab ah wuxuu u diraa SMS.",fillIt:"Buuxi",verify:"Xaqiiji",resend:"Dib u dir koodhka",resendIn:"Dib u dir {s}s kadib",resentOk:"Koodh cusub ayaa la diray.",changeNum:"Beddel lambarka",wrongCode:"Koodhkaasi waa khalad. Isku day mar kale.",badPhone:"Geli lambar taleefan sax ah.",nameTitle:"Maxaan kugu magacaabnaa?",nameSub:"Waxaan ku salaami doonaa magacaaga.",nameLab:"Magacaaga",namePh:"Magacaaga",letsGo:"Aan bilowno",logout:"Ka bax",signedAs:"Waxaad ku gashay sidii",guestUser:"Marti",closeP:"Xir",helloA:"Soo dhawoow",helloE:"Soo dhawoow",sub:"Maxaan cabbaynaa maanta?",picks:"Doorashooyinka maanta",viewCart:"Eeg dambiisha",items:"alaab",item:"shay",addTo:"Ku dar dambiisha",received:"La helay",brewing:"Waa la diyaarinayaa",ready:"Diyaar!",readyMsg:"Dalabkaagu waa diyaar, kaalay qaado",gift:"U dir credit hadiyad (dhawaan)",orderLine:"Dalab",topLine:"Shubid",redeemLine:"Abaalmarin",close:"Xir",tap:"Taabo si aad u bilowdo",sm:"Yar",md:"Dhexe"}
 };
 function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
 const S={anim:true,burst:false,
@@ -288,7 +377,7 @@ function toggleFav(id){if(S.favs.has(id))S.favs.delete(id);else S.favs.add(id);s
 function hello(){
   const h=new Date().getHours();
   const box=el("div","hello");
-  box.append(el("h2","",t(h<12?"helloM":h<18?"helloA":"helloE")+" ☕"),el("p","ui",t("sub")));
+  box.append(el("h2","",t(h<12?"helloM":h<18?"helloA":"helloE")+(S.user&&S.user.name?", "+S.user.name:"")+" ☕"),el("p","ui",t("sub")));
   const pills=el("div","pills ui");
   pills.append(btn("💳 "+money(S.credit),"pill p1",()=>go("wallet")),btn("⭐ "+S.stars,"pill p2",()=>go("rewards")));
   box.appendChild(pills);return box;
@@ -301,7 +390,7 @@ function vMenu(v){
     ITEMS.filter(i=>i[7]).slice(0,6).forEach(i=>{
       const [c1,c2]=colOf(i),c=el("div","pick");
       c.style.setProperty("--c",c1);c.style.setProperty("--c2",c2);
-      c.append(el("b","",i[3]),el("small","ui",S.lang==="so"?i[5]:i[4]),btn("+ "+money(i[6]),"go ui",e=>{e.stopPropagation();quickAdd(i,e.currentTarget)}),el("span","pe",i[2]));
+      c.append(el("b","",i[3]),el("small","ui",S.lang==="so"?i[5]:i[4]),btn("+ "+money(i[6]),"go ui",e=>{e.stopPropagation();quickAdd(i,e.currentTarget)}),PH[i[0]]?photo(i):el("span","pe",i[2]));
       c.onclick=()=>openSheet(i);row.appendChild(c);
     });
     wrap.appendChild(row);v.appendChild(wrap);
@@ -324,7 +413,7 @@ function vMenu(v){
 function gcard(i){
   const [c1,c2]=colOf(i),sz=S.sizes[i[0]]||0;
   const c=el("div","gcard");c.dataset.id=i[0];c.style.setProperty("--c",c1);c.style.setProperty("--c2",c2);
-  const art=el("div","gart");art.appendChild(el("span","gem",i[2]));
+  const art=el("div","gart");if(PH[i[0]]){art.classList.add("has");art.appendChild(photo(i))}art.appendChild(el("span","gem",i[2]));
   if(i[7])art.appendChild(el("span","gtag ui",TAGS[i[7]][S.lang]));
   const h=btn("♥","heart",e=>{e.stopPropagation();toggleFav(i[0]);h.setAttribute("aria-pressed",S.favs.has(i[0]));if(S.cat==="fav")renderList()});
   h.setAttribute("aria-pressed",S.favs.has(i[0]));h.setAttribute("aria-label","Favourite "+i[3]);
@@ -414,7 +503,7 @@ function closeSheet(){
 function buildSheet(){
   const i=sheetItem,[c1,c2]=colOf(i),p=$("panel");p.innerHTML="";
   p.style.setProperty("--c",c1);p.style.setProperty("--c2",c2);
-  const art=el("div","sart");art.append(el("span","se",i[2]),btn("✕","sx",closeSheet));
+  const art=el("div","sart"+(PH[i[0]]?" has":""));if(PH[i[0]])art.appendChild(photo(i));art.append(el("span","se",i[2]),btn("✕","sx",closeSheet));
   const body=el("div","sbody");
   const hd=el("div","meta ui");hd.style.marginBottom="6px";if(i[7])hd.appendChild(el("span","tag",TAGS[i[7]][S.lang]));
   body.append(hd,el("h3","",i[3]),el("p","ui",S.lang==="so"?i[5]:i[4]));
@@ -533,11 +622,99 @@ function vRewards(v){
   r.disabled=S.stars<10;v.appendChild(r);
 }
 
+
+/* ---------- login (demo only: no real account, no password, no network) ---------- */
+function loadUser(){try{return JSON.parse(store("sl_user")||"null")}catch(e){return null}}
+function saveUser(u){store("sl_user",u?JSON.stringify(u):"");if(u&&u.name&&u.last4)store("sl_known",JSON.stringify({name:u.name,last4:u.last4}))}
+function knownUser(){try{return JSON.parse(store("sl_known")||"null")}catch(e){return null}} // lets a returning number skip the name step
+S.user=loadUser();
+const DEMO_CODE="1234";
+let pendingPhone="",resendTimer=0,resendLeft=0;
+function showStep(id){
+  ["stPhone","stCode","stName"].forEach(s=>{const n=$(s);const on=s===id;n.hidden=!on;if(on){n.style.animation="none";void n.offsetWidth;n.style.animation=""}});
+  const f={stPhone:"phone",stCode:null,stName:"uname"}[id];
+  if(f)setTimeout(()=>{try{$(f).focus({preventScroll:true})}catch(e){}},350);
+  if(id==="stCode")setTimeout(()=>{const o=$("otps").querySelector("input");if(o)o.focus()},350);
+}
+function showLogin(){
+  $("login").hidden=false;$("login").classList.remove("leave");
+  $("phone").value="";$("phoneErr").textContent="";showStep("stPhone");
+}
+function fmtPhone(d){return d.length>5?d.slice(0,2)+" "+d.slice(2,5)+" "+d.slice(5):d.length>2?d.slice(0,2)+" "+d.slice(2):d}
+$("phone").addEventListener("input",e=>{
+  let d=e.target.value.replace(/\D/g,"");if(d.startsWith("252"))d=d.slice(3);if(d.startsWith("0"))d=d.slice(1);
+  e.target.value=fmtPhone(d.slice(0,9));$("phoneErr").textContent="";
+});
+$("phone").addEventListener("keydown",e=>{if(e.key==="Enter")$("sendCode").click()});
+$("sendCode").onclick=()=>{
+  const d=$("phone").value.replace(/\D/g,"");
+  if(d.length<7||d.length>9){$("phoneErr").textContent=t("badPhone");$("phone").focus();return}
+  pendingPhone=d;$("sentTo").textContent=t("sentTo")+" +252 "+fmtPhone(d);
+  buildOtp();$("codeErr").textContent="";showStep("stCode");startResend();
+};
+function otpInputs(){return [...$("otps").querySelectorAll("input")]}
+function buildOtp(){
+  const box=$("otps");box.innerHTML="";box.classList.remove("bad");
+  for(let k=0;k<4;k++){
+    const i=el("input");i.type="tel";i.inputMode="numeric";i.maxLength=1;i.autocomplete=k?"off":"one-time-code";i.setAttribute("aria-label","Digit "+(k+1));
+    i.oninput=()=>{i.value=i.value.replace(/\D/g,"").slice(0,1);$("codeErr").textContent="";const all=otpInputs();if(i.value&&all[k+1])all[k+1].focus();if(all.every(x=>x.value))verifyCode()};
+    i.onkeydown=e=>{if(e.key==="Backspace"&&!i.value&&k)otpInputs()[k-1].focus();if(e.key==="Enter")verifyCode()};
+    i.onpaste=e=>{const d=(e.clipboardData.getData("text")||"").replace(/\D/g,"").slice(0,4);if(!d)return;e.preventDefault();otpInputs().forEach((x,j)=>x.value=d[j]||"");if(d.length===4)verifyCode()};
+    box.appendChild(i);
+  }
+}
+function verifyCode(){
+  const code=otpInputs().map(x=>x.value).join("");
+  if(code.length<4)return;
+  if(code!==DEMO_CODE){
+    $("codeErr").textContent=t("wrongCode");const b=$("otps");b.classList.remove("bad");void b.offsetWidth;b.classList.add("bad");
+    try{navigator.vibrate&&navigator.vibrate([30,40,30])}catch(e){}
+    otpInputs().forEach(x=>x.value="");otpInputs()[0].focus();return;
+  }
+  clearInterval(resendTimer);
+  const last4=pendingPhone.slice(-4),prev=knownUser();
+  if(prev&&prev.last4===last4&&prev.name){finishLogin({name:prev.name,last4})}else{S.pendingLast4=last4;showStep("stName")}
+}
+$("verify").onclick=verifyCode;
+$("fillDemo").onclick=()=>{otpInputs().forEach((x,j)=>x.value=DEMO_CODE[j]);verifyCode()};
+$("changeNum").onclick=()=>{clearInterval(resendTimer);showStep("stPhone")};
+function startResend(){
+  clearInterval(resendTimer);resendLeft=30;const b=$("resend");b.disabled=true;
+  const tick=()=>{if(resendLeft>0){b.textContent=t("resendIn").replace("{s}",resendLeft);b.style.opacity=".6";resendLeft--}else{clearInterval(resendTimer);b.disabled=false;b.style.opacity="1";b.textContent=t("resend")}};
+  tick();resendTimer=setInterval(tick,1000);
+}
+$("resend").onclick=()=>{if($("resend").disabled)return;buildOtp();$("codeErr").textContent=t("resentOk");$("codeErr").style.color="var(--green)";setTimeout(()=>{$("codeErr").style.color=""},1800);startResend();otpInputs()[0].focus()};
+$("letsGo").onclick=()=>{const n=$("uname").value.trim();if(!n){$("uname").focus();return}finishLogin({name:n.slice(0,24),last4:S.pendingLast4||""})};
+$("uname").addEventListener("keydown",e=>{if(e.key==="Enter")$("letsGo").click()});
+$("guest").onclick=()=>finishLogin({guest:true,name:""});
+function finishLogin(u){
+  S.user=u;saveUser(u);syncAvatar();
+  const l=$("login");l.classList.add("leave");setTimeout(()=>{l.hidden=true;l.classList.remove("leave")},REDUCE?0:450);
+  S.anim=true;S.tab="menu";render();
+  if(u.name)setTimeout(()=>confettiRain&&confettiRain(),300);
+}
+function syncAvatar(){
+  const a=$("avatar");if(!S.user){a.hidden=true;return}
+  a.hidden=false;a.textContent=S.user.name?S.user.name[0].toUpperCase():"👤";
+}
+$("avatar").onclick=()=>{
+  const o=$("overlay");o.style.display="flex";o.innerHTML="";
+  const u=S.user||{};
+  o.append(el("div","pfp",u.name?u.name[0].toUpperCase():"👤"),el("h2","",u.name||t("guestUser")));
+  o.append(el("p","muted ui",u.last4?t("signedAs")+" +252 •• ••• "+u.last4:""));
+  o.append(btn(t("logout"),"btn ui",()=>{o.style.display="none";saveUser(null);S.user=null;S.cart={};S.tab="menu";syncAvatar();render();showLogin()}));
+  o.append(btn(t("closeP"),"btn ghost ui",()=>{o.style.display="none"}));
+};
+
 /* ---------- language switch ---------- */
 function setLang(l,first){
   S.lang=l;store("sl_lang",l);document.documentElement.lang=l;
   document.querySelectorAll(".seg button").forEach(b=>{const on=b.dataset.l===l;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)});
   $("splashTxt").textContent=t("tap");
+  document.querySelectorAll("[data-i18n]").forEach(n=>{n.textContent=T[l][n.dataset.i18n]});
+  document.querySelectorAll("[data-ph]").forEach(n=>{n.placeholder=T[l][n.dataset.ph]});
+  if($("sentTo")&&pendingPhone)$("sentTo").textContent=t("sentTo")+" +252 "+fmtPhone(pendingPhone);
+  if(typeof resendLeft!=="undefined"&&$("resend")&&!$("resend").disabled)$("resend").textContent=t("resend");
   if(!first){S.anim=false;render();if(!REDUCE){const v=$("view");v.classList.remove("swap");void v.offsetWidth;v.classList.add("swap")}}
 }
 document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>setLang(b.dataset.l));
@@ -552,11 +729,13 @@ function endSplash(){
   $("splash").classList.add("off");
   beanHome.remove();beanHome.style.display="none";
   setTimeout(()=>{$("splash").style.display="none"},550);
+  if(!S.user)showLogin();
   S.anim=true;render();
 }
 $("splash").onclick=endSplash;
 setTimeout(endSplash,2800);
 setLang(S.lang,true);
+syncAvatar();
 render();
 </script>
 </body>
