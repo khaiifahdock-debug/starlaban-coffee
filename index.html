@@ -196,6 +196,11 @@ h2{font:500 clamp(30px,5vw,40px)/1.1 Impact,"Arial Narrow",sans-serif;color:#2b1
 @media(max-width:560px){.hero{margin:10px auto 0;width:calc(100% - 20px);padding:28px 0 32px;border-radius:14px}.hero .wrap{grid-template-columns:1fr;grid-template-areas:"cup" "eyebrow" "title" "copy" "actions" "lang";text-align:center;row-gap:0}.hero .eyebrow,.hero h1,.hero p,.hero .btns,.heroLang{justify-self:center}.bean3d{height:230px;width:min(100%,340px);margin:0 auto}.bean3d::before{width:196px}.bean3d img{width:162px}.hero h1{font-size:clamp(48px,13vw,66px);margin:8px 0 12px}.hero p{font-size:16px;margin:0 auto 20px;padding:0 8px}.hero .btns{justify-content:center}.grid{gap:12px}.cbody{padding:12px}.cbody h3{font-size:15px}.cbody p{font-size:13px}}
 @media(max-width:360px){.grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.track{animation:none!important}.hero *, .card,.btn{transition:none!important;scroll-behavior:auto}}
+/* Coffee-bean illustration: one quiet, brand-relevant motif instead of emoji art */
+.em,.gem{font-size:0!important;filter:none!important;color:#8c5b2e!important;position:relative;display:block;width:54px;height:54px}
+.em::before,.gem::before{content:"";position:absolute;inset:6px 13px;border-radius:48% 52% 46% 54%;background:#8c5b2e;transform:rotate(38deg)}
+.em::after,.gem::after{content:"";position:absolute;top:6px;bottom:6px;left:26px;width:2px;border-radius:50%;background:#e2b574;transform:rotate(38deg)}
+.art.has .em,.gart.has .gem{display:none!important}
 </style>
 </head>
 <body>
@@ -384,7 +389,7 @@ function card(i){
   const c=document.createElement("article");c.className="card pre";c.dataset.id=i[0];
   c.style.setProperty("--c",c1);c.style.setProperty("--c2",c2);
   const art=document.createElement("div");art.className="art";
-  const em=document.createElement("div");em.className="em";em.textContent=i[2];
+  const em=document.createElement("div");em.className="em";em.setAttribute("aria-hidden","true");
   if(PH[i[0]]){const im=document.createElement("img");im.className="ph";im.src=PH[i[0]];im.width=106;im.height=106;im.loading="lazy";
     im.alt=i[3]+" in a Starlaban cup";im.onerror=()=>{im.remove();art.classList.remove("has")};art.classList.add("has");art.appendChild(im)}
   art.appendChild(em);
