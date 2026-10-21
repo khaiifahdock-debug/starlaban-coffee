@@ -21,6 +21,8 @@
   a{color:inherit;text-decoration:none}
   button,input{font-family:inherit}
   .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+  .skip-link{position:fixed;left:12px;top:12px;z-index:1000;transform:translateY(-160%);background:var(--cream);color:var(--ink);border:2px solid var(--gold);border-radius:12px;padding:10px 14px;font:600 14px/1.2 system-ui,sans-serif;transition:transform .18s}
+  .skip-link:focus{transform:translateY(0)}
   .ui{font-family:'Trebuchet MS','Avenir Next','Segoe UI',system-ui,sans-serif}
   .note{background:#5a3b12;color:#ffe9b8;text-align:center;font-size:13px;padding:6px}
 
@@ -36,7 +38,7 @@
   .langbox{display:flex;align-items:center;gap:8px}
   .globe{font-size:20px}
   .seg{display:flex;background:var(--brown3);border:2px solid var(--gold);border-radius:999px;padding:3px;gap:2px}
-  .seg button{border:0;background:none;color:var(--muted);padding:7px 14px;border-radius:999px;font-size:14px;font-weight:bold;cursor:pointer;transition:background .25s,color .25s,transform .15s}
+  .seg button{border:0;background:none;color:var(--muted);padding:7px 14px;min-height:44px;border-radius:999px;font-size:14px;font-weight:bold;cursor:pointer;transition:background .25s,color .25s,transform .15s}
   .seg button.on{background:var(--gold);color:var(--ink);box-shadow:0 0 0 3px rgba(196,149,90,.25)}
   .seg button:not(.on):hover{color:var(--gold)}
   .seg button:active{transform:scale(.94)}
@@ -82,15 +84,16 @@
   h2{font-size:clamp(28px,5vw,38px);text-align:center;margin-bottom:8px}
   .sub{text-align:center;color:var(--muted);margin:0 auto 28px;max-width:640px}
   .controls{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;margin-bottom:12px}
-  .search{display:flex;align-items:center;gap:8px;background:var(--brown3);border:2px solid rgba(196,149,90,.45);border-radius:999px;padding:0 16px;min-width:min(260px,100%);transition:border-color .2s,box-shadow .2s}
+  .search{display:flex;align-items:center;gap:8px;background:var(--brown3);border:2px solid rgba(196,149,90,.45);border-radius:999px;padding:0 16px;min-width:min(260px,100%);min-height:44px;transition:border-color .2s,box-shadow .2s}
+  .search-icon{width:18px;height:18px;flex:none;stroke:var(--muted);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;fill:none}
   .search:focus-within{border-color:var(--gold);box-shadow:0 0 0 4px rgba(196,149,90,.2)}
-  .search input{background:none;border:0;color:var(--text);padding:11px 0;font-size:15px;outline:none;width:100%;min-width:0}
+  .search input{background:none;border:0;color:var(--text);padding:11px 0;font-size:16px;outline:none;width:100%;min-width:0}
   .search input::placeholder{color:#a88e76}
-  .surprise{background:linear-gradient(90deg,var(--pink),var(--yellow));color:var(--ink);border:0;border-radius:999px;padding:11px 20px;font-weight:bold;font-size:15px;cursor:pointer;transition:transform .15s}
+  .surprise{background:linear-gradient(90deg,var(--pink),var(--yellow));color:var(--ink);border:0;border-radius:999px;padding:11px 20px;min-height:44px;font-weight:bold;font-size:15px;cursor:pointer;transition:transform .15s}
   .surprise:hover{transform:rotate(-2deg) scale(1.06)}
   .surprise:active{transform:scale(.95)}
   .tabs{display:flex;gap:10px;justify-content:center;margin:14px 0 30px;flex-wrap:wrap}
-  .tab{--c:var(--gold);display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.14);color:var(--muted);padding:9px 16px;border-radius:999px;cursor:pointer;font-size:15px;transition:background .25s,color .25s,border-color .25s,transform .15s}
+  .tab{--c:var(--gold);display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.14);color:var(--muted);padding:9px 16px;min-height:44px;border-radius:999px;cursor:pointer;font-size:15px;transition:background .25s,color .25s,border-color .25s,transform .15s}
   .tab::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c);transition:background .25s}
   .tab:hover{border-color:var(--c);color:var(--text)}
   .tab:active{transform:scale(.94)}
@@ -158,12 +161,14 @@
   @media(max-width:520px){.art .ph{width:84px;height:84px}.grid{grid-template-columns:1fr 1fr;gap:14px}.art{height:96px}.em{font-size:46px}.cbody{padding:12px}.cbody h3{font-size:16px}.cbody p{font-size:13px}.price{font-size:19px}.foot{flex-wrap:wrap}.sizes button{width:30px}}
   @media(max-width:360px){.grid{grid-template-columns:1fr}}
   @media(prefers-reduced-motion:reduce){
+    .skip-link{transition:none}
     .show,.swap,.spot,.fav[aria-pressed="true"],.price.bump,.spr{animation:none}.pre{opacity:1}
     .track{animation:none}.card:hover,.card:hover .em{transform:none}html{scroll-behavior:auto}
   }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#top">Skip to content</a>
 <div class="note ui">SAMPLE WEBSITE: prices, text and links are placeholders</div>
 <header>
   <div class="wrap nav">
@@ -175,7 +180,7 @@
         <a href="#contact" data-i18n="nav_contact">Contact</a>
       </nav>
       <div class="langbox">
-        <span class="globe" aria-hidden="true">🌐</span>
+        
         <div class="seg" role="group" aria-label="Language / Luuqad">
           <button type="button" data-l="en" class="on" aria-pressed="true"><span class="long">English</span><span class="short">EN</span></button>
           <button type="button" data-l="so" aria-pressed="false"><span class="long">Soomaali</span><span class="short">SO</span></button>
@@ -185,7 +190,7 @@
   </div>
 </header>
 
-<main id="top">
+<main id="top" tabindex="-1">
   <div class="hero">
     <i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i>
     <i class="spr" style="left:12%;top:22%;background:var(--pink)"></i>
@@ -215,10 +220,10 @@
       <h2 data-i18n="menu_title">Our Menu</h2>
       <p class="sub" data-i18n="menu_sub">Tap a heart to save a favourite, switch sizes, or let us surprise you. Sample items and prices (US$).</p>
       <div class="controls ui">
-        <label class="search"><span aria-hidden="true">🔎</span><input id="q" type="search" autocomplete="off" data-ph="search_ph" placeholder="Search the menu…"></label>
-        <button type="button" class="surprise" id="surprise" data-i18n="surprise">🎲 Surprise me</button>
+        <label class="search"><svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4.5 4.5"/></svg><input id="q" type="search" autocomplete="off" data-ph="search_ph" data-aria="search_ph" placeholder="Search the menu…" aria-label="Search the menu"></label>
+        <button type="button" class="surprise" id="surprise" data-i18n="surprise">Surprise me</button>
       </div>
-      <div class="tabs ui" id="tabs" role="tablist"></div>
+      <div class="tabs ui" id="tabs" role="group" aria-label="Menu categories"></div>
       <div class="grid" id="grid" aria-live="polite"></div>
       <noscript><h3 style="text-align:center;margin:22px 0 10px">Hot Drinks</h3><ul style="list-style:none;text-align:center;line-height:2"><li><b>Espresso</b> $1.50 <span style="color:#d9c2a8">Rich, bold single shot.</span></li><li><b>Cappuccino</b> $2.50 <span style="color:#d9c2a8">Espresso under silky steamed milk foam.</span></li><li><b>Latte</b> $2.75 <span style="color:#d9c2a8">Smooth, creamy and mellow.</span></li><li><b>Spiced Tea (Shaah)</b> $1.25 <span style="color:#d9c2a8">Traditional Somali tea with warm spices.</span></li><li><b>Hot Chocolate</b> $2.50 <span style="color:#d9c2a8">Thick cocoa, topped with cream.</span></li></ul><h3 style="text-align:center;margin:22px 0 10px">Iced</h3><ul style="list-style:none;text-align:center;line-height:2"><li><b>Iced Coffee</b> $3.00 <span style="color:#d9c2a8">Cold brew poured over ice.</span></li><li><b>Iced Latte</b> $3.25 <span style="color:#d9c2a8">Chilled espresso, milk and ice.</span></li><li><b>Caramel Frappe</b> $3.75 <span style="color:#d9c2a8">Blended coffee with caramel drizzle.</span></li></ul><h3 style="text-align:center;margin:22px 0 10px">Matcha</h3><ul style="list-style:none;text-align:center;line-height:2"><li><b>Classic Matcha</b> $2.50 <span style="color:#d9c2a8">Earthy green matcha, lightly sweet.</span></li><li><b>Pink Matcha</b> $2.50 <span style="color:#d9c2a8">Matcha with a rosy pink swirl.</span></li><li><b>Matcha Strawberry</b> $2.75 <span style="color:#d9c2a8">Matcha layered with fresh strawberry.</span></li><li><b>Blueberry Matcha</b> $2.75 <span style="color:#d9c2a8">Matcha meets sweet blueberry.</span></li><li><b>Ube Latte</b> $2.50 <span style="color:#d9c2a8">Creamy purple ube latte.</span></li></ul><h3 style="text-align:center;margin:22px 0 10px">Donuts</h3><ul style="list-style:none;text-align:center;line-height:2"><li><b>Classic Glazed</b> $1.50 <span style="color:#d9c2a8">Soft, warm, with a sugar glaze.</span></li><li><b>Chocolate Sprinkle</b> $1.75 <span style="color:#d9c2a8">Chocolate icing and rainbow sprinkles.</span></li><li><b>Ube Donut</b> $1.90 <span style="color:#d9c2a8">Purple ube glaze, light and sweet.</span></li><li><b>Matcha Donut</b> $1.90 <span style="color:#d9c2a8">Green matcha icing.</span></li><li><b>Strawberry Pink</b> $1.75 <span style="color:#d9c2a8">Pink strawberry icing.</span></li><li><b>Cream Filled</b> $2.00 <span style="color:#d9c2a8">Soft dough, vanilla cream inside.</span></li></ul><h3 style="text-align:center;margin:22px 0 10px">Combos</h3><ul style="list-style:none;text-align:center;line-height:2"><li><b>Morning Combo</b> $3.50 <span style="color:#d9c2a8">Any hot coffee plus a glazed donut.</span></li><li><b>Matcha + Donut</b> $4.00 <span style="color:#d9c2a8">A matcha and the donut of your day.</span></li><li><b>Donut Box (6)</b> $8.00 <span style="color:#d9c2a8">Six mixed donuts to share.</span></li></ul></noscript>
     </div>
@@ -273,7 +278,7 @@ const TXT={
   h1:"Fresh coffee.<br>Warm <em>donuts.</em>",hero_p:"Order ahead with the Starlaban app, skip the line, and collect your order hot.",
   btn_app:"Get the app",btn_menu:"See the menu",heroLang:"Akhri Af-Soomaali ▸",
   menu_title:"Our Menu",menu_sub:"Tap a heart to save a favourite, switch sizes, or let us surprise you. Sample items and prices (US$).",
-  search_ph:"Search the menu…",surprise:"🎲 Surprise me",all:"All",fav:"♥ Favourites",
+  search_ph:"Search the menu…",surprise:"Surprise me",all:"All",fav:"♥ Favourites",
   empty:"Nothing matches yet. Try another word.",emptyFav:"No favourites yet. Tap a heart on any item to save it.",
   app_title:"The Starlaban App",app_sub:"Everything you need, on your phone",
   f1h:"Order ahead",f1p:"Pick your drinks and donuts, choose a pickup time, and walk in to a ready order.",
@@ -286,7 +291,7 @@ const TXT={
   h1:"Qahwo cusub.<br>Doonyo <em>kulul.</em>",hero_p:"Ku dalbo appka Starlaban, iska ilaali safka, oo qaado dalabkaaga isagoo kulul.",
   btn_app:"Hel appka",btn_menu:"Eeg liiska",heroLang:"Read in English ▸",
   menu_title:"Liiskeena",menu_sub:"Taabo wadnaha si aad u kaydiso kuwa aad jeceshahay, beddel cabbirka, ama na deji inaan ku yaabino. Alaabo iyo qiimayaal tusaale ah (US$).",
-  search_ph:"Ka raadi liiska…",surprise:"🎲 Yaab i sii",all:"Dhammaan",fav:"♥ La jecel yahay",
+  search_ph:"Ka raadi liiska…",surprise:"Yaab i sii",all:"Dhammaan",fav:"♥ La jecel yahay",
   empty:"Wax ku habboon lama helin. Isku day erey kale.",emptyFav:"Wali wax kuma jiraan. Taabo wadnaha shay kasta si aad u kaydiso.",
   app_title:"Appka Starlaban",app_sub:"Wax walba oo aad u baahan tahay, taleefankaaga",
   f1h:"Hore u dalbo",f1p:"Dooro cabbitaannada iyo doonyada, dooro waqtiga aad qaadanayso, oo soo qaado dalabkaaga diyaarka ah.",
@@ -329,7 +334,7 @@ function reveal(nodes,now){
 function renderTabs(){
   const tabs=$("tabs");tabs.innerHTML="";
   const add=(id,label,colour,n)=>{
-    const b=document.createElement("button");b.type="button";b.className="tab"+(cat===id?" on":"");b.setAttribute("role","tab");b.setAttribute("aria-selected",cat===id);
+    const b=document.createElement("button");b.type="button";b.className="tab"+(cat===id?" on":"");b.setAttribute("aria-pressed",cat===id);
     b.style.setProperty("--c",colour);
     b.append(document.createTextNode(label+" "));const s=document.createElement("span");s.className="n";s.textContent=n;b.append(s);
     b.onclick=()=>{cat=id;renderTabs();renderMenu(true)};tabs.appendChild(b);
@@ -405,6 +410,8 @@ function applyLang(animate){
   document.documentElement.lang=lang;
   document.querySelectorAll("[data-i18n]").forEach(e=>{e.innerHTML=TXT[lang][e.dataset.i18n]});
   document.querySelectorAll("[data-ph]").forEach(e=>{e.placeholder=TXT[lang][e.dataset.ph]});
+  document.querySelectorAll("[data-aria]").forEach(e=>e.setAttribute("aria-label",TXT[lang][e.dataset.aria]));
+  $("tabs").setAttribute("aria-label",lang==="so"?"Qaybaha menu":"Menu categories");
   $("heroLang").textContent=t("heroLang");
   document.querySelectorAll(".seg button").forEach(b=>{const on=b.dataset.l===lang;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)});
   renderTabs();renderMenu(true);
