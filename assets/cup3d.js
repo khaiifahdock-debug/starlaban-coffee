@@ -1,16 +1,17 @@
 /*
- * Starlaban Coffee: 3D takeaway cup with the logo on its sleeve.
+ * Starlaban Coffee: 3D clear iced-coffee cup. You see the layered coffee and milk inside,
+ * with the logo poured in milk in the middle, ice cubes, a straw and a clear dome lid.
  * Needs three.min.js (r149, global THREE) loaded first.
  *
  *   var cup = StarlabanCup.mount(document.getElementById('cup'), {
- *     logoSrc: 'assets/logo.png',       // texture on the sleeve
- *     fallbackSrc: 'assets/logo.png'    // plain image if WebGL is missing
+ *     milkSrc: 'assets/logo-milk.png',   // the logo in milk-white on a transparent background
+ *     fallbackSrc: 'assets/logo.png'     // plain image if WebGL is missing
  *   });
  *   cup.burst();    // quick celebratory spin
  *   cup.replay();   // play the drop-in again
  *   cup.destroy();
  *
- * Load-in: the cup drops and bounces, then the lid lands on top.
+ * Load-in: the cup drops and bounces, then the lid lands on the rim.
  * Idle: spins by itself (no dragging; touches pass through so the page scrolls).
  * Pauses off screen / hidden tab; a still frame for prefers-reduced-motion.
  */
@@ -19,8 +20,11 @@
 
   var TAU = Math.PI * 2;
   var CUP_H = 2.35, R_BOT = 0.70, R_TOP = 0.98;
-  var AUTO = 0.9; // idle spin, radians per second
+  var FILL = 2.05;           // liquid surface height
+  var WALL = 0.05;           // gap between glass and liquid
+  var AUTO = 0.9;            // idle spin, radians per second
   function radiusAt(y) { return R_BOT + (R_TOP - R_BOT) * (y / CUP_H); }
+  function liquidR(y) { return radiusAt(y) - WALL; }
 
   function hasWebGL() {
     try {
@@ -38,7 +42,6 @@
     if (p < 2.5 / d) { p -= 2.25 / d; return n * p * p + 0.9375; }
     p -= 2.625 / d; return n * p * p + 0.984375;
   }
-
   function lathe(pts, seg, a, b) {
     return new THREE.LatheGeometry(pts.map(function (p) { return new THREE.Vector2(p[0], p[1]); }), seg, a, b);
   }
@@ -49,6 +52,44 @@
     x.fillStyle = g; x.fillRect(0, 0, 64, 64);
     return new THREE.CanvasTexture(c);
   }
+
+  // Coffee layers painted on a canvas: milk at the bottom, caramel, then dark coffee, with milk swirls.
+  function liquidTexture() {
+    var W = 256, H = 512, c = document.createElement('canvas'); c.width = W; c.height = H;
+    var x = c.getContext('2d');
+    var g = x.createLinearGradient(0, H, 0, 0); // bottom -> top
+    g.addColorStop(0.00, '#f7e6cb'); g.addColorStop(0.16, '#f1dcbc');
+    g.addColorStop(0.34, '#b9824f'); g.addColorStop(0.50, '#6a3a1b');
+    g.addColorStop(0.62, '#3a1d0d'); g.addColorStop(1.00, '#2b150a');
+    x.fillStyle = g; x.fillRect(0, 0, W, H);
+    x.lineCap = 'round';
+    for (var i = 0; i < 16; i++) { // milk wisps rising into the coffee
+      var sx = (i + Math.random() * 0.6) / 16 * W, y0 = H * (0.52 + Math.random() * 0.3);
+      x.strokeStyle = 'rgba(255,238,214,' + (0.16 + Math.random() * 0.2).toFixed(2) + ')';
+      x.lineWidth = 4 + Math.random() * 9;
+      x.beginPath(); x.moveTo(sx, y0);
+      x.bezierCurveTo(sx + 26, y0 - 40, sx - 30, y0 - 80, sx + 14, y0 - 120 - Math.random() * 60);
+      x.stroke();
+    }
+    var t = new THREE.CanvasTexture(c); return t;
+  }
+  function surfaceTexture() {
+    var S = 256, c = document.createElement('canvas'); c.width = c.height = S;
+    var x = c.getContext('2d'), g = x.createRadialGradient(S / 2, S / 2, 4, S / 2, S / 2, S / 2);
+    g.addColorStop(0, '#3a1d0d'); g.addColorStop(0.8, '#2f170a'); g.addColorStop(1, '#4a2a14');
+    x.fillStyle = g; x.fillRect(0, 0, S, S);
+    x.lineCap = 'round'; x.strokeStyle = 'rgba(255,238,214,0.55)';
+    for (var k = 0; k < 3; k++) { // a little milk spiral
+      x.lineWidth = 10 - k * 2.5; x.beginPath();
+      for (var a = 0; a < 9; a += 0.2) {
+        var r = 8 + a * (8 - k * 1.2), px = S / 2 + Math.cos(a + k * 2) * r, py = S / 2 + Math.sin(a + k * 2) * r;
+        if (a === 0) x.moveTo(px, py); else x.lineTo(px, py);
+      }
+      x.stroke();
+    }
+    return new THREE.CanvasTexture(c);
+  }
+
   function showFallback(el, src) {
     el.classList.add('cup3d-fallback');
     if (src && !el.querySelector('img')) {
@@ -78,52 +119,69 @@
 
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
-    camera.position.set(0, 2.4, 8.6);
-    camera.lookAt(0, 1.45, 0);
+    camera.position.set(0, 2.7, 8.8);
+    camera.lookAt(0, 1.75, 0);
 
-    scene.add(new THREE.HemisphereLight(0xfff1de, 0x2a160c, 0.8));
-    var key = new THREE.DirectionalLight(0xfff0dc, 1.0); key.position.set(3, 5, 5); scene.add(key);
-    var rim = new THREE.DirectionalLight(0xc4955a, 0.8); rim.position.set(-4, 2, -3); scene.add(rim);
+    scene.add(new THREE.HemisphereLight(0xfff1de, 0x3a2418, 0.85));
+    var key = new THREE.DirectionalLight(0xffffff, 1.1); key.position.set(3, 5, 5); scene.add(key);
+    var rim = new THREE.DirectionalLight(0xffd9a8, 0.9); rim.position.set(-4, 2, -3); scene.add(rim);
 
     var disposables = [];
     function keep(o) { disposables.push(o); return o; }
 
-    var paper = keep(new THREE.MeshStandardMaterial({ color: 0xf3e3cf, roughness: 0.85, metalness: 0, side: THREE.DoubleSide }));
-    var sleeveMat = keep(new THREE.MeshStandardMaterial({ color: 0x3a2113, roughness: 0.75, metalness: 0, side: THREE.DoubleSide }));
-    var lidMat = keep(new THREE.MeshStandardMaterial({ color: 0x2e1a0f, roughness: 0.4, metalness: 0.08, side: THREE.DoubleSide }));
-    var logoMat = keep(new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.7, transparent: true, alphaTest: 0.02 }));
+    var cupGroup = new THREE.Group(), root = new THREE.Group();
+    root.add(cupGroup); scene.add(root);
 
-    var cupGroup = new THREE.Group();
-    var root = new THREE.Group();
-    root.add(cupGroup);
-    scene.add(root);
+    // ---- the coffee ----
+    var liqTex = keep(liquidTexture()), topTex = keep(surfaceTexture());
+    var liqMat = keep(new THREE.MeshStandardMaterial({ map: liqTex, roughness: 0.32, metalness: 0.02 }));
+    var lp = [], steps = 14;
+    for (var i = 0; i <= steps; i++) { var yy = 0.06 + (FILL - 0.06) * i / steps; lp.push([liquidR(yy), yy]); }
+    var liqGeo = keep(lathe(lp, 64));
+    cupGroup.add(new THREE.Mesh(liqGeo, liqMat));
+    var topGeo = keep(new THREE.CircleGeometry(liquidR(FILL), 48));
+    var top = new THREE.Mesh(topGeo, keep(new THREE.MeshStandardMaterial({ map: topTex, roughness: 0.25 })));
+    top.rotation.x = -Math.PI / 2; top.position.y = FILL;
+    cupGroup.add(top);
 
-    var bodyGeo = keep(lathe([[0, 0], [R_BOT - 0.04, 0], [R_BOT, 0.05], [R_TOP, CUP_H], [R_TOP + 0.03, CUP_H + 0.05]], 56));
-    cupGroup.add(new THREE.Mesh(bodyGeo, paper));
+    // the logo, poured in milk, sitting on the front and the back of the coffee
+    var milkMat = keep(new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4, transparent: true, alphaTest: 0.03 }));
+    var MY0 = 0.82, MY1 = 1.9, mp = [];
+    for (var j = 0; j <= 8; j++) { var my = MY0 + (MY1 - MY0) * j / 8; mp.push([liquidR(my) + 0.004, my]); }
+    var arc = (MY1 - MY0) / liquidR((MY0 + MY1) / 2);
+    var milkGeo = keep(lathe(mp, 40, -arc / 2, arc));
+    var milk = new THREE.Mesh(milkGeo, milkMat), milkBack = new THREE.Mesh(milkGeo, milkMat);
+    milkBack.rotation.y = Math.PI;
+    milk.visible = milkBack.visible = false;
+    cupGroup.add(milk, milkBack);
 
-    var SY0 = 0.55, SY1 = 1.95, sp = [];
-    for (var i = 0; i <= 8; i++) { var y = SY0 + (SY1 - SY0) * i / 8; sp.push([radiusAt(y) + 0.02, y]); }
-    var sleeveGeo = keep(lathe(sp, 56));
-    cupGroup.add(new THREE.Mesh(sleeveGeo, sleeveMat));
+    // ice cubes bobbing at the surface
+    var iceMat = keep(new THREE.MeshPhongMaterial({ color: 0xe4f7ff, specular: 0xffffff, shininess: 120, transparent: true, opacity: 0.55, depthWrite: false }));
+    var iceGeo = keep(new THREE.BoxGeometry(0.4, 0.4, 0.4));
+    var ice = [[-0.38, 0.12, 0.3, 0.4], [0.3, 0.1, -0.25, 1.4], [0.05, 0.14, 0.52, 2.4]].map(function (p, k) {
+      var m = new THREE.Mesh(iceGeo, iceMat); m.userData = { x: p[0], y: FILL + p[1], z: p[2], ph: p[3] };
+      m.rotation.set(0.5 + k, 0.7 * k, 0.3); m.renderOrder = 2; cupGroup.add(m); return m;
+    });
 
-    var LY0 = 0.7, LY1 = 1.8, lp = [];
-    for (var j = 0; j <= 6; j++) { var ly = LY0 + (LY1 - LY0) * j / 6; lp.push([radiusAt(ly) + 0.035, ly]); }
-    var arc = (LY1 - LY0) / radiusAt((LY0 + LY1) / 2);
-    var patchGeo = keep(lathe(lp, 32, -arc / 2, arc));
-    var patch = new THREE.Mesh(patchGeo, logoMat);
-    var patchBack = new THREE.Mesh(patchGeo, logoMat);
-    patchBack.rotation.y = Math.PI;
-    patch.visible = patchBack.visible = false;
-    cupGroup.add(patch, patchBack);
+    // ---- clear plastic cup ----
+    var glassMat = keep(new THREE.MeshPhongMaterial({ color: 0xffffff, specular: 0xffffff, shininess: 160, transparent: true, opacity: 0.16, side: THREE.DoubleSide, depthWrite: false }));
+    var glassGeo = keep(lathe([[R_BOT - 0.04, 0], [R_BOT, 0.03], [R_TOP, CUP_H], [R_TOP + 0.03, CUP_H + 0.05]], 64));
+    var glass = new THREE.Mesh(glassGeo, glassMat); glass.renderOrder = 3; cupGroup.add(glass);
 
-    // The lid is its own group so it can drop onto the cup without ever passing through it.
+    // ---- lid: clear dome with a straw; its own group so it drops onto the rim without passing through ----
     var lidGroup = new THREE.Group();
-    var lidGeo = keep(lathe([[1.06, 2.33], [1.085, 2.38], [1.085, 2.46], [1.04, 2.5], [0.92, 2.5],
-      [0.9, 2.56], [0.78, 2.66], [0.45, 2.74], [0.0, 2.76]], 56));
-    lidGroup.add(new THREE.Mesh(lidGeo, lidMat));
+    var domeMat = keep(new THREE.MeshPhongMaterial({ color: 0xffffff, specular: 0xffffff, shininess: 180, transparent: true, opacity: 0.2, side: THREE.DoubleSide, depthWrite: false }));
+    var domeGeo = keep(lathe([[1.06, 2.33], [1.09, 2.37], [1.09, 2.43], [1.02, 2.47], [0.98, 2.53],
+      [0.9, 2.75], [0.7, 2.98], [0.4, 3.13], [0.0, 3.18]], 64));
+    var dome = new THREE.Mesh(domeGeo, domeMat); dome.renderOrder = 4; lidGroup.add(dome);
+    var strawMat = keep(new THREE.MeshStandardMaterial({ color: 0x1b0e07, roughness: 0.3, metalness: 0.1 }));
+    var strawGeo = keep(new THREE.CylinderGeometry(0.055, 0.055, 3.3, 14));
+    var straw = new THREE.Mesh(strawGeo, strawMat);
+    straw.position.set(0.12, 1.8, -0.05); straw.rotation.z = -0.08;
+    lidGroup.add(straw);
     cupGroup.add(lidGroup);
 
-    var shadowTex = keep(radialTexture([[0, 'rgba(0,0,0,0.55)'], [0.6, 'rgba(0,0,0,0.22)'], [1, 'rgba(0,0,0,0)']]));
+    var shadowTex = keep(radialTexture([[0, 'rgba(0,0,0,0.5)'], [0.6, 'rgba(0,0,0,0.2)'], [1, 'rgba(0,0,0,0)']]));
     var shadowMat = keep(new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false }));
     var shadowGeo = keep(new THREE.PlaneGeometry(3.4, 3.4));
     var shadow = new THREE.Mesh(shadowGeo, shadowMat);
@@ -132,29 +190,34 @@
 
     var started = false, T = 0;
     function begin() { if (!started) { started = true; update(); } }
-    new THREE.TextureLoader().load(opts.logoSrc || '', function (tex) {
+    new THREE.TextureLoader().load(opts.milkSrc || '', function (tex) {
       tex.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
-      logoMat.map = tex; logoMat.needsUpdate = true; patch.visible = patchBack.visible = true; keep(tex);
+      milkMat.map = tex; milkMat.needsUpdate = true; milk.visible = milkBack.visible = true; keep(tex);
       if (reduce) draw();
       begin();
     }, undefined, function () { begin(); });
     setTimeout(begin, 1500);
 
-    var rotY = 0, boost = 0;
+    var rotY = 0, boost = 0, bob = 0;
     var running = false, visible = true, raf = 0, last = 0, destroyed = false;
 
-    var LID_LAND = 1.0, LID_DUR = 0.5; // seconds
+    var LID_LAND = 1.0, LID_DUR = 0.5;
     function pose() {
-      var pc = easeOutBounce(clamp01((T - 0.1) / 0.85));            // cup falls and bounces
-      var pl = easeOutBounce(clamp01((T - LID_LAND) / LID_DUR));    // lid falls onto the rim
+      var pc = easeOutBounce(clamp01((T - 0.1) / 0.85));
+      var pl = easeOutBounce(clamp01((T - LID_LAND) / LID_DUR));
       var spin = (1 - easeOutCubic(clamp01((T - 0.1) / 1.1))) * TAU * 1.5;
       cupGroup.position.y = 4.4 * (1 - pc);
-      lidGroup.position.y = 2.6 * (1 - pl);                         // always >= 0: never inside the cup
+      lidGroup.position.y = 2.6 * (1 - pl);
       var sq = T > 0.95 && T < 1.25 ? Math.sin((T - 0.95) / 0.3 * Math.PI) * 0.04 : 0;
       cupGroup.scale.set(1 + sq * 0.5, 1 - sq, 1 + sq * 0.5);
       shadowMat.opacity = clamp01((T - 0.1) / 0.9);
       var ss = 0.55 + 0.45 * pc; shadow.scale.set(ss, ss, ss);
       cupGroup.rotation.y = rotY + spin;
+      for (var k = 0; k < ice.length; k++) {
+        var u = ice[k].userData;
+        ice[k].position.set(u.x, u.y + Math.sin(bob * 1.3 + u.ph) * 0.03, u.z);
+        ice[k].rotation.y += 0.002; ice[k].rotation.x += 0.0015;
+      }
     }
     function size() {
       var w = el.clientWidth || 1, h = el.clientHeight || 1;
@@ -171,6 +234,7 @@
       if (!running || destroyed) return;
       var dt = Math.min((now - (last || now)) / 1000, 0.05); last = now;
       if (started) T += dt;
+      bob += dt;
       rotY += (AUTO + boost) * dt;
       boost *= Math.pow(0.05, dt); if (boost < 0.02) boost = 0;
       draw();
@@ -193,7 +257,7 @@
     else global.addEventListener('resize', size);
     document.addEventListener('visibilitychange', update);
 
-    if (reduce) { T = 99; rotY = -0.35; }
+    if (reduce) { T = 99; rotY = -0.2; }
     size(); update();
 
     return {

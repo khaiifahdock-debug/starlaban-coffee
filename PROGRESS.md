@@ -17,17 +17,18 @@ A sample website and sample mobile-app prototype for **Starlaban Coffee** (Mogad
 ```
 index.html               website (hero has the 3D cup)
 app/index.html           app prototype (splash + Stars tab use the 3D cup)
-assets/cup3d.js          StarlabanCup.mount(el, {logoSrc, fallbackSrc}) -> {burst(), replay(), destroy()}
+assets/cup3d.js          StarlabanCup.mount(el, {milkSrc, fallbackSrc}) -> {burst(), replay(), destroy()}
 assets/vendor/three.min.js
-assets/logo.png, favicon.png, apple-touch-icon.png
+assets/logo.png, logo-milk.png, favicon.png, apple-touch-icon.png
 ```
 
 ## Status
 Done:
 - [x] Website (menu tabs, EN/SO, features, contact), no-JS menu fallback
 - [x] App prototype (menu, cart, pickup time, pay with credit or mobile money, top-up, stars + redeem, EN/SO)
-- [x] 3D takeaway cup with the logo on its sleeve: drops in, bounces, lid lands on the rim, then spins by itself (no steam, no dragging; touches pass through so the page scrolls). Used in the website hero, app splash and app Stars tab (spins faster when stars are earned/redeemed)
+- [x] 3D clear iced-coffee cup (`assets/cup3d.js`): you see the layered coffee and milk through the glass, the logo in milk-white (`assets/logo-milk.png`) in the middle, ice cubes and a straw. It drops in, bounces, the dome lid lands on the rim, then it spins by itself (no steam, no dragging; touches pass through so the page scrolls). Used in the website hero, app splash and app Stars tab (spins faster when stars are earned/redeemed). API: `StarlabanCup.mount(el,{milkSrc,fallbackSrc})`
 - [x] Colourful menu (categories Hot Drinks, Iced, Matcha, Donuts, Combos, each with its own accent colour): search, favourites (saved in localStorage), S/M sizes with live price, tags, "Surprise me" button, staggered reveal and 3D tilt on cards (website); same menu in the app with colour bubbles, sizes in the cart, fly-to-cart, star pop
+- [x] App feels like an app: time-of-day greeting with credit and stars chips, "Today's picks" snap carousel, 2-column colour cards, tap a card for a bottom sheet (S/M size, quantity), floating cart bar, fly-to-cart, confetti, order tracker (Received, Brewing, Ready), gradient credit card, vibration on add (Android)
 - [x] Obvious language switch: English | Soomaali pill in the header of both pages, plus a hero button on the website; choice is remembered (`sl_lang`) and shared by site and app; first visit follows the phone language
 - [x] Menu categories and matcha names (Classic, Pink, Strawberry, Blueberry, Ube Latte) taken from the photo of the restaurant's screens. The photo was blurry: prices and the hot-drinks list could not be read, so all prices and several items are SAMPLES
 - [x] GitHub Pages is on (branch `main`, root): https://khaiifahdock-debug.github.io/starlaban-coffee/
