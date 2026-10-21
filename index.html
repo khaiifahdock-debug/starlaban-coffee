@@ -204,6 +204,9 @@ h2{font:500 clamp(30px,5vw,40px)/1.1 Impact,"Arial Narrow",sans-serif;color:#2b1
 
 /* Reliable product image underlay for environments where WebGL renders blank */
 #bean::before{z-index:1}#bean::after{content:"";position:absolute;inset:4%;z-index:2;pointer-events:none;background:url("assets/photos/hot-cup.jpg") center/contain no-repeat}
+
+/* Shared line-icon family and bean illustrations */
+.fi{color:#8c5b2e}.fi svg,.searchIcon svg,.dice svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.fi svg{width:28px;height:28px}
 </style>
 </head>
 <body>
@@ -273,10 +276,10 @@ h2{font:500 clamp(30px,5vw,40px)/1.1 Impact,"Arial Narrow",sans-serif;color:#2b1
       <h2 data-i18n="app_title">The Starlaban App</h2>
       <p class="sub" data-i18n="app_sub">Everything you need, on your phone</p>
       <div class="feat">
-        <div style="--c:var(--teal)"><div class="fi">🛍️</div><h3 data-i18n="f1h">Order ahead</h3><p data-i18n="f1p">Pick your drinks and donuts, choose a pickup time, and walk in to a ready order.</p></div>
-        <div style="--c:var(--yellow)"><div class="fi">💳</div><h3 data-i18n="f2h">Starlaban credit</h3><p data-i18n="f2p">Top up with EVC Plus, Zaad or eDahab and pay in one tap.</p></div>
-        <div style="--c:var(--pink)"><div class="fi">⭐</div><h3 data-i18n="f3h">Loyalty stars</h3><p data-i18n="f3p">Earn stars with every order and turn them into free rewards.</p></div>
-        <div style="--c:var(--green)"><div class="fi">🎁</div><h3 data-i18n="f4h">Gift credit</h3><p data-i18n="f4p">Send credit to a friend or family member.</p></div>
+        <div style="--c:var(--teal)"><div class="fi" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg></div><h3 data-i18n="f1h">Order ahead</h3><p data-i18n="f1p">Pick your drinks and donuts, choose a pickup time, and walk in to a ready order.</p></div>
+        <div style="--c:var(--yellow)"><div class="fi" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg></div><h3 data-i18n="f2h">Starlaban credit</h3><p data-i18n="f2p">Top up with EVC Plus, Zaad or eDahab and pay in one tap.</p></div>
+        <div style="--c:var(--pink)"><div class="fi" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.8 6.4.9-4.6 4.5 1.1 6.4-5.7-3-5.7 3 1.1-6.4-4.6-4.5 6.4-.9L12 3Z"/></svg></div><h3 data-i18n="f3h">Loyalty stars</h3><p data-i18n="f3p">Earn stars with every order and turn them into free rewards.</p></div>
+        <div style="--c:var(--green)"><div class="fi" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h18v11H3zM2 6h20v4H2zM12 6v15"/><path d="M12 6C8 6 6 5 6 3.5 6 2.3 7 2 8 2c2 0 4 4 4 4Zm0 0c4 0 6-1 6-2.5C18 2.3 17 2 16 2c-2 0-4 4-4 4Z"/></svg></div><h3 data-i18n="f4h">Gift credit</h3><p data-i18n="f4p">Send credit to a friend or family member.</p></div>
       </div>
       <div class="stores ui">
         <div class="store"><small data-i18n="soon">Coming soon on</small><b>Google Play</b></div>
