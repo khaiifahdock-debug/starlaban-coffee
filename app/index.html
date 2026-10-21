@@ -272,6 +272,12 @@ nav{background:#fffdf8;border-top:1px solid #ded4c7}nav button{min-height:56px;c
 .em::before,.gem::before{content:"";position:absolute;inset:6px 13px;border-radius:48% 52% 46% 54%;background:#8c5b2e;transform:rotate(38deg)}
 .em::after,.gem::after{content:"";position:absolute;top:6px;bottom:6px;left:26px;width:2px;border-radius:50%;background:#e2b574;transform:rotate(38deg)}
 .art.has .em,.gart.has .gem{display:none!important}
+
+.searchIcon{display:grid;place-items:center;color:#655447;flex:none}.dice{display:grid;place-items:center}.dice svg{width:21px;height:21px}
+.pick .pe{font-size:0!important;filter:none!important;color:#8c5b2e;position:absolute;right:15px;bottom:16px;width:48px;height:48px;display:block}
+.pick .pe::before,.em::before,.gem::before{content:"";position:absolute;inset:5px 12px;border-radius:48% 52% 46% 54%;background:#8c5b2e;transform:rotate(38deg)}
+.pick .pe::after,.em::after,.gem::after{content:"";position:absolute;top:5px;bottom:5px;left:23px;width:2px;border-radius:50%;background:#e2b574;transform:rotate(38deg)}
+.em,.gem{width:54px;height:54px}
 </style>
 </head>
 <body>
@@ -425,11 +431,12 @@ function toggleFav(id){if(S.favs.has(id))S.favs.delete(id);else S.favs.add(id);s
 function hello(){
   const h=new Date().getHours();
   const box=el("div","hello");
-  box.append(el("h2","",t(h<12?"helloM":h<18?"helloA":"helloE")+(S.user&&S.user.name?", "+S.user.name:"")+" ☕"),el("p","ui",t("sub")));
+  box.append(el("h2","",t(h<12?"helloM":h<18?"helloA":"helloE")+(S.user&&S.user.name?", "+S.user.name:"")),el("p","ui",t("sub")));
   const pills=el("div","pills ui");
-  pills.append(btn("💳 "+money(S.credit),"pill p1",()=>go("wallet")),btn("⭐ "+S.stars,"pill p2",()=>go("rewards")));
+  pills.append(btn(t("wallet")+" · "+money(S.credit),"pill p1",()=>go("wallet")),btn(S.stars+" "+t("rewards"),"pill p2",()=>go("rewards")));
   box.appendChild(pills);return box;
 }
+function coffeeBeanMark(){const mark=el("span","pe");mark.setAttribute("aria-hidden","true");return mark}
 function vMenu(v){
   v.appendChild(hello());
   if(S.cat==="all"&&!S.q){
@@ -438,16 +445,16 @@ function vMenu(v){
     ITEMS.filter(i=>i[7]).slice(0,6).forEach(i=>{
       const [c1,c2]=colOf(i),c=el("div","pick");
       c.style.setProperty("--c",c1);c.style.setProperty("--c2",c2);
-      c.append(el("b","",i[3]),el("small","ui",S.lang==="so"?i[5]:i[4]),btn("+ "+money(i[6]),"go ui",e=>{e.stopPropagation();quickAdd(i,e.currentTarget)}),PH[i[0]]?photo(i):el("span","pe",i[2]));
+      c.append(el("b","",i[3]),el("small","ui",S.lang==="so"?i[5]:i[4]),btn("+ "+money(i[6]),"go ui",e=>{e.stopPropagation();quickAdd(i,e.currentTarget)}),PH[i[0]]?photo(i):coffeeBeanMark());
       c.onclick=()=>openSheet(i);row.appendChild(c);
     });
     wrap.appendChild(row);v.appendChild(wrap);
   }
   const tools=el("div","tools ui");
-  const sw=el("label","search");sw.append(el("span","","🔎"));
+  const sw=el("label","search");const searchIcon=el("span","searchIcon");searchIcon.setAttribute("aria-hidden","true");searchIcon.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4.5 4.5"/></svg>';sw.append(searchIcon);
   const inp=el("input");inp.type="search";inp.placeholder=t("search");inp.value=S.q;inp.autocomplete="off";
   inp.oninput=()=>{S.q=inp.value.trim().toLowerCase();renderList()};sw.appendChild(inp);
-  const dice=btn("🎲","dice",surprise);dice.setAttribute("aria-label","Surprise me");
+  const dice=btn("","dice",surprise);dice.setAttribute("aria-label","Surprise me");dice.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>';
   tools.append(sw,dice);v.appendChild(tools);
   const chips=el("div","chips ui");
   const add=(id,label,col)=>{const b=btn(label,"chip"+(S.cat===id?" on":""),()=>{S.cat=id;S.anim=true;render()});b.style.setProperty("--c",col);chips.appendChild(b)};
