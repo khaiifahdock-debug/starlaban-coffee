@@ -8,137 +8,182 @@
 <link rel="icon" href="../assets/favicon.png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <style>
-  :root{--brown:#2b1810;--brown2:#3a2418;--gold:#c4955a;--cream:#f7e0c8;--text:#fbf1e6;--muted:#d9c2a8;--ok:#7bc47f}
+  :root{--brown:#2b1810;--brown2:#3a2418;--brown3:#1f110b;--gold:#c4955a;--cream:#f7e0c8;--text:#fbf1e6;--muted:#d9c2a8;--ok:#7bc47f;--ink:#2b1810;
+    --pink:#ff8fb1;--yellow:#ffd23f;--teal:#3fc1c9;--green:#6fd08c}
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html,body{height:100%}
   body{font-family:Georgia,'Times New Roman',serif;background:#120a06;color:var(--text);display:flex;justify-content:center}
+  button,input{font-family:inherit}
+  .ui{font-family:'Trebuchet MS','Avenir Next','Segoe UI',system-ui,sans-serif}
   #app{width:100%;max-width:420px;height:100%;background:var(--brown);display:flex;flex-direction:column;position:relative;overflow:hidden}
   @media(min-width:500px){#app{margin:16px 0;height:min(860px,calc(100vh - 32px));border-radius:32px;border:6px solid #000;box-shadow:0 20px 60px rgba(0,0,0,.6)}}
   .banner{background:#5a3b12;color:#ffe9b8;text-align:center;font-size:11px;padding:4px}
-  header{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(196,149,90,.25)}
-  .brand{display:flex;align-items:center;gap:8px;font-weight:bold;font-size:15px;letter-spacing:.5px}
-  .logo{width:30px;height:30px;border-radius:50%}
-  .lang{background:none;border:1px solid var(--gold);color:var(--gold);border-radius:16px;padding:3px 10px;font-family:inherit;cursor:pointer}
-  main{flex:1;overflow-y:auto;padding:16px 18px 24px}
-  h2{font-size:22px;margin-bottom:12px}
+  header{padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(196,149,90,.25);gap:8px}
+  .brand{display:flex;align-items:center;gap:8px;font-weight:bold;font-size:15px;letter-spacing:.5px;min-width:0}
+  .logo{width:32px;height:32px;border-radius:50%;flex:none}
+  .seg{display:flex;background:var(--brown3);border:2px solid var(--gold);border-radius:999px;padding:2px;gap:2px;flex:none}
+  .seg button{border:0;background:none;color:var(--muted);padding:6px 11px;border-radius:999px;font-size:13px;font-weight:bold;cursor:pointer;transition:background .25s,color .25s}
+  .seg button.on{background:var(--gold);color:var(--ink)}
+  main{flex:1;overflow-y:auto;padding:14px 16px 24px}
+  h2{font-size:22px;margin-bottom:10px}
   .muted{color:var(--muted);font-size:13px}
   nav{display:flex;border-top:1px solid rgba(196,149,90,.25);background:#241410}
-  nav button{flex:1;background:none;border:0;color:var(--muted);padding:10px 0 12px;font-family:inherit;font-size:11px;cursor:pointer;position:relative}
-  nav button .i{font-size:20px;display:block}
-  nav button.on{color:var(--gold)}
-  .badge{position:absolute;top:4px;left:calc(50% + 6px);background:var(--gold);color:var(--brown);border-radius:10px;font-size:10px;padding:0 6px;font-weight:bold}
-  .chips{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px}
-  .chip{flex:none;background:none;border:1px solid rgba(196,149,90,.5);color:var(--muted);padding:6px 14px;border-radius:18px;font-family:inherit;cursor:pointer}
-  .chip.on{background:var(--gold);color:var(--brown);border-color:var(--gold)}
-  .row{display:flex;align-items:center;gap:12px;background:var(--brown2);border:1px solid rgba(196,149,90,.2);border-radius:14px;padding:12px;margin-bottom:10px}
-  .row .em{font-size:30px;width:44px;text-align:center}
-  .row .t{flex:1}
-  .row .t b{display:block;font-size:15px}
-  .price{color:var(--gold);font-weight:bold}
-  .add{background:var(--gold);color:var(--brown);border:0;border-radius:50%;width:34px;height:34px;font-size:20px;font-weight:bold;cursor:pointer}
+  nav button{flex:1;background:none;border:0;color:var(--muted);padding:9px 0 11px;font-size:11px;cursor:pointer;position:relative;transition:color .2s}
+  nav button .i{font-size:20px;display:block;transition:transform .2s}
+  nav button.on{color:var(--gold)}nav button.on .i{transform:translateY(-2px) scale(1.12)}
+  .badge{position:absolute;top:3px;left:calc(50% + 6px);background:var(--pink);color:var(--ink);border-radius:10px;font-size:10px;padding:0 6px;font-weight:bold;transition:transform .18s}
+
+  .tools{display:flex;gap:8px;margin-bottom:10px}
+  .search{flex:1;display:flex;align-items:center;gap:6px;background:var(--brown3);border:2px solid rgba(196,149,90,.4);border-radius:999px;padding:0 12px;min-width:0}
+  .search:focus-within{border-color:var(--gold)}
+  .search input{background:none;border:0;outline:none;color:var(--text);padding:9px 0;font-size:14px;width:100%;min-width:0}
+  .dice{border:0;border-radius:999px;background:linear-gradient(90deg,var(--pink),var(--yellow));width:42px;font-size:18px;cursor:pointer;flex:none;transition:transform .15s}
+  .dice:active{transform:rotate(-20deg) scale(.9)}
+  .chips{display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;padding-bottom:4px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{--c:var(--gold);flex:none;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.14);color:var(--muted);padding:6px 13px;border-radius:999px;cursor:pointer;font-size:14px;transition:background .2s,color .2s,border-color .2s,transform .15s}
+  .chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+  .chip.on{background:var(--c);border-color:var(--c);color:var(--ink);font-weight:bold}.chip.on::before{background:var(--ink)}
+  .chip:active{transform:scale(.93)}
+
+  .row{--c:var(--gold);--c2:var(--cream);display:flex;align-items:center;gap:12px;background:var(--brown2);border:1px solid rgba(255,255,255,.08);border-left:4px solid var(--c);border-radius:16px;padding:10px 10px 10px 10px;margin-bottom:10px;transition:transform .15s}
+  .row:active{transform:scale(.985)}
+  .bub{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,var(--c),var(--c2));display:grid;place-items:center;font-size:28px;flex:none;box-shadow:0 4px 12px -4px var(--c)}
+  .t{flex:1;min-width:0}
+  .t b{display:block;font-size:15px;line-height:1.25}
+  .t small{display:block;color:var(--muted);font-size:12px;line-height:1.3;margin:2px 0 4px}
+  .meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .price{color:var(--c);font-weight:bold;font-variant-numeric:tabular-nums}
+  .tag{background:var(--c);color:var(--ink);font-size:10px;font-weight:bold;padding:2px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.4px}
+  .szs{display:flex;background:var(--brown3);border-radius:999px;padding:2px}
+  .szs button{border:0;background:none;color:var(--muted);width:26px;height:22px;border-radius:999px;font-size:11px;font-weight:bold;cursor:pointer}
+  .szs button.on{background:var(--c);color:var(--ink)}
+  .acts{display:flex;flex-direction:column;align-items:center;gap:6px;flex:none}
+  .heart{border:0;background:none;color:#7b6252;font-size:19px;cursor:pointer;transition:transform .2s,color .2s;line-height:1}
+  .heart[aria-pressed="true"]{color:#ff5f86;animation:beat .4s ease}
+  @keyframes beat{40%{transform:scale(1.4)}}
+  .add{background:var(--c);color:var(--ink);border:0;border-radius:50%;width:36px;height:36px;font-size:22px;font-weight:bold;cursor:pointer;transition:transform .15s}
+  .add:active{transform:scale(.8)}
+  .row.spot{animation:spot 1.6s ease}
+  @keyframes spot{25%,75%{box-shadow:0 0 0 3px var(--c),0 0 24px 2px var(--c)}}
+  .empty{text-align:center;color:var(--muted);margin-top:40px;font-size:14px}
+
   .qty{display:flex;align-items:center;gap:8px}
   .qty button{background:none;border:1px solid var(--gold);color:var(--gold);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px}
-  .btn{display:block;width:100%;background:var(--gold);color:var(--brown);border:0;border-radius:26px;padding:14px;font-family:inherit;font-size:16px;font-weight:bold;cursor:pointer;margin-top:12px}
-  .btn:disabled{opacity:.5}
-  .btn.ghost{background:none;border:1px solid var(--gold);color:var(--gold)}
-  .card{background:linear-gradient(135deg,#4a2c1c,#2f1a10);border:1px solid var(--gold);border-radius:18px;padding:20px;margin-bottom:14px}
+  .btn{display:block;width:100%;background:var(--gold);color:var(--ink);border:0;border-radius:26px;padding:14px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:12px;transition:transform .15s}
+  .btn:active{transform:scale(.97)}.btn:disabled{opacity:.5}
+  .btn.ghost{background:none;border:2px solid var(--gold);color:var(--gold)}
+  .card{background:linear-gradient(135deg,#5a3321,#2f1a10);border:1px solid var(--gold);border-radius:18px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden}
+  .card::after{content:"";position:absolute;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(255,143,177,.35),transparent 70%);right:-30px;top:-30px}
   .big{font-size:38px;font-weight:bold;color:var(--cream)}
   .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
-  .opt{background:var(--brown2);border:1px solid rgba(196,149,90,.4);color:var(--text);border-radius:12px;padding:12px 4px;font-family:inherit;cursor:pointer;text-align:center;font-size:14px}
-  .opt.on{border-color:var(--gold);background:#4a2c1c;color:var(--gold)}
+  .opt{background:var(--brown2);border:2px solid rgba(196,149,90,.3);color:var(--text);border-radius:12px;padding:11px 4px;cursor:pointer;text-align:center;font-size:14px;transition:border-color .2s,background .2s}
+  .opt.on{border-color:var(--teal);background:#2a4a4c;color:#b9f3f6}
   .total{display:flex;justify-content:space-between;font-size:18px;margin:14px 0 4px}
   .stars{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
   .stars span{font-size:22px;opacity:.25}
-  .stars span.f{opacity:1;color:var(--gold)}
+  .stars span.f{opacity:1;color:var(--yellow)}
   .bar{height:8px;background:#241410;border-radius:6px;overflow:hidden;margin-top:6px}
-  .bar i{display:block;height:100%;background:var(--gold)}
-  .empty{text-align:center;color:var(--muted);margin-top:50px}
-  .overlay{position:absolute;inset:0;background:rgba(18,10,6,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;z-index:5}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--yellow))}
+  .overlay{position:absolute;inset:0;background:rgba(18,10,6,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;z-index:5}
   .spin{width:44px;height:44px;border:4px solid rgba(196,149,90,.3);border-top-color:var(--gold);border-radius:50%;animation:s 1s linear infinite;margin-bottom:16px}
   @keyframes s{to{transform:rotate(360deg)}}
   .bean3d{width:100%;height:100%;display:grid;place-items:center}
   .bean3d img{width:60%;border-radius:50%}
-  #beanHome{height:230px;margin:-10px 0 -6px}
-  #splashStage #beanHome{height:100%;margin:0}
-  #splash{position:absolute;inset:0;z-index:9;background:radial-gradient(circle at 50% 40%,#4a2c1c 0,#2b1810 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:opacity .5s}
+  #beanHome{height:210px;margin:-8px 0 -6px}
+  #splash{position:absolute;inset:0;z-index:9;background:radial-gradient(circle at 50% 40%,#5a3321 0,#2b1810 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:opacity .5s;overflow:hidden}
+  #splash::before,#splash::after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;filter:blur(50px);opacity:.35}
+  #splash::before{background:var(--pink);left:-70px;top:60px}#splash::after{background:var(--teal);right:-80px;bottom:120px}
   #splash.off{opacity:0;pointer-events:none}
-  #splash .stage{width:min(320px,90%);height:360px}
-  #splash h1{font-size:24px;letter-spacing:3px;margin-top:6px}
-  #splash p{color:var(--muted);font-size:13px;margin-top:6px}
+  #splashStage{width:min(300px,86%);height:320px;position:relative;z-index:1}
+  #splashStage #beanHome{height:100%;margin:0}
+  #splash h1{font-size:24px;letter-spacing:3px;margin-top:6px;position:relative;z-index:1}
+  #splash p{color:var(--muted);font-size:13px;margin-top:6px;position:relative;z-index:1}
+  .hist{font-size:13px;display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(196,149,90,.15)}
   @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
   @keyframes popin{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
   @keyframes starpop{0%{transform:scale(.2) rotate(-40deg);opacity:0}70%{transform:scale(1.35) rotate(8deg)}100%{transform:none;opacity:1}}
-  .anim>*{animation:rise .42s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*45ms)}
-  .row:active{transform:scale(.985)}
-  .add{transition:transform .15s}.add:active{transform:scale(.8)}
-  .stars span.f{animation:starpop .5s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*70ms+300ms)}
+  .anim>*:not(.list){animation:rise .42s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*45ms)}
+  .anim .list .row{animation:rise .42s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*45ms)}
+  .stars span.f{animation:starpop .5s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*70ms + 300ms)}
   .bar i{transition:width .8s cubic-bezier(.2,.8,.2,1) .3s}
-  .tick{animation:popin .55s cubic-bezier(.2,.8,.2,1) both}
+  .tick{font-size:60px;color:var(--ok);animation:popin .55s cubic-bezier(.2,.8,.2,1) both}
+  .swap{animation:swap .4s ease}
+  @keyframes swap{from{opacity:.2;transform:translateY(5px)}to{opacity:1;transform:none}}
   .fly{position:absolute;z-index:8;font-size:26px;pointer-events:none}
-  @media(prefers-reduced-motion:reduce){.anim>*,.stars span.f,.tick{animation:none}.bar i{transition:none}}
-  .tick{font-size:60px;color:var(--ok)}
-  .hist{font-size:13px;display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(196,149,90,.15)}
+  :focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+  @media(prefers-reduced-motion:reduce){.anim>*,.anim .list .row,.stars span.f,.tick,.swap,.row.spot,.heart{animation:none!important}.bar i{transition:none}}
 </style>
 </head>
 <body>
 <div id="app">
-  <div class="banner">SAMPLE APP: no real payments. Everything here is simulated.</div>
+  <div class="banner ui">SAMPLE APP: no real payments. Everything here is simulated.</div>
   <header>
-    <div class="brand"><img class="logo" src="../assets/logo.png" alt="" width="30" height="30"><span>STARLABAN</span></div>
-    <button class="lang" id="langBtn">SO</button>
+    <div class="brand"><img class="logo" src="../assets/logo.png" alt="" width="32" height="32"><span>STARLABAN</span></div>
+    <div class="seg ui" role="group" aria-label="Language / Luuqad">
+      <button type="button" data-l="en" class="on" aria-pressed="true">🌐 EN</button>
+      <button type="button" data-l="so" aria-pressed="false">SO</button>
+    </div>
   </header>
   <main id="view"></main>
   <noscript><p style="padding:24px;text-align:center">This sample app needs JavaScript. Open it in Safari or Chrome instead of a file preview.</p></noscript>
-  <nav id="nav"></nav>
+  <nav id="nav" class="ui"></nav>
   <div id="overlay" class="overlay" style="display:none"></div>
-  <div id="splash"><div class="stage" id="splashStage"></div><h1>STARLABAN COFFEE</h1><p>Tap to start</p></div>
+  <div id="splash"><div id="splashStage"></div><h1>STARLABAN COFFEE</h1><p class="ui" id="splashTxt">Tap to start</p></div>
 </div>
 
 <script src="../assets/vendor/three.min.js"></script>
 <script src="../assets/cup3d.js"></script>
 <script>
+const CATS=[["hot", "Hot Drinks", "Cabitaanno kulul", "amber"], ["iced", "Iced", "Qabow", "teal"], ["matcha", "Matcha", "Matcha", "green"], ["donuts", "Donuts", "Doonyo", "pink"], ["combo", "Combos", "Isku-darka", "yellow"]];
+const ITEMS=[[1, "hot", "☕", "Espresso", "Rich, bold single shot.", "Hal qaado oo xoog leh, dhadhan culus.", 1.5, "", true, null], [2, "hot", "🥛", "Cappuccino", "Espresso under silky steamed milk foam.", "Espresso oo ay ka sarreeyso xumbo caano jilicsan.", 2.5, "", true, null], [3, "hot", "☕", "Latte", "Smooth, creamy and mellow.", "Jilicsan, kareem leh oo dhadhan fudud leh.", 2.75, "best", true, null], [4, "hot", "🫖", "Spiced Tea (Shaah)", "Traditional Somali tea with warm spices.", "Shaah Soomaali ah oo xawaash leh.", 1.25, "", true, null], [5, "hot", "🍫", "Hot Chocolate", "Thick cocoa, topped with cream.", "Kookoo qaro weyn, kareem ka sarreeya.", 2.5, "", true, "purple"], [6, "iced", "🧊", "Iced Coffee", "Cold brew poured over ice.", "Qahwo qabow oo baraf lagu shubay.", 3.0, "cold", true, null], [7, "iced", "🥤", "Iced Latte", "Chilled espresso, milk and ice.", "Espresso qabow, caano iyo baraf.", 3.25, "cold", true, null], [8, "iced", "🍮", "Caramel Frappe", "Blended coffee with caramel drizzle.", "Qahwo la isku shiiday oo karamel leh.", 3.75, "new", true, null], [9, "matcha", "🍵", "Classic Matcha", "Earthy green matcha, lightly sweet.", "Matcha cagaaran oo dhadhan fudud leh.", 2.5, "", true, null], [10, "matcha", "🌸", "Pink Matcha", "Matcha with a rosy pink swirl.", "Matcha leh midab casaan ah oo qurux badan.", 2.5, "new", true, "pink"], [11, "matcha", "🍓", "Matcha Strawberry", "Matcha layered with fresh strawberry.", "Matcha iyo yaanyo cusub oo is dul saaran.", 2.75, "", true, "pink"], [12, "matcha", "🫐", "Blueberry Matcha", "Matcha meets sweet blueberry.", "Matcha iyo blueberry macaan.", 2.75, "", true, "purple"], [13, "matcha", "🍠", "Ube Latte", "Creamy purple ube latte.", "Latte ube ah oo kareem leh, midab guduudan.", 2.5, "fan", true, "purple"], [14, "donuts", "🍩", "Classic Glazed", "Soft, warm, with a sugar glaze.", "Jilicsan, kulul, sonkor ku dahaaran.", 1.5, "", false, "amber"], [15, "donuts", "🍫", "Chocolate Sprinkle", "Chocolate icing and rainbow sprinkles.", "Shukulaato iyo midabyo yaryar oo kala duwan.", 1.75, "best", false, "purple"], [16, "donuts", "🍠", "Ube Donut", "Purple ube glaze, light and sweet.", "Doonyo ube ah, fudud oo macaan.", 1.9, "new", false, "purple"], [17, "donuts", "🍵", "Matcha Donut", "Green matcha icing.", "Doonyo matcha ah oo cagaaran.", 1.9, "", false, "green"], [18, "donuts", "🍓", "Strawberry Pink", "Pink strawberry icing.", "Doonyo yaanyo ah oo casaan ah.", 1.75, "", false, "pink"], [19, "donuts", "🥐", "Cream Filled", "Soft dough, vanilla cream inside.", "Cajiin jilicsan oo kareem fanilla ah ku jirto.", 2.0, "", false, "yellow"], [20, "combo", "☕", "Morning Combo", "Any hot coffee plus a glazed donut.", "Qahwo kulul kasta iyo doonyo sonkor leh.", 3.5, "", false, null], [21, "combo", "🍵", "Matcha + Donut", "A matcha and the donut of your day.", "Matcha iyo doonyada maalintaada.", 4.0, "fan", false, null], [22, "combo", "🎁", "Donut Box (6)", "Six mixed donuts to share.", "Lix doonyo oo kala duwan oo la wada qaato.", 8.0, "share", false, null]];
+const COL={amber:["#ffb24d","#ffd98a"],teal:["#3fc1c9","#9aeaf0"],green:["#6fd08c","#c8ee86"],pink:["#ff8fb1","#ffc9da"],purple:["#a98be8","#d9c9ff"],yellow:["#ffd23f","#fff0a0"],gold:["#c4955a","#f7e0c8"]};
+const TAGS={best:{en:"Bestseller",so:"Ugu iibsiga badan"},new:{en:"New",so:"Cusub"},fan:{en:"Fan favourite",so:"Dadka ugu jecel"},cold:{en:"Cold",so:"Qabow"},share:{en:"To share",so:"Loo wada qaybsado"}};
 const T={
- en:{menu:"Menu",cart:"Cart",wallet:"Credit",rewards:"Stars",all:"All",coffee:"Coffee",donuts:"Donuts",combo:"Combos",
+ en:{menu:"Menu",cart:"Cart",wallet:"Credit",rewards:"Stars",all:"All",fav:"♥ Saved",search:"Search the menu…",
+  emptyList:"Nothing matches yet.",emptyFav:"No favourites yet. Tap a heart to save one.",
   yourCart:"Your Cart",emptyCart:"Your cart is empty. Add something tasty!",total:"Total",pickup:"Pickup time",asap:"ASAP (10 min)",
   in30:"In 30 min",in60:"In 1 hour",payWith:"Pay with",credit:"Starlaban credit",placeOrder:"Place order",
-  balance:"Credit balance",topup:"Top up",chooseAmt:"Choose amount",chooseMethod:"Payment method",topupBtn:"Top up now",
+  balance:"Credit balance",chooseAmt:"Choose amount",chooseMethod:"Payment method",topupBtn:"Top up now",
   waiting:"Waiting for payment confirmation…",confirmed:"Payment confirmed",history:"Recent activity",none:"No activity yet",
-  starsTitle:"Loyalty Stars",starsHave:"stars",nextReward:"Reach 10 stars to get $3 credit",redeem:"Redeem 10 stars → $3 credit",
+  starsTitle:"Loyalty Stars",nextReward:"Reach 10 stars to get $3 credit",redeem:"Redeem 10 stars → $3 credit",
   orderPlaced:"Order placed!",pickupAt:"Pickup",orderNo:"Order",done:"Done",notEnough:"Not enough credit. Top up first or pick another method.",
-  earned:"You earned",gift:"Send gift credit (coming soon)",orderLine:"Order",topLine:"Top-up",redeemLine:"Reward"},
- so:{menu:"Liiska",cart:"Dambiil",wallet:"Credit",rewards:"Xidigo",all:"Dhammaan",coffee:"Qahwo",donuts:"Doonyo",combo:"Isku-darka",
+  earned:"You earned",gift:"Send gift credit (coming soon)",orderLine:"Order",topLine:"Top-up",redeemLine:"Reward",close:"Close",tap:"Tap to start",sm:"Small",md:"Medium"},
+ so:{menu:"Liiska",cart:"Dambiil",wallet:"Credit",rewards:"Xidigo",all:"Dhammaan",fav:"♥ La kaydiyay",search:"Ka raadi liiska…",
+  emptyList:"Wax ku habboon lama helin.",emptyFav:"Wali wax kuma jiraan. Taabo wadn si aad u kaydiso.",
   yourCart:"Dambiishaada",emptyCart:"Dambiishu waa madhan. Ku dar wax macaan!",total:"Wadarta",pickup:"Waqtiga qaadashada",asap:"Hadda (10 daqiiqo)",
   in30:"30 daqiiqo kadib",in60:"1 saac kadib",payWith:"Ku bixi",credit:"Creditka Starlaban",placeOrder:"Dalbo",
-  balance:"Haraaga credit-ka",topup:"Ku shubo",chooseAmt:"Dooro cadadka",chooseMethod:"Habka lacag bixinta",topupBtn:"Hadda ku shubo",
+  balance:"Haraaga credit-ka",chooseAmt:"Dooro cadadka",chooseMethod:"Habka lacag bixinta",topupBtn:"Hadda ku shubo",
   waiting:"Waxaa la sugayaa xaqiijinta lacagta…",confirmed:"Lacagta waa la xaqiijiyay",history:"Dhaqdhaqaaqii u dambeeyay",none:"Wali wax ma jiraan",
-  starsTitle:"Xidigaha Daacadnimada",starsHave:"xidigo",nextReward:"Gaar 10 xidigood si aad u hesho $3 credit",redeem:"Beddel 10 xidigood → $3 credit",
+  starsTitle:"Xidigaha Daacadnimada",nextReward:"Gaar 10 xidigood si aad u hesho $3 credit",redeem:"Beddel 10 xidigood → $3 credit",
   orderPlaced:"Dalabka waa la sameeyay!",pickupAt:"Qaadasho",orderNo:"Dalab",done:"Waa wada",notEnough:"Credit kuma filna. Marka hore ku shubo ama dooro habka kale.",
-  earned:"Waxaad heshay",gift:"U dir credit hadiyad (dhawaan)",orderLine:"Dalab",topLine:"Shubid",redeemLine:"Abaalmarin"}
+  earned:"Waxaad heshay",gift:"U dir credit hadiyad (dhawaan)",orderLine:"Dalab",topLine:"Shubid",redeemLine:"Abaalmarin",close:"Xir",tap:"Taabo si aad u bilowdo",sm:"Yar",md:"Dhexe"}
 };
-const ITEMS=[
- {id:1,c:"coffee",em:"☕",n:"Espresso",p:1.5},{id:2,c:"coffee",em:"🥛",n:"Cappuccino",p:2.5},
- {id:3,c:"coffee",em:"☕",n:"Latte",p:2.75},{id:4,c:"coffee",em:"🧊",n:"Iced Coffee",p:3},
- {id:5,c:"coffee",em:"🍵",n:"Spiced Tea (Shaah)",p:1.25},
- {id:6,c:"donuts",em:"🍩",n:"Glazed Donut",p:1.5},{id:7,c:"donuts",em:"🍫",n:"Chocolate Donut",p:1.75},
- {id:8,c:"donuts",em:"🍓",n:"Strawberry Donut",p:1.75},{id:9,c:"donuts",em:"🥐",n:"Filled Donut",p:2},
- {id:10,c:"combo",em:"☕🍩",n:"Morning Combo",p:3.5},{id:11,c:"combo",em:"🍩🍩",n:"Donut Box (6)",p:8}
-];
-const S={anim:true,burst:false,lang:"en",tab:"menu",cat:"all",cart:{},credit:10,stars:3,history:[],pickup:0,pay:"credit",topAmt:10,topMethod:"EVC Plus",orderNo:100};
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+const S={anim:true,burst:false,
+  lang:store("sl_lang")||((navigator.language||"").toLowerCase().startsWith("so")?"so":"en"),
+  tab:"menu",cat:"all",q:"",favs:new Set(JSON.parse(store("sl_favs")||"[]")),sizes:{},cart:{},credit:10,stars:3,history:[],pickup:0,pay:"credit",topAmt:10,topMethod:"EVC Plus",orderNo:100};
 const $=id=>document.getElementById(id);
 const t=k=>T[S.lang][k];
+const REDUCE=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const money=n=>"$"+n.toFixed(2);
+const byId=id=>ITEMS.find(i=>i[0]===id);
+const catOf=i=>CATS.find(c=>c[0]===i[1]);
+const colOf=i=>COL[i[9]||catOf(i)[3]];
+const unit=(i,sz)=>i[6]+(i[8]?sz*0.5:0);
+const keyOf=(id,sz)=>id+":"+sz;
 const cartCount=()=>Object.values(S.cart).reduce((a,b)=>a+b,0);
-const cartTotal=()=>ITEMS.reduce((a,i)=>a+(S.cart[i.id]||0)*i.p,0);
+const cartTotal=()=>Object.entries(S.cart).reduce((a,[k,n])=>{const [id,sz]=k.split(":").map(Number);return a+n*unit(byId(id),sz)},0);
 
 function el(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e}
-function btn(txt,cls,fn){const b=el("button",cls,txt);b.onclick=fn;return b}
+function btn(txt,cls,fn){const b=el("button",cls,txt);b.type="button";b.onclick=fn;return b}
 
 function renderNav(){
   const n=$("nav");n.innerHTML="";
   [["menu","☕"],["cart","🛒"],["wallet","💳"],["rewards","⭐"]].forEach(([k,ic])=>{
     const b=el("button",S.tab===k?"on":"");
     b.append(el("span","i",ic),document.createTextNode(t(k)));
-    if(k==="cart"&&cartCount()) b.append(el("span","badge",String(cartCount())));
+    if(k==="cart"&&cartCount())b.append(el("span","badge",String(cartCount())));
     b.onclick=()=>{S.tab=k;S.anim=true;render()};n.appendChild(b);
   });
 }
@@ -146,25 +191,77 @@ function render(){
   if(beanHome.parentNode&&S.tab!=="rewards"&&splashDone)beanHome.remove(); // one WebGL canvas, moved between screens
   renderNav();const v=$("view");v.innerHTML="";({menu:vMenu,cart:vCart,wallet:vWallet,rewards:vRewards})[S.tab](v);v.scrollTop=0;
   [...v.children].forEach((c,i)=>c.style.setProperty("--i",i));
-  v.classList.toggle("anim",!!S.anim);S.anim=false;
+  v.classList.toggle("anim",!!S.anim&&!REDUCE);S.anim=false;
   [...v.querySelectorAll(".stars span.f")].forEach((s,i)=>s.style.setProperty("--i",i));
   if(S.tab==="rewards"&&S.burst){S.burst=false;setTimeout(()=>bean&&bean.burst(),250)}
 }
 
-function vMenu(v){
-  const chips=el("div","chips");
-  ["all","coffee","donuts","combo"].forEach(c=>chips.appendChild(btn(t(c),"chip"+(S.cat===c?" on":""),()=>{S.cat=c;S.anim=true;render()})));
-  v.append(el("h2","",t("menu")),chips);
-  ITEMS.filter(i=>S.cat==="all"||i.c===S.cat).forEach(i=>{
-    const r=el("div","row"),tt=el("div","t");
-    tt.append(el("b","",i.n),el("span","price",money(i.p)));
-    r.append(el("div","em",i.em),tt,btn("+","add",(ev)=>{S.cart[i.id]=(S.cart[i.id]||0)+1;renderNav();toast();fly(ev.currentTarget,i.em)}));
-    v.appendChild(r);
-  });
+/* ---------- menu ---------- */
+function matches(i){
+  if(S.cat==="fav"&&!S.favs.has(i[0]))return false;
+  if(S.cat!=="all"&&S.cat!=="fav"&&i[1]!==S.cat)return false;
+  if(!S.q)return true;
+  return (i[3]+" "+i[4]+" "+i[5]).toLowerCase().includes(S.q);
 }
+function vMenu(v){
+  v.appendChild(el("h2","",t("menu")));
+  const tools=el("div","tools ui");
+  const sw=el("label","search");sw.append(el("span","","🔎"));
+  const inp=el("input");inp.type="search";inp.placeholder=t("search");inp.value=S.q;inp.autocomplete="off";
+  inp.oninput=()=>{S.q=inp.value.trim().toLowerCase();renderList()};sw.appendChild(inp);
+  const dice=btn("🎲","dice",surprise);dice.setAttribute("aria-label","Surprise me");
+  tools.append(sw,dice);v.appendChild(tools);
+  const chips=el("div","chips ui");
+  const add=(id,label,col)=>{const b=btn(label,"chip"+(S.cat===id?" on":""),()=>{S.cat=id;S.anim=true;render()});b.style.setProperty("--c",col);chips.appendChild(b)};
+  add("all",t("all"),"#c4955a");
+  CATS.forEach(c=>add(c[0],S.lang==="so"?c[2]:c[1],COL[c[3]][0]));
+  add("fav",t("fav"),"#ff6b8f");
+  v.appendChild(chips);
+  const list=el("div","list");list.id="list";v.appendChild(list);
+  renderList();
+}
+function row(i){
+  const [c1,c2]=colOf(i);
+  const r=el("div","row");r.dataset.id=i[0];r.style.setProperty("--c",c1);r.style.setProperty("--c2",c2);
+  const sz=S.sizes[i[0]]||0;
+  const tt=el("div","t");
+  tt.append(el("b","",i[3]),el("small","",S.lang==="so"?i[5]:i[4]));
+  const meta=el("div","meta ui");
+  const pr=el("span","price",money(unit(i,sz)));meta.appendChild(pr);
+  if(i[8]){
+    const g=el("div","szs");
+    [["S",t("sm")],["M",t("md")]].forEach(([l,name],k)=>{
+      const b=btn(l,sz===k?"on":"",()=>{S.sizes[i[0]]=k;g.querySelectorAll("button").forEach((x,j)=>x.classList.toggle("on",j===k));pr.textContent=money(unit(i,k))});
+      b.setAttribute("aria-label",name);g.appendChild(b)});
+    meta.appendChild(g);
+  }
+  if(i[7])meta.appendChild(el("span","tag",TAGS[i[7]][S.lang]));
+  tt.appendChild(meta);
+  const acts=el("div","acts");
+  const h=btn("♥","heart",()=>{if(S.favs.has(i[0]))S.favs.delete(i[0]);else S.favs.add(i[0]);store("sl_favs",JSON.stringify([...S.favs]));h.setAttribute("aria-pressed",S.favs.has(i[0]));if(S.cat==="fav")renderList()});
+  h.setAttribute("aria-pressed",S.favs.has(i[0]));h.setAttribute("aria-label","Favourite "+i[3]);
+  const a=btn("+","add",ev=>{const k=keyOf(i[0],S.sizes[i[0]]||0);S.cart[k]=(S.cart[k]||0)+1;renderNav();bump();fly(ev.currentTarget,i[2])});
+  a.setAttribute("aria-label","Add "+i[3]);
+  acts.append(h,a);
+  r.append(el("div","bub",i[2]),tt,acts);
+  return r;
+}
+function renderList(){
+  const l=$("list");if(!l)return;l.innerHTML="";
+  const items=ITEMS.filter(matches);
+  if(!items.length){l.appendChild(el("p","empty ui",S.cat==="fav"&&!S.q?t("emptyFav"):t("emptyList")));return}
+  items.forEach((i,k)=>{const r=row(i);r.style.setProperty("--i",Math.min(k,12));l.appendChild(r)});
+}
+function surprise(){
+  const pick=ITEMS[Math.floor(Math.random()*ITEMS.length)];
+  S.cat="all";S.q="";S.anim=false;render();
+  const r=document.querySelector(`.row[data-id="${pick[0]}"]`);
+  if(r){r.scrollIntoView({behavior:REDUCE?"auto":"smooth",block:"center"});r.classList.add("spot");setTimeout(()=>r.classList.remove("spot"),1700)}
+}
+function bump(){const b=document.querySelector("nav .badge");if(b){b.style.transform="scale(1.5)";setTimeout(()=>b.style.transform="",180)}}
 function fly(from,emoji){
   const target=document.querySelector("nav button:nth-child(2) .i");
-  if(!target||matchMedia("(prefers-reduced-motion: reduce)").matches||!from.animate)return;
+  if(!target||REDUCE||!from.animate)return;
   const app=$("app").getBoundingClientRect(),a=from.getBoundingClientRect(),b=target.getBoundingClientRect();
   const f=el("div","fly",emoji);
   f.style.left=(a.left-app.left)+"px";f.style.top=(a.top-app.top)+"px";
@@ -172,33 +269,35 @@ function fly(from,emoji){
   const dx=b.left-a.left,dy=b.top-a.top;
   f.animate([{transform:"translate(0,0) scale(1)",opacity:1},{transform:`translate(${dx*.5}px,${dy-60}px) scale(1.25)`,opacity:1,offset:.45},{transform:`translate(${dx}px,${dy}px) scale(.3)`,opacity:.3}],{duration:650,easing:"cubic-bezier(.4,0,.6,1)"}).onfinish=()=>f.remove();
 }
-function toast(){const b=document.querySelector("nav .badge");if(b){b.style.transform="scale(1.4)";setTimeout(()=>b.style.transform="",180)}}
 
+/* ---------- cart ---------- */
 function vCart(v){
   v.appendChild(el("h2","",t("yourCart")));
   if(!cartCount()){v.appendChild(el("p","empty",t("emptyCart")));return}
-  ITEMS.filter(i=>S.cart[i.id]).forEach(i=>{
-    const r=el("div","row"),tt=el("div","t"),q=el("div","qty");
-    tt.append(el("b","",i.n),el("span","price",money(i.p*S.cart[i.id])));
-    q.append(btn("−","",()=>{S.cart[i.id]--;if(!S.cart[i.id])delete S.cart[i.id];render()}),el("span","",String(S.cart[i.id])),btn("+","",()=>{S.cart[i.id]++;render()}));
-    r.append(el("div","em",i.em),tt,q);v.appendChild(r);
+  Object.keys(S.cart).forEach(k=>{
+    const [id,sz]=k.split(":").map(Number),i=byId(id),[c1,c2]=colOf(i);
+    const r=el("div","row"),tt=el("div","t"),q=el("div","qty ui");
+    r.style.setProperty("--c",c1);r.style.setProperty("--c2",c2);
+    tt.append(el("b","",i[3]+(i[8]?" ("+(sz?"M":"S")+")":"")),el("span","price ui",money(unit(i,sz)*S.cart[k])));
+    q.append(btn("−","",()=>{S.cart[k]--;if(!S.cart[k])delete S.cart[k];render()}),el("span","",String(S.cart[k])),btn("+","",()=>{S.cart[k]++;render()}));
+    r.append(el("div","bub",i[2]),tt,q);v.appendChild(r);
   });
   v.appendChild(el("p","muted",t("pickup")));
-  const po=el("div","opts");
+  const po=el("div","opts ui");
   [t("asap"),t("in30"),t("in60")].forEach((x,idx)=>po.appendChild(btn(x,"opt"+(S.pickup===idx?" on":""),()=>{S.pickup=idx;render()})));
   v.appendChild(po);
   v.appendChild(el("p","muted",t("payWith")));
-  const pm=el("div","opts");
+  const pm=el("div","opts ui");
   [["credit",t("credit")],["EVC Plus","EVC Plus"],["Zaad","Zaad"],["eDahab","eDahab"]].forEach(([k,l])=>pm.appendChild(btn(l,"opt"+(S.pay===k?" on":""),()=>{S.pay=k;render()})));
   v.appendChild(pm);
   const tot=el("div","total");tot.append(el("span","",t("total")),el("b","price",money(cartTotal())));
   v.appendChild(tot);
-  v.appendChild(btn(t("placeOrder"),"btn",placeOrder));
+  v.appendChild(btn(t("placeOrder"),"btn ui",placeOrder));
 }
 function placeOrder(){
   const total=cartTotal();
   if(S.pay==="credit"){
-    if(S.credit<total){overlay(`<div class="tick" style="color:var(--gold)">!</div><p>${t("notEnough")}</p>`,"close");return}
+    if(S.credit<total){overlay(`<div class="tick" style="color:var(--yellow)">!</div><p>${t("notEnough")}</p>`,"close");return}
     S.credit-=total;finishOrder(total);
   }else{
     overlay(`<div class="spin"></div><h2>${S.pay}</h2><p class="muted">${t("waiting")}</p>`);
@@ -217,49 +316,62 @@ function finishOrder(total){
 }
 function overlay(html,withDone){
   const o=$("overlay");o.style.display="flex";o.innerHTML=html;
-  if(withDone)o.appendChild(btn(t("done"),"btn",()=>{o.style.display="none";if(withDone!=="close"){S.tab="rewards";S.burst=true}render()}));
+  if(withDone)o.appendChild(btn(withDone==="close"?t("close"):t("done"),"btn ui",()=>{o.style.display="none";if(withDone!=="close"){S.tab="rewards";S.burst=true}S.anim=true;render()}));
 }
 
+/* ---------- credit + stars ---------- */
 function vWallet(v){
   const c=el("div","card");
   c.append(el("div","muted",t("balance")),el("div","big",money(S.credit)));
   v.append(el("h2","",t("wallet")),c,el("p","muted",t("chooseAmt")));
-  const a=el("div","opts");
+  const a=el("div","opts ui");
   [5,10,20].forEach(x=>a.appendChild(btn("$"+x,"opt"+(S.topAmt===x?" on":""),()=>{S.topAmt=x;render()})));
   v.appendChild(a);v.appendChild(el("p","muted",t("chooseMethod")));
-  const m=el("div","opts");
+  const m=el("div","opts ui");
   ["EVC Plus","Zaad","eDahab"].forEach(x=>m.appendChild(btn(x,"opt"+(S.topMethod===x?" on":""),()=>{S.topMethod=x;render()})));
   v.appendChild(m);
-  v.appendChild(btn(t("topupBtn"),"btn",()=>{
+  v.appendChild(btn(t("topupBtn"),"btn ui",()=>{
     overlay(`<div class="spin"></div><h2>${S.topMethod}</h2><p class="muted">${t("waiting")}</p>`);
-    setTimeout(()=>{ // In the real app this is the gateway webhook confirming the payment on the server
+    setTimeout(()=>{ // in the real app the payment gateway confirms this on the server
       S.credit+=S.topAmt;S.history.unshift([t("topLine")+" ("+S.topMethod+")","+"+money(S.topAmt)]);
       overlay(`<div class="tick">✓</div><h2>${t("confirmed")}</h2><p class="muted">+${money(S.topAmt)}</p>`,false);
       setTimeout(()=>{$("overlay").style.display="none";render()},1300);
     },1600);
   }));
-  v.appendChild(btn(t("gift"),"btn ghost",()=>{}));
+  v.appendChild(btn(t("gift"),"btn ghost ui",()=>{}));
   v.appendChild(el("p","muted",t("history")));
   if(!S.history.length)v.appendChild(el("p","muted",t("none")));
   S.history.slice(0,8).forEach(([a,b])=>{const h=el("div","hist");h.append(el("span","",a),el("b","",b));v.appendChild(h)});
 }
-
 function vRewards(v){
   const c=el("div","card");
-  const filled=S.stars%10,sets=Math.floor(S.stars/10);
+  const filled=S.stars%10;
   c.append(el("div","muted",t("starsTitle")));
   beanHome.style.display="block";c.appendChild(beanHome);
   c.append(el("div","big",S.stars+" ⭐"));
   const st=el("div","stars");
-  for(let i=0;i<10;i++)st.appendChild(el("span",i<filled||(sets&&!filled&&false)?"f":(S.stars>=10&&i<10&&filled===0?"f":""),"★"));
+  for(let i=0;i<10;i++)st.appendChild(el("span",i<filled||(S.stars>=10&&filled===0)?"f":"","★"));
   c.appendChild(st);
-  const bar=el("div","bar"),fill=el("i");const pct=Math.min(100,(S.stars>=10&&filled===0?10:filled)*10);fill.style.width="0%";requestAnimationFrame(()=>requestAnimationFrame(()=>{fill.style.width=pct+"%"}));bar.appendChild(fill);
+  const bar=el("div","bar"),fill=el("i");
+  const pct=Math.min(100,(S.stars>=10&&filled===0?10:filled)*10);
+  fill.style.width="0%";requestAnimationFrame(()=>requestAnimationFrame(()=>{fill.style.width=pct+"%"}));
+  bar.appendChild(fill);
   c.append(bar,el("p","muted",t("nextReward")));
   v.append(el("h2","",t("rewards")),c);
-  const r=btn(t("redeem"),"btn",()=>{if(S.stars<10)return;S.stars-=10;S.credit+=3;S.burst=true;S.history.unshift([t("redeemLine"),"+$3.00"]);render()});
+  const r=btn(t("redeem"),"btn ui",()=>{if(S.stars<10)return;S.stars-=10;S.credit+=3;S.burst=true;S.history.unshift([t("redeemLine"),"+$3.00"]);render()});
   r.disabled=S.stars<10;v.appendChild(r);
 }
 
+/* ---------- language switch ---------- */
+function setLang(l,first){
+  S.lang=l;store("sl_lang",l);document.documentElement.lang=l;
+  document.querySelectorAll(".seg button").forEach(b=>{const on=b.dataset.l===l;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)});
+  $("splashTxt").textContent=t("tap");
+  if(!first){S.anim=false;render();if(!REDUCE){const v=$("view");v.classList.remove("swap");void v.offsetWidth;v.classList.add("swap")}}
+}
+document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+
+/* ---------- 3D cup: splash first, then lives on the Stars tab ---------- */
 let splashDone=false;
 const beanHome=el("div","bean3d");beanHome.id="beanHome";
 $("splashStage").appendChild(beanHome);
@@ -269,11 +381,11 @@ function endSplash(){
   $("splash").classList.add("off");
   beanHome.remove();beanHome.style.display="none";
   setTimeout(()=>{$("splash").style.display="none"},550);
-  render();
+  S.anim=true;render();
 }
 $("splash").onclick=endSplash;
-setTimeout(endSplash,2600);
-$("langBtn").onclick=()=>{S.lang=S.lang==="en"?"so":"en";$("langBtn").textContent=S.lang==="en"?"SO":"EN";render()};
+setTimeout(endSplash,2800);
+setLang(S.lang,true);
 render();
 </script>
 </body>
