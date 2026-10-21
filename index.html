@@ -201,6 +201,9 @@ h2{font:500 clamp(30px,5vw,40px)/1.1 Impact,"Arial Narrow",sans-serif;color:#2b1
 .em::before,.gem::before{content:"";position:absolute;inset:6px 13px;border-radius:48% 52% 46% 54%;background:#8c5b2e;transform:rotate(38deg)}
 .em::after,.gem::after{content:"";position:absolute;top:6px;bottom:6px;left:26px;width:2px;border-radius:50%;background:#e2b574;transform:rotate(38deg)}
 .art.has .em,.gart.has .gem{display:none!important}
+
+/* Reliable product image underlay for environments where WebGL renders blank */
+#bean::before{z-index:1}#bean::after{content:"";position:absolute;inset:4%;z-index:2;pointer-events:none;background:url("assets/photos/hot-cup.jpg") center/contain no-repeat}
 </style>
 </head>
 <body>
